@@ -1,0 +1,47 @@
+{
+  "src/css/customizer-controls.css": {
+    "file": "css/customizer-controls-style-DIqaQACw.css",
+    "src": "src/css/customizer-controls.css",
+    "isEntry": true
+  },
+  "src/css/customizer.css": {
+    "file": "css/customizer-style-YpCA8lE6.css",
+    "src": "src/css/customizer.css",
+    "isEntry": true
+  },
+  "src/css/main.css": {
+    "file": "css/style-DQGW0Qne.css",
+    "src": "src/css/main.css",
+    "isEntry": true
+  },
+  "src/js/customize-preview.js": {
+    "file": "js/customize-preview-DgT6e5kT.js",
+    "name": "customize-preview",
+    "src": "src/js/customize-preview.js",
+    "isEntry": true
+  },
+  "src/js/customizer-controls.js": {
+    "file": "js/customizer-controls-nN8lXbJV.js",
+    "name": "customizer-controls",
+    "src": "src/js/customizer-controls.js",
+    "isEntry": true
+  },
+  "src/js/customizer-react.jsx": {
+    "file": "js/customizer-react-1b1nufyr.js",
+    "name": "customizer-react",
+    "src": "src/js/customizer-react.jsx",
+    "isEntry": true
+  },
+  "src/js/customizer.js": {
+    "file": "js/customizer-DMUmw3Nm.js",
+    "name": "customizer",
+    "src": "src/js/customizer.js",
+    "isEntry": true
+  },
+  "src/js/main.js": {
+    "file": "js/main-BrRRlLPY.js",
+    "name": "main",
+    "src": "src/js/main.js",
+    "isEntry": true
+  }
+}

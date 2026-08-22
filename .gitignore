@@ -1,0 +1,22 @@
+# Node.js dependencies & package logs
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS & Editor cache / metadata
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment variables & secrets (Security Hardening)
+.env
+.env.*
+!.env.example
+
+# Temporary runtime logs
+*.log

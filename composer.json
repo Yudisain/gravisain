@@ -1,0 +1,18 @@
+{
+    "name": "gravisain/theme",
+    "description": "Gravisain Premium WordPress Theme",
+    "type": "wordpress-theme",
+    "require": {
+        "php": ">=8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gravisain\\": "classes/"
+        }
+    },
+    "config": {
+        "platform-check": false,
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}
