@@ -13,18 +13,16 @@
 html,
 body {
 	max-width: 100% !important;
-	overflow-x: hidden !important;
+	overflow-x: clip !important;
 	margin: 0;
 	padding: 0;
 }
 
 #page,
 .site,
-.site-header,
 .site-content,
 .site-footer {
 	max-width: 100% !important;
-	overflow-x: clip;
 }
 
 /* Gravitour Typography & Styles */
@@ -127,6 +125,25 @@ main.wp-block-post-content {
 	align-items: center;
 	gap: 15px;
 	position: relative;
+	max-width: 100%;
+}
+
+.site-branding .custom-logo-link,
+.site-branding .transparent-custom-logo-link {
+	display: inline-flex;
+	align-items: center;
+	max-width: 100%;
+}
+
+.site-branding img.custom-logo,
+.site-branding img.transparent-logo,
+.site-header .custom-logo,
+.site-header .transparent-logo {
+	max-width: 220px;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	display: block;
 }
 
 .site-title-wrapper {
@@ -162,6 +179,18 @@ main.wp-block-post-content {
 	position: relative !important;
 	min-height: 20px;
 	transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.site-header-top-row {
+	z-index: 30;
+}
+
+.site-header-main {
+	z-index: 20;
+}
+
+.site-header-bottom-row {
+	z-index: 10;
 }
 
 .site-header-row .container,
@@ -220,6 +249,15 @@ main.wp-block-post-content {
 	min-height: inherit;
 }
 
+.site-header-row .col-left:empty,
+.site-header-row .col-center:empty,
+.site-header-row .col-right:empty,
+.site-header-main .col-left:empty,
+.site-header-main .col-center:empty,
+.site-header-main .col-right:empty {
+	display: none !important;
+}
+
 .site-header-row .col-left,
 .site-header-main .col-left {
 	display: flex;
@@ -267,6 +305,46 @@ main.wp-block-post-content {
 .site-header-row .col-right:has(.secondary-navigation),
 .site-header-main .col-right:has(.secondary-navigation) {
 	flex: 1 1 auto;
+}
+
+@media (max-width: 768px) {
+	.site-header-row .row,
+	.site-header-main .row {
+		flex-wrap: nowrap !important;
+		gap: 12px !important;
+	}
+
+	.site-header-row .col-left,
+	.site-header-main .col-left,
+	.site-header-row .col-center,
+	.site-header-main .col-center,
+	.site-header-row .col-right,
+	.site-header-main .col-right {
+		flex-wrap: nowrap;
+		gap: 10px;
+	}
+
+	.site-branding {
+		flex-wrap: nowrap !important;
+		gap: 10px !important;
+		min-width: 0 !important;
+	}
+
+	.site-branding img.custom-logo,
+	.site-branding img.transparent-logo,
+	.site-header .custom-logo,
+	.site-header .transparent-logo {
+		height: auto !important;
+		flex-shrink: 0 !important;
+	}
+
+	.site-title-wrapper {
+		min-width: 0;
+	}
+
+	.ghb-action-button-wrapper {
+		flex-shrink: 0 !important;
+	}
 }
 
 /* ==========================================================================
@@ -582,6 +660,8 @@ main.wp-block-post-content {
 	font-weight: 600;
 	text-decoration: none;
 	transition: all 0.2s ease;
+	white-space: nowrap;
+	flex-shrink: 0;
 }
 
 .gravisain-btn-fill {
@@ -744,6 +824,355 @@ main.wp-block-post-content {
 	font-size: 0.9rem;
 }
 
+/* ==========================================================================
+   Theme Switcher Component (Light / Dark / System)
+   ========================================================================== */
+.ghb-theme-switcher {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+}
+
+.ghb-theme-wrapper {
+	position: relative;
+	display: inline-block;
+}
+
+.ghb-theme-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	width: 38px;
+	height: 38px;
+	padding: 0;
+	border-radius: 12px;
+	border: 1px solid rgba(0, 0, 0, 0.08);
+	background-color: #ffffff;
+	color: #334155;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+	cursor: pointer;
+	transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+	outline: none;
+	position: relative;
+}
+
+.ghb-theme-btn:hover {
+	background-color: #f8fafc;
+	color: #0f172a;
+	border-color: rgba(0, 0, 0, 0.15);
+	transform: translateY(-1px);
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+}
+
+.ghb-theme-btn-label {
+	font-size: 0.85rem;
+	font-weight: 600;
+	padding-right: 0.5rem;
+}
+
+/* Icon Display based on active theme */
+.ghb-theme-icon {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	line-height: 1;
+}
+
+/* Default state before JS hydrates: show system icon */
+.ghb-theme-icon.ghb-icon-system {
+	display: inline-flex;
+	color: #64748b;
+}
+
+/* When light mode is active */
+.ghb-theme-switcher[data-active-theme="light"] .ghb-icon-sun {
+	display: inline-flex;
+	color: #f59e0b;
+}
+.ghb-theme-switcher[data-active-theme="light"] .ghb-icon-moon,
+.ghb-theme-switcher[data-active-theme="light"] .ghb-icon-system {
+	display: none;
+}
+
+/* When dark mode is active */
+.ghb-theme-switcher[data-active-theme="dark"] .ghb-icon-moon {
+	display: inline-flex;
+	color: #818cf8;
+}
+.ghb-theme-switcher[data-active-theme="dark"] .ghb-icon-sun,
+.ghb-theme-switcher[data-active-theme="dark"] .ghb-icon-system {
+	display: none;
+}
+
+/* When system mode is active */
+.ghb-theme-switcher[data-active-theme="system"] .ghb-icon-system {
+	display: inline-flex;
+	color: #64748b;
+}
+.ghb-theme-switcher[data-active-theme="system"] .ghb-icon-sun,
+.ghb-theme-switcher[data-active-theme="system"] .ghb-icon-moon {
+	display: none;
+}
+
+/* Dropdown Card (Identical to license-gravisain) */
+.ghb-theme-dropdown {
+	position: absolute;
+	top: calc(100% + 8px);
+	right: 0;
+	min-width: 145px;
+	padding: 6px;
+	border-radius: 16px;
+	background: #ffffff;
+	border: 1px solid #e2e8f0;
+	box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+	opacity: 0;
+	visibility: hidden;
+	transform: scale(0.95) translateY(-6px);
+	transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+	z-index: 99999;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.ghb-theme-dropdown.is-open {
+	opacity: 1;
+	visibility: visible;
+	transform: scale(1) translateY(0);
+}
+
+/* Dropdown Options */
+.ghb-theme-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: 8px 12px;
+	border-radius: 12px;
+	border: none;
+	background: transparent;
+	color: #475569;
+	font-size: 13px;
+	font-weight: 500;
+	text-align: left;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	outline: none;
+}
+
+.ghb-theme-item:hover {
+	background: #f1f5f9;
+	color: #0f172a;
+}
+
+.ghb-theme-item-left {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.ghb-item-icon-sun {
+	color: #f59e0b;
+}
+
+.ghb-item-icon-moon {
+	color: #6366f1;
+}
+
+.ghb-item-icon-system {
+	color: #64748b;
+}
+
+.ghb-theme-check {
+	display: none;
+	font-weight: 700;
+	font-size: 13px;
+	color: #4f46e5;
+}
+
+/* Selected Active Item */
+.ghb-theme-item.is-active {
+	background: #eef2ff;
+	color: #4338ca;
+	font-weight: 700;
+}
+
+.ghb-theme-item.is-active .ghb-theme-check {
+	display: inline-block;
+}
+
+/* Direct Toggle Style */
+.ghb-theme-switcher-toggle .ghb-theme-btn {
+	width: auto;
+	padding: 0 12px;
+}
+
+/* Sliding Switch Style (Pill / iOS Style) */
+.ghb-theme-switch-slider {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	background: transparent;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	outline: none;
+	vertical-align: middle;
+}
+
+.ghb-switch-track {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 54px;
+	height: 28px;
+	padding: 0 6px;
+	border-radius: 9999px;
+	background-color: #e2e8f0;
+	border: 1px solid rgba(0, 0, 0, 0.08);
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+	transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+	user-select: none;
+	box-sizing: border-box;
+}
+
+.ghb-theme-switch-slider:hover .ghb-switch-track {
+	border-color: rgba(0, 0, 0, 0.18);
+	transform: translateY(-1px);
+}
+
+.ghb-switch-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 14px;
+	height: 14px;
+	z-index: 1;
+	pointer-events: none;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.ghb-switch-sun {
+	color: #f59e0b;
+}
+
+.ghb-switch-moon {
+	color: #94a3b8;
+}
+
+.ghb-switch-thumb {
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	background-color: #ffffff;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.18), 0 1px 2px rgba(0, 0, 0, 0.1);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, box-shadow 0.25s ease;
+	z-index: 2;
+	pointer-events: none;
+}
+
+.ghb-switch-thumb .ghb-thumb-sun,
+.ghb-switch-thumb .ghb-thumb-moon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	transition: opacity 0.2s ease;
+}
+
+.ghb-switch-thumb .ghb-thumb-sun {
+	color: #f59e0b;
+}
+
+.ghb-switch-thumb .ghb-thumb-moon {
+	color: #818cf8;
+	display: none;
+}
+
+/* Dark Mode Overrides for Theme Switcher */
+html.dark .ghb-theme-btn {
+	background-color: #1e293b;
+	color: #cbd5e1;
+	border-color: #334155;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .ghb-theme-btn:hover {
+	background-color: #334155;
+	color: #ffffff;
+	border-color: #475569;
+}
+
+html.dark .ghb-theme-dropdown {
+	background: #0f172a;
+	border-color: #334155;
+	box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+}
+
+html.dark .ghb-theme-item {
+	color: #cbd5e1;
+}
+
+html.dark .ghb-theme-item:hover {
+	background: #1e293b;
+	color: #ffffff;
+}
+
+html.dark .ghb-theme-item.is-active {
+	background: rgba(79, 70, 229, 0.25);
+	color: #818cf8;
+}
+
+html.dark .ghb-theme-item.is-active .ghb-theme-check {
+	color: #818cf8;
+}
+
+/* Dark state of Sliding Switch */
+html.dark .ghb-switch-track,
+.ghb-theme-switcher[data-active-theme="dark"] .ghb-switch-track {
+	background-color: #1e293b;
+	border-color: #334155;
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .ghb-switch-sun,
+.ghb-theme-switcher[data-active-theme="dark"] .ghb-switch-sun {
+	color: #64748b;
+}
+
+html.dark .ghb-switch-moon,
+.ghb-theme-switcher[data-active-theme="dark"] .ghb-switch-moon {
+	color: #818cf8;
+}
+
+html.dark .ghb-switch-thumb,
+.ghb-theme-switcher[data-active-theme="dark"] .ghb-switch-thumb {
+	transform: translateX(26px);
+	background-color: #0f172a;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+html.dark .ghb-switch-thumb .ghb-thumb-sun,
+.ghb-theme-switcher[data-active-theme="dark"] .ghb-switch-thumb .ghb-thumb-sun {
+	display: none;
+}
+
+html.dark .ghb-switch-thumb .ghb-thumb-moon,
+.ghb-theme-switcher[data-active-theme="dark"] .ghb-switch-thumb .ghb-thumb-moon {
+	display: inline-flex;
+}
+
+html.dark .ghb-theme-switch-slider .ghb-theme-btn-label {
+	color: #cbd5e1;
+}
+
 /* Off-Canvas Drawer */
 .gravisain-off-canvas {
 	position: fixed;
@@ -782,8 +1211,8 @@ main.wp-block-post-content {
 	position: absolute;
 	top: 0;
 	height: 100%;
-	width: 100%;
-	max-width: 380px;
+	width: var(--gravisain-offcanvas-width, 380px);
+	max-width: 100%;
 	background: #ffffff;
 	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 	display: flex;
@@ -826,11 +1255,11 @@ main.wp-block-post-content {
 }
 
 body.off-canvas-opened-push-left .site {
-	transform: translate3d(380px, 0, 0);
+	transform: translate3d(var(--gravisain-offcanvas-width, 380px), 0, 0);
 }
 
 body.off-canvas-opened-push-right .site {
-	transform: translate3d(-380px, 0, 0);
+	transform: translate3d(calc(-1 * var(--gravisain-offcanvas-width, 380px)), 0, 0);
 }
 
 body.off-canvas-opened-push-top .site {
@@ -1630,10 +2059,17 @@ body.off-canvas-opened-push-top .site {
 	visibility: hidden;
 	transform: translateY(10px);
 	transition: all 0.2s ease;
-	z-index: 100;
+	z-index: 9999;
 	gap: 0;
 	border-radius: 4px;
 	padding: 10px 0;
+}
+
+.main-navigation ul ul ul,
+.secondary-navigation ul ul ul {
+	top: 0;
+	left: 100%;
+	z-index: 10000;
 }
 
 .main-navigation li:hover>ul,
@@ -1941,6 +2377,8 @@ body.gravisain-page-layout-no-sidebar .site-main > :where(:not(.alignfull)),
    Sticky Header Premium Styles (Ultra Smooth 60 FPS)
    ========================================================================== */
 .site-header {
+	position: relative;
+	z-index: 999;
 	transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s ease, box-shadow 0.35s ease;
 	will-change: transform;
 }
@@ -1959,7 +2397,7 @@ body.has-sticky-header .site-header.is-sticky {
 .site-header .site-header-row {
 	max-height: 500px;
 	opacity: 1;
-	overflow: hidden;
+	overflow: visible;
 	transition: min-height 0.4s cubic-bezier(0.25, 1, 0.5, 1),
 		max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1),
 		padding 0.4s cubic-bezier(0.25, 1, 0.5, 1),
@@ -1983,6 +2421,7 @@ body.sticky-hide-bottom .site-header.is-sticky .site-header-bottom-row {
 	margin-bottom: 0 !important;
 	opacity: 0 !important;
 	border: none !important;
+	overflow: hidden !important;
 }
 
 /* Smart Reveal Behavior (Hide on Scroll Down, Show on Scroll Up) */
@@ -2707,3 +3146,963 @@ textarea:focus-visible,
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 }
+
+/* ==========================================================================
+   WordPress Recommended Classes (Theme Check)
+   ========================================================================== */
+.wp-caption { margin-bottom: 1.5em; max-width: 100%; }
+.wp-caption img[class*="wp-image-"] { display: block; margin-left: auto; margin-right: auto; }
+.wp-caption-text { text-align: center; font-size: 0.8em; margin-top: 0.5em; color: #666; }
+.gallery-caption { display: block; text-align: center; font-size: 0.8em; margin-top: 0.5em; color: #666; }
+.bypostauthor { display: block; }
+.aligncenter { display: block; margin: 0 auto; }
+
+/* ==========================================================================
+   Global Dark Mode Support (html.dark)
+   ========================================================================== */
+html.dark {
+	color-scheme: dark;
+}
+
+html.dark body {
+	background-color: var(--gravisain-global-color-5, #0f172a) !important;
+	color: var(--gravisain-global-color-3, #f8fafc) !important;
+}
+
+html.dark .site-header {
+	background-color: rgba(15, 23, 42, 0.95);
+	border-color: rgba(255, 255, 255, 0.08);
+}
+
+html.dark .site-header-row,
+html.dark .site-header-main,
+html.dark .site-header-top-row,
+html.dark .site-header-bottom-row {
+	border-color: rgba(255, 255, 255, 0.08);
+	color: #f8fafc;
+}
+
+html.dark .site-title a {
+	color: #f8fafc;
+}
+
+html.dark .site-description {
+	color: #94a3b8;
+}
+
+html.dark .main-navigation a,
+html.dark .secondary-navigation a {
+	color: #f1f5f9;
+}
+
+html.dark .main-navigation ul ul,
+html.dark .secondary-navigation ul ul {
+	background: #1e293b;
+	border: 1px solid #334155;
+	box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+html.dark .main-navigation ul ul a,
+html.dark .secondary-navigation ul ul a {
+	color: #cbd5e1;
+}
+
+html.dark .main-navigation ul ul a:hover,
+html.dark .secondary-navigation ul ul a:hover {
+	background-color: #334155;
+	color: #ffffff;
+}
+
+html.dark .content-area-wrapper.layout-contained,
+html.dark .content-area-wrapper.layout-separated .primary-content-area,
+html.dark .content-area-wrapper.layout-separated .widget-area {
+	background: #1e293b;
+	border-color: #334155;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+html.dark body.gravisain-content-style-boxed .content-area-wrapper,
+html.dark .content-area-wrapper.layout-boxed {
+	background-color: #1e293b !important;
+	border-color: #334155 !important;
+}
+
+html.dark .post-card {
+	background: #1e293b;
+	border-color: #334155;
+}
+
+html.dark .post-card-title a {
+	color: #f8fafc;
+}
+
+html.dark .post-card-excerpt {
+	color: #cbd5e1;
+}
+
+html.dark .post-card-meta {
+	color: #94a3b8;
+}
+
+html.dark .post-card-footer {
+	border-color: #334155;
+}
+
+html.dark .single-post-article {
+	background: #1e293b;
+}
+
+html.dark .single-post-title {
+	color: #f8fafc;
+}
+
+html.dark .single-post-meta {
+	color: #94a3b8;
+	border-color: #334155;
+}
+
+html.dark .single-post-content {
+	color: #cbd5e1;
+}
+
+html.dark .single-post-content h1,
+html.dark .single-post-content h2,
+html.dark .single-post-content h3,
+html.dark .single-post-content h4 {
+	color: #f8fafc;
+}
+
+html.dark .author-bio-box {
+	background: #1e293b;
+	border-color: #334155;
+}
+
+html.dark .author-bio-name {
+	color: #f8fafc;
+}
+
+html.dark .author-bio-desc {
+	color: #cbd5e1;
+}
+
+html.dark .post-navigation {
+	border-color: #334155;
+}
+
+html.dark .post-navigation a {
+	color: #f8fafc;
+}
+
+html.dark .comments-area {
+	border-color: #334155;
+}
+
+html.dark .comments-title {
+	color: #f8fafc;
+}
+
+html.dark .comment-list .comment-body {
+	background: #1e293b;
+	border-color: #334155;
+}
+
+html.dark .comment-author .fn {
+	color: #f8fafc;
+}
+
+html.dark .comment-metadata a {
+	color: #94a3b8;
+}
+
+html.dark .comment-content {
+	color: #cbd5e1;
+}
+
+html.dark .comment-form label {
+	color: #f8fafc;
+}
+
+html.dark .comment-form input[type=text],
+html.dark .comment-form input[type=email],
+html.dark .comment-form input[type=url],
+html.dark .comment-form textarea {
+	background: #0f172a;
+	border-color: #334155;
+	color: #f8fafc;
+}
+
+html.dark .off-canvas-container {
+	background: #0f172a;
+	color: #f8fafc;
+}
+
+html.dark .off-canvas-header,
+html.dark .off-canvas-footer {
+	border-color: rgba(255, 255, 255, 0.08);
+}
+
+html.dark .off-canvas-menu-list li {
+	border-color: rgba(255, 255, 255, 0.05);
+}
+
+html.dark .page-numbers {
+	background: #1e293b;
+	border-color: #334155;
+	color: #cbd5e1;
+}
+
+html.dark .gravisain-scroll-top {
+	background: rgba(30, 41, 59, 0.85);
+	border-color: #334155;
+	color: #f8fafc;
+}
+
+html.dark .gravisain-single-share .share-btn {
+	background: #1e293b;
+	border-color: #334155;
+	color: #cbd5e1;
+}
+
+html.dark .gravisain-related-posts {
+	border-color: #334155;
+}
+
+html.dark .gravisain-related-posts .related-posts-title {
+	color: #f8fafc;
+}
+
+/* ==========================================================================
+   Smart Dark Mode Content Adapter
+   Automatically inverts block content, starter templates, and CPT showcases
+   when Dark Mode (html.dark) is active.
+   ========================================================================== */
+
+/* 1. Global Page Backgrounds & Containers */
+html.dark,
+html.dark body,
+html.dark #page,
+html.dark .site,
+html.dark .site-content,
+html.dark #content,
+html.dark .site-main,
+html.dark .entry-content {
+	background-color: var(--gravisain-global-color-5, #0f172a) !important;
+	color: var(--gravisain-global-color-4, #cbd5e1);
+}
+
+/* 2. Gravisain Row Layout Sections (White, Light-Gray, Linen & Warm Pastels) */
+html.dark .wp-block-gravisain-row-layout[style*="#ffffff"],
+html.dark .wp-block-gravisain-row-layout[style*="#fff"],
+html.dark .wp-block-gravisain-row-layout[style*="rgb(255, 255, 255)"],
+html.dark .gravisain-row-layout[style*="#ffffff"],
+html.dark .gravisain-row-layout[style*="#fff"],
+html.dark .gravisain-row-layout[style*="rgb(255, 255, 255)"],
+html.dark .wp-block-gravisain-row-layout[style*="--gravisain-bg-color:#ffffff"],
+html.dark .wp-block-gravisain-row-layout[style*="--gravisain-bg-color: #ffffff"],
+html.dark .gravisain-row-layout[style*="--gravisain-bg-color:#ffffff"],
+html.dark .gravisain-row-layout[style*="--gravisain-bg-color: #ffffff"],
+html.dark .wp-block-gravisain-row-layout[style*="#f7f5f0"],
+html.dark .gravisain-row-layout[style*="#f7f5f0"],
+html.dark .wp-block-gravisain-row-layout[style*="--gravisain-bg-color:#f7f5f0"],
+html.dark .gravisain-row-layout[style*="--gravisain-bg-color:#f7f5f0"] {
+	background-color: var(--gravisain-global-color-5, #0f172a) !important;
+	--gravisain-bg-color: var(--gravisain-global-color-5, #0f172a) !important;
+}
+
+html.dark .wp-block-gravisain-row-layout[style*="#f8fafc"],
+html.dark .wp-block-gravisain-row-layout[style*="#f1f5f9"],
+html.dark .wp-block-gravisain-row-layout[style*="#f9fafb"],
+html.dark .wp-block-gravisain-row-layout[style*="#f2efe9"],
+html.dark .wp-block-gravisain-row-layout[style*="#faf9f5"],
+html.dark .wp-block-gravisain-row-layout[style*="#edf5f0"],
+html.dark .wp-block-gravisain-row-layout[style*="#fdf4f5"],
+html.dark .wp-block-gravisain-row-layout[style*="#fafafa"],
+html.dark .wp-block-gravisain-row-layout[style*="#f5f5f5"],
+html.dark .wp-block-gravisain-row-layout[style*="#f4f4f5"],
+html.dark .wp-block-gravisain-row-layout[style*="#f3f4f6"],
+html.dark .gravisain-row-layout[style*="#f8fafc"],
+html.dark .gravisain-row-layout[style*="#f1f5f9"],
+html.dark .gravisain-row-layout[style*="#f9fafb"],
+html.dark .gravisain-row-layout[style*="#f2efe9"],
+html.dark .gravisain-row-layout[style*="#faf9f5"],
+html.dark .gravisain-row-layout[style*="#edf5f0"],
+html.dark .gravisain-row-layout[style*="#fdf4f5"],
+html.dark .gravisain-row-layout[style*="#fafafa"],
+html.dark .gravisain-row-layout[style*="#f5f5f5"],
+html.dark .gravisain-row-layout[style*="#f4f4f5"],
+html.dark .gravisain-row-layout[style*="#f3f4f6"],
+html.dark .wp-block-gravisain-row-layout[style*="--gravisain-bg-color:#f8fafc"],
+html.dark .wp-block-gravisain-row-layout[style*="--gravisain-bg-color: #f8fafc"],
+html.dark .gravisain-row-layout[style*="--gravisain-bg-color:#f8fafc"],
+html.dark .gravisain-row-layout[style*="--gravisain-bg-color: #f8fafc"],
+html.dark .wp-block-gravisain-row-layout[style*="--gravisain-bg-color:#f2efe9"],
+html.dark .gravisain-row-layout[style*="--gravisain-bg-color:#f2efe9"],
+html.dark .wp-block-gravisain-row-layout[style*="--gravisain-bg-color:#faf9f5"],
+html.dark .gravisain-row-layout[style*="--gravisain-bg-color:#faf9f5"] {
+	background-color: var(--gravisain-global-color-6, #1e293b) !important;
+	--gravisain-bg-color: var(--gravisain-global-color-6, #1e293b) !important;
+}
+
+/* Invert bright white overlay gradients to dark subtle glow */
+html.dark .has-background-overlay[style*="rgba(255,255,255"],
+html.dark .has-background-overlay[style*="rgba(255, 255, 255"] {
+	--gravisain-bg-overlay: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 27, 75, 0.6) 50%, rgba(15, 23, 42, 0.9) 100%) !important;
+}
+
+html.dark .gravisain-row-layout-overlay[style*="#ffffff"],
+html.dark .gravisain-row-layout-overlay[style*="#fff"] {
+	background-color: #0f172a !important;
+}
+
+/* 3. Section Dividers & Separator Borders */
+html.dark [style*="border-top:1px solid #e2e8f0"],
+html.dark [style*="border-top: 1px solid #e2e8f0"],
+html.dark [style*="border-bottom:1px solid #e2e8f0"],
+html.dark [style*="border-bottom: 1px solid #e2e8f0"],
+html.dark [style*="border:1px solid #e2e8f0"],
+html.dark [style*="border: 1px solid #e2e8f0"],
+html.dark [style*="border:1px solid #cbd5e1"],
+html.dark [style*="border: 1px solid #cbd5e1"],
+html.dark [style*="border:1px solid #f1f5f9"],
+html.dark [style*="border: 1px solid #f1f5f9"],
+html.dark [style*="border-color:#e2e8f0"],
+html.dark [style*="border-color: #e2e8f0"],
+html.dark [style*="border-color:#e9ecef"],
+html.dark [style*="border-color: #e9ecef"],
+html.dark [style*="border-color:#eef2f6"],
+html.dark [style*="border-color: #eef2f6"],
+html.dark [style*="border:1px solid rgba(0, 0, 0, 0.08)"],
+html.dark [style*="border: 1px solid rgba(0, 0, 0, 0.08)"],
+html.dark [style*="border:1px solid rgba(0,0,0,0.08)"],
+html.dark [style*="border: 1px solid rgba(0,0,0,0.08)"] {
+	border-color: var(--gravisain-global-color-7, #334155) !important;
+}
+
+/* 4. Headings & Typography */
+html.dark .gravisain-hero {
+	--gravisain-hero-title-color: #f8fafc !important;
+	--gravisain-hero-desc-color: #cbd5e1 !important;
+}
+
+html.dark .hero-title,
+html.dark .hero-title:not([style*="gradient"]) {
+	color: #f8fafc !important;
+}
+
+html.dark .hero-description {
+	color: #cbd5e1 !important;
+}
+
+html.dark .gravisain-advanced-heading {
+	--gravisain-heading-title-color: #f8fafc !important;
+	--gravisain-heading-desc-color: #cbd5e1 !important;
+}
+
+html.dark .gravisain-heading-title {
+	color: #f8fafc !important;
+}
+
+html.dark .gravisain-heading-description {
+	color: #cbd5e1 !important;
+}
+
+html.dark .gravisain-heading-eyebrow {
+	filter: brightness(1.25) contrast(1.1);
+}
+
+html.dark .gravisain-marquee-track > div {
+	color: #cbd5e1 !important;
+}
+
+/* Fallback for inline dark typography from all starter templates */
+html.dark h1[style*="color:#0f172a"],
+html.dark h1[style*="color: #0f172a"],
+html.dark h2[style*="color:#0f172a"],
+html.dark h2[style*="color: #0f172a"],
+html.dark h3[style*="color:#0f172a"],
+html.dark h3[style*="color: #0f172a"],
+html.dark h4[style*="color:#0f172a"],
+html.dark h4[style*="color: #0f172a"],
+html.dark h1[style*="color:#202923"],
+html.dark h1[style*="color: #202923"],
+html.dark h2[style*="color:#202923"],
+html.dark h2[style*="color: #202923"],
+html.dark h3[style*="color:#202923"],
+html.dark h3[style*="color: #202923"],
+html.dark h4[style*="color:#202923"],
+html.dark h4[style*="color: #202923"],
+html.dark h1[style*="color:#1e293b"],
+html.dark h1[style*="color: #1e293b"],
+html.dark h2[style*="color:#1e293b"],
+html.dark h2[style*="color: #1e293b"],
+html.dark h3[style*="color:#1e293b"],
+html.dark h3[style*="color: #1e293b"],
+html.dark h4[style*="color:#1e293b"],
+html.dark h4[style*="color: #1e293b"],
+html.dark h1[style*="color:#111827"],
+html.dark h2[style*="color:#111827"],
+html.dark h3[style*="color:#111827"],
+html.dark h1[style*="color:#000000"],
+html.dark h2[style*="color:#000000"],
+html.dark h3[style*="color:#000000"],
+html.dark h1[style*="color: #000"],
+html.dark h2[style*="color: #000"] {
+	color: #f8fafc !important;
+}
+
+html.dark p[style*="color:#475569"],
+html.dark p[style*="color: #475569"],
+html.dark p[style*="color:#64748b"],
+html.dark p[style*="color: #64748b"],
+html.dark p[style*="color:#334155"],
+html.dark p[style*="color: #334155"],
+html.dark div[style*="color:#334155"],
+html.dark div[style*="color: #334155"],
+html.dark blockquote[style*="color:#334155"],
+html.dark blockquote[style*="color: #334155"] {
+	color: #cbd5e1 !important;
+}
+
+/* 5. Bento Grid, Info Box & Column Cards */
+html.dark .wp-block-gravisain-column > div[style*="background:#f8fafc"],
+html.dark .wp-block-gravisain-column > div[style*="background: #f8fafc"],
+html.dark .wp-block-gravisain-column > div[style*="background-color:#f8fafc"],
+html.dark .wp-block-gravisain-column > div[style*="background-color: #f8fafc"],
+html.dark .wp-block-gravisain-column > div[style*="background:#ffffff"],
+html.dark .wp-block-gravisain-column > div[style*="background: #ffffff"],
+html.dark .wp-block-gravisain-column > div[style*="background-color:#ffffff"],
+html.dark .wp-block-gravisain-column > div[style*="background-color: #ffffff"],
+html.dark .wp-block-gravisain-column[style*="background-color:#ffffff"],
+html.dark .wp-block-gravisain-column[style*="background-color: #ffffff"],
+html.dark .wp-block-gravisain-column[style*="border-color:#eef2f6"],
+html.dark .wp-block-gravisain-column[style*="border-color: #eef2f6"],
+html.dark .wp-block-gravisain-column[style*="border-color:#e9ecef"],
+html.dark .wp-block-gravisain-column[style*="border-color: #e9ecef"],
+html.dark .wp-block-gravisain-row-layout.is-inner-width-theme[style*="background-color:#ffffff"],
+html.dark .wp-block-gravisain-row-layout.is-inner-width-theme[style*="background-color:#f8fafc"],
+html.dark .wp-block-gravisain-row-layout.is-inner-width-theme[style*="background-color:#f7f5f0"],
+html.dark .wp-block-gravisain-row-layout.is-inner-width-theme[style*="background-color:#f2efe9"] {
+	background: var(--gravisain-global-color-6, #1e293b) !important;
+	background-color: var(--gravisain-global-color-6, #1e293b) !important;
+	border-color: var(--gravisain-global-color-7, #334155) !important;
+	box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Info Box Block Dark Mode */
+html.dark .gravisain-info-box-card {
+	--info-box-bg: var(--gravisain-global-color-6, #1e293b) !important;
+	--info-box-border: var(--gravisain-global-color-7, #334155) !important;
+	--info-box-title-color: #f8fafc !important;
+	--info-box-desc-color: #cbd5e1 !important;
+	background: var(--gravisain-global-color-6, #1e293b) !important;
+	border-color: var(--gravisain-global-color-7, #334155) !important;
+	box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark .gravisain-info-box-card .gravisain-info-box-title {
+	color: #f8fafc !important;
+}
+
+html.dark .gravisain-info-box-card .gravisain-info-box-desc {
+	color: #cbd5e1 !important;
+}
+
+html.dark .gravisain-info-box-card .gravisain-info-box-eyebrow {
+	color: #94a3b8 !important;
+}
+
+html.dark .gravisain-info-box-card .gravisain-info-box-icon {
+	background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Table Block Dark Mode */
+html.dark .gravisain-table-container {
+	--gravisain-tbl-header-bg: #1e293b !important;
+	--gravisain-tbl-header-color: #f8fafc !important;
+	--gravisain-tbl-border: #334155 !important;
+	--gravisain-tbl-highlight-bg: rgba(56, 189, 248, 0.12) !important;
+}
+
+html.dark .gravisain-table thead tr th {
+	background-color: #1e293b !important;
+	color: #f8fafc !important;
+	border-color: #334155 !important;
+}
+
+html.dark .gravisain-table thead tr th.is-highlighted-col {
+	background-color: #24344d !important;
+	color: #38bdf8 !important;
+	border-top-color: #38bdf8 !important;
+}
+
+html.dark .gravisain-table tbody tr td {
+	border-color: #334155 !important;
+	color: #cbd5e1 !important;
+}
+
+html.dark .gravisain-table tbody tr td.is-highlighted-col {
+	background-color: rgba(56, 189, 248, 0.08) !important;
+	color: #f8fafc !important;
+}
+
+html.dark .gravisain-table.is-striped tbody tr:nth-child(2n) {
+	background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+html.dark .gravisain-table.has-hover tbody tr:hover {
+	background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Count Up Block Dark Mode */
+html.dark .gravisain-count-up .gravisain-count-up-title {
+	color: #cbd5e1 !important;
+}
+
+/* Icon List Block Dark Mode */
+html.dark .gravisain-icon-list-item .gravisain-list-text {
+	color: #cbd5e1 !important;
+}
+
+html.dark .gravisain-icon-list-item .gravisain-list-text strong {
+	color: #f8fafc !important;
+}
+
+/* 6. Tabs Block */
+html.dark .gravisain-tabs {
+	--gravisain-tabs-header-bg: #1e293b !important;
+	--gravisain-tabs-content-bg: #0f172a !important;
+	--gravisain-tabs-border-color: #334155 !important;
+	border-color: #334155 !important;
+	background: #0f172a !important;
+	box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .gravisain-tabs-header {
+	background: #1e293b !important;
+	border-bottom: 1px solid #334155 !important;
+}
+
+html.dark .gravisain-tab-button:not(.is-active) {
+	color: #94a3b8 !important;
+	background: transparent !important;
+}
+
+html.dark .gravisain-tab-button.is-active {
+	color: #ffffff !important;
+}
+
+html.dark .gravisain-tabs-content-area {
+	background: #0f172a !important;
+}
+
+html.dark .gravisain-tab-pane div[style*="background:#f8fafc"],
+html.dark .gravisain-tab-pane div[style*="background: #f8fafc"] {
+	background: #1e293b !important;
+	border-color: #334155 !important;
+}
+
+html.dark .gravisain-tab-pane h4 {
+	color: #f8fafc !important;
+}
+
+html.dark .gravisain-tab-pane p {
+	color: #cbd5e1 !important;
+}
+
+/* 7. Testimonials Block */
+html.dark .gravisain-testimonial {
+	--testi-bg: #1e293b !important;
+	--testi-border: #334155 !important;
+	--testi-quote-color: #cbd5e1 !important;
+	--testi-author-color: #f8fafc !important;
+	--testi-role-color: #94a3b8 !important;
+	background: #1e293b !important;
+	border-color: #334155 !important;
+	box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark .gravisain-testimonial.has-quote-mark:before {
+	color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .gravisain-testimonial__quote {
+	color: #cbd5e1 !important;
+}
+
+html.dark .gravisain-testimonial__author-box {
+	border-top-color: #334155 !important;
+}
+
+html.dark .gravisain-testimonial__author-name {
+	color: #f8fafc !important;
+}
+
+html.dark .gravisain-testimonial__author-role {
+	color: #94a3b8 !important;
+}
+
+/* 8. FAQ Accordion Block */
+html.dark .gravisain-faq-item {
+	background: #1e293b !important;
+	border-color: #334155 !important;
+	box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.25) !important;
+}
+
+html.dark .gravisain-faq-item__header {
+	background: #1e293b !important;
+}
+
+html.dark .gravisain-faq-item__question {
+	color: #f8fafc !important;
+}
+
+html.dark .gravisain-faq-item.is-open .gravisain-faq-item__question {
+	color: #c084fc !important;
+}
+
+html.dark .gravisain-faq-item__icon {
+	color: #94a3b8 !important;
+}
+
+html.dark .gravisain-faq-item.is-open .gravisain-faq-item__icon {
+	color: #c084fc !important;
+}
+
+html.dark .gravisain-faq-item__content-inner {
+	color: #cbd5e1 !important;
+}
+
+/* 9. Gravisain Studio Blocks (Diagrams, Sliders) */
+html.dark .gs-diagram-card {
+	--gs-card-bg: #1e293b !important;
+	--gs-card-border: #334155 !important;
+	--gs-card-title-color: #f8fafc !important;
+	--gs-card-sub-color: #94a3b8 !important;
+	--gs-card-text: #cbd5e1 !important;
+	background: #1e293b !important;
+	border-color: #334155 !important;
+}
+
+html.dark .gs-diagram-card .gs-diagram-card__title {
+	color: #f8fafc !important;
+}
+
+html.dark .gs-diagram-card .gs-diagram-card__item span:last-child {
+	color: #cbd5e1 !important;
+}
+
+html.dark .gs-diagram-card.is-middle-card {
+	background: linear-gradient(135deg, rgba(124, 58, 237, 0.25) 0%, rgba(79, 70, 229, 0.25) 100%) !important;
+	border-color: rgba(168, 85, 247, 0.5) !important;
+}
+
+html.dark .gs-diagram-card.is-middle-card .gs-diagram-card__title {
+	color: #d8b4fe !important;
+}
+
+html.dark .gs-diagram-card.is-middle-card .gs-diagram-card__subtitle {
+	color: #cbd5e1 !important;
+}
+
+html.dark .gs-pro-slider {
+	background: #0f172a !important;
+	border: 1px solid #334155;
+}
+
+/* 10. Secondary / Outline Buttons */
+html.dark .gravisain-button--outline,
+html.dark .secondary-btn,
+html.dark .gravisain-btn-outline {
+	color: #f8fafc !important;
+	border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+html.dark .gravisain-button--outline:hover,
+html.dark .secondary-btn:hover,
+html.dark .gravisain-btn-outline:hover {
+	background: rgba(255, 255, 255, 0.1) !important;
+	border-color: rgba(255, 255, 255, 0.4) !important;
+	color: #ffffff !important;
+}
+
+/* 11. CPT Showcase Templates & Archive (archive-gravisain_template.php & single-gravisain_template.php) */
+html.dark .template-card {
+	background: #1e293b !important;
+	border-color: #334155 !important;
+	box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark .template-card a[style*="background: #f1f5f9"] {
+	background: #0f172a !important;
+}
+
+html.dark .template-title a {
+	color: #f8fafc !important;
+}
+
+html.dark .template-actions a[style*="background: #f8fafc"] {
+	background: #0f172a !important;
+	color: #cbd5e1 !important;
+	border-color: #334155 !important;
+}
+
+html.dark .template-actions a[style*="background: #f8fafc"]:hover {
+	background: #334155 !important;
+	color: #ffffff !important;
+}
+
+html.dark .template-filters a.button:not(.active) {
+	background: #1e293b !important;
+	color: #cbd5e1 !important;
+	border-color: #334155 !important;
+}
+
+html.dark .template-filters a.button:not(.active):hover {
+	background: #334155 !important;
+	color: #ffffff !important;
+}
+
+html.dark .archive-header h1,
+html.dark .template-header h1 {
+	color: #f8fafc !important;
+}
+
+html.dark .archive-header p,
+html.dark .template-excerpt {
+	color: #cbd5e1 !important;
+}
+
+html.dark .template-main-content {
+	background: #1e293b !important;
+	border-color: #334155 !important;
+}
+
+html.dark .template-main-content h2 {
+	color: #f8fafc !important;
+	border-bottom-color: #334155 !important;
+}
+
+html.dark .template-main-content .entry-content {
+	color: #cbd5e1 !important;
+}
+
+html.dark .template-hero-actions a[href="#features"] {
+	background: #1e293b !important;
+	color: #f8fafc !important;
+	border-color: #334155 !important;
+}
+
+html.dark .template-featured-image {
+	background: #1e293b !important;
+	border-color: #334155 !important;
+}
+
+html.dark .no-templates {
+	background: #1e293b !important;
+	border-color: #334155 !important;
+}
+
+/* 12. Standard Gutenberg Core Blocks in Dark Mode */
+html.dark .wp-block-table table {
+	border-color: #334155 !important;
+}
+
+html.dark .wp-block-table th,
+html.dark .wp-block-table td {
+	border-color: #334155 !important;
+	color: #cbd5e1 !important;
+}
+
+html.dark .wp-block-code,
+html.dark pre.wp-block-code {
+	background: #0f172a !important;
+	border: 1px solid #334155 !important;
+	color: #f8fafc !important;
+}
+
+html.dark .wp-block-quote {
+	border-left-color: #818cf8 !important;
+	color: #cbd5e1 !important;
+}
+
+html.dark .wp-block-separator {
+	border-color: #334155 !important;
+}
+
+html.dark input[type="text"]:not(.gravisain-header-search-input),
+html.dark input[type="search"]:not(.gravisain-header-search-input),
+html.dark input[type="email"],
+html.dark select,
+html.dark textarea {
+	background-color: #0f172a;
+	border-color: #334155;
+	color: #f8fafc;
+}
+
+/* ==========================================================================
+   Dark-to-Light Smart Adapter (For Dark-First Starter Templates like Agency)
+   Automatically converts pitch-black and dark-themed template sections
+   into clean, crisp light mode when the user toggles to Light.
+   ========================================================================== */
+
+/* 1. Deep-dark row layouts to pure white / light-gray */
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0b0d11"],
+html:not(.dark) .gravisain-row-layout[style*="#0b0d11"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="--gravisain-bg-color:#0b0d11"],
+html:not(.dark) .gravisain-row-layout[style*="--gravisain-bg-color:#0b0d11"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0a1128"],
+html:not(.dark) .gravisain-row-layout[style*="#0a1128"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="--gravisain-bg-color:#0a1128"],
+html:not(.dark) .gravisain-row-layout[style*="--gravisain-bg-color:#0a1128"] {
+	background-color: #ffffff !important;
+	--gravisain-bg-color: #ffffff !important;
+}
+
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#11141d"],
+html:not(.dark) .gravisain-row-layout[style*="#11141d"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#161925"],
+html:not(.dark) .gravisain-row-layout[style*="#161925"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#131e3d"],
+html:not(.dark) .gravisain-row-layout[style*="#131e3d"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="--gravisain-bg-color:#11141d"],
+html:not(.dark) .gravisain-row-layout[style*="--gravisain-bg-color:#11141d"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="--gravisain-bg-color:#161925"],
+html:not(.dark) .gravisain-row-layout[style*="--gravisain-bg-color:#161925"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="--gravisain-bg-color:#131e3d"],
+html:not(.dark) .gravisain-row-layout[style*="--gravisain-bg-color:#131e3d"] {
+	background-color: #f8fafc !important;
+	--gravisain-bg-color: #f8fafc !important;
+}
+
+/* 2. Dark cards, feature cards, case study cards, and nested containers */
+html:not(.dark) .wp-block-gravisain-feature-card[style*="#141721"],
+html:not(.dark) .gravisain-feature-card[style*="#141721"],
+html:not(.dark) .wp-block-gravisain-row-layout.is-inner-width-theme[style*="#141721"],
+html:not(.dark) .gravisain-row-layout.is-inner-width-theme[style*="#141721"],
+html:not(.dark) .wp-block-gravisain-row-layout.is-inner-width-theme[style*="#161a26"],
+html:not(.dark) .gravisain-row-layout.is-inner-width-theme[style*="#161a26"],
+html:not(.dark) .wp-block-gravisain-row-layout.is-inner-width-theme[style*="#1e293b"],
+html:not(.dark) .gravisain-row-layout.is-inner-width-theme[style*="#1e293b"],
+html:not(.dark) .wp-block-gravisain-testimonial[style*="#141721"],
+html:not(.dark) .gravisain-testimonial[style*="#141721"],
+html:not(.dark) .wp-block-gravisain-faq-item[style*="#141721"],
+html:not(.dark) .gravisain-faq-item[style*="#141721"] {
+	background-color: #ffffff !important;
+	border-color: #e2e8f0 !important;
+	box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 3. Translucent dark-mode borders to subtle light borders */
+html:not(.dark) [style*="border:1px solid rgba(255,255,255"],
+html:not(.dark) [style*="border: 1px solid rgba(255,255,255"],
+html:not(.dark) [style*="border: 1px solid rgba(255, 255, 255"],
+html:not(.dark) [style*="border:1px solid rgba(255, 255, 255"],
+html:not(.dark) [style*="border-color:rgba(255,255,255"],
+html:not(.dark) [style*="border-color: rgba(255,255,255"],
+html:not(.dark) [style*="border-color: rgba(255, 255, 255"] {
+	border-color: #e2e8f0 !important;
+}
+
+/* 4. White headings in dark sections to crisp dark slate (preserves accent colored badges) */
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0b0d11"] h1,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0b0d11"] h2,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0b0d11"] h3,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0b0d11"] h4,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#11141d"] h1,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#11141d"] h2,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#11141d"] h3,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#11141d"] h4,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#161925"] h1,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#161925"] h2,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#161925"] h3,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#161925"] h4,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0a1128"] h1,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0a1128"] h2,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0a1128"] h3,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0a1128"] h4,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#131e3d"] h1,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#131e3d"] h2,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#131e3d"] h3,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#131e3d"] h4,
+html:not(.dark) .gravisain-feature-card-title,
+html:not(.dark) .gravisain-testimonial-author,
+html:not(.dark) .gravisain-faq-question,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0b0d11"] .gravisain-heading-title[style*="#ffffff"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0b0d11"] .gravisain-heading-title[style*="#fff"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#11141d"] .gravisain-heading-title[style*="#ffffff"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#11141d"] .gravisain-heading-title[style*="#fff"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#161925"] .gravisain-heading-title[style*="#ffffff"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#161925"] .gravisain-heading-title[style*="#fff"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0a1128"] .gravisain-heading-title[style*="#ffffff"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0a1128"] .gravisain-heading-title[style*="#fff"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#131e3d"] .gravisain-heading-title[style*="#ffffff"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#131e3d"] .gravisain-heading-title[style*="#fff"] {
+	color: #0f172a !important;
+}
+
+/* 5. Muted descriptions & subtexts to readable dark-gray */
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0b0d11"] .gravisain-heading-description,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#11141d"] .gravisain-heading-description,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#161925"] .gravisain-heading-description,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0a1128"] .gravisain-heading-description,
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#131e3d"] .gravisain-heading-description,
+html:not(.dark) .gravisain-feature-card-desc,
+html:not(.dark) .gravisain-testimonial-quote,
+html:not(.dark) .gravisain-faq-answer,
+html:not(.dark) p.gravisain-heading-title[style*="#94a3b8"],
+html:not(.dark) p.gravisain-heading-title[style*="#cbd5e1"] {
+	color: #475569 !important;
+}
+
+/* Client logos with low-opacity white (VOLTIX, AURORA, etc.) */
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0b0d11"] [style*="rgba(255,255,255,0.4)"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0b0d11"] [style*="rgba(255, 255, 255, 0.4)"] {
+	color: #94a3b8 !important;
+}
+
+/* 6. Form inputs and labels inside dark-first sections */
+html:not(.dark) .gravisain-form-field label {
+	color: #0f172a !important;
+}
+
+html:not(.dark) .gravisain-form-field input[style*="background:#0b0d11"],
+html:not(.dark) .gravisain-form-field textarea[style*="background:#0b0d11"] {
+	background: #ffffff !important;
+	border-color: #cbd5e1 !important;
+	color: #0f172a !important;
+}
+
+html:not(.dark) .gravisain-form-field input[style*="background:#0b0d11"]::placeholder,
+html:not(.dark) .gravisain-form-field textarea[style*="background:#0b0d11"]::placeholder {
+	color: #94a3b8 !important;
+}
+
+/* 7. Outline buttons with white border and text */
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0b0d11"] .gravisain-btn-outline[style*="color:#ffffff"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0b0d11"] .gravisain-btn-outline[style*="color: #ffffff"],
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0b0d11"] .gravisain-btn-outline[style*="color:#fff"] {
+	color: #0f172a !important;
+	border-color: #cbd5e1 !important;
+}
+
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#0b0d11"] .gravisain-btn-outline:hover {
+	background-color: #f1f5f9 !important;
+	border-color: #94a3b8 !important;
+	color: #0f172a !important;
+}
+
+/* Button badges / pills with light pastel text inside cards */
+html:not(.dark) .gravisain-advanced-button-inner[style*="color:#818cf8"] {
+	color: #4338ca !important;
+	background-color: #e0e7ff !important;
+}
+html:not(.dark) .gravisain-advanced-button-inner[style*="color:#38bdf8"] {
+	color: #0369a1 !important;
+	background-color: #e0f2fe !important;
+}
+
+/* 8. Stats counter titles in dark-first sections */
+html:not(.dark) .wp-block-gravisain-row-layout[style*="#11141d"] .gravisain-count-up-title {
+	color: #64748b !important;
+}
+

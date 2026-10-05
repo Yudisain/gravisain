@@ -89,11 +89,11 @@ class BlogOptions {
 		] );
 
 		// Read More Text
-		$wp_customize->add_setting( 'gravisain_blog_archive_read_more', [
-			'default'           => __( 'Read More &rarr;', 'gravisain' ),
+		$wp_customize->add_setting( 'gravisain_blog_archive_read_more', array(
 			'sanitize_callback' => 'sanitize_text_field',
+			'default'           => __( 'Read More &rarr;', 'gravisain' ),
 			'transport'         => 'refresh',
-		] );
+		) );
 
 		$wp_customize->add_control( 'gravisain_blog_archive_read_more', [
 			'type'    => 'text',

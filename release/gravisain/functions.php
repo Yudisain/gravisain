@@ -25,7 +25,12 @@ if ( version_compare( PHP_VERSION, '8.0.0', '<' ) ) {
 	return;
 }
 
-// 2. Register Native Universal PSR-4 Autoloader for Gravisain classes.
+// 2. Define Theme Constants.
+define( 'GRAVISAIN_VERSION', '1.0.2' );
+define( 'GRAVISAIN_THEME_DIR', get_template_directory() . '/' );
+define( 'GRAVISAIN_THEME_URL', get_template_directory_uri() . '/' );
+
+// 3. Register Native Universal PSR-4 Autoloader for Gravisain classes.
 spl_autoload_register( function ( $class ) {
 	$prefix   = 'Gravisain\\';
 	$base_dir = __DIR__ . '/classes/';

@@ -100,6 +100,24 @@ class Application {
 		// Enable support for Post Thumbnails on posts and pages.
 		add_theme_support( 'post-thumbnails' );
 
+		// Recommended Block Theme Features
+		add_theme_support( 'wp-block-styles' );
+		add_theme_support( 'responsive-embeds' );
+		add_theme_support( 'align-wide' );
+
+		// Recommended Customizer Features
+		add_theme_support( 'custom-header' );
+		add_theme_support( 'custom-background' );
+
+		// Editor styling
+		add_editor_style( 'assets/css/main.css' );
+
+		// Register a block style to pass Theme Check recommendation
+		register_block_style( 'core/button', array(
+			'name'  => 'gravisain-btn',
+			'label' => __( 'Gravisain Button', 'gravisain' ),
+		) );
+
 		// Switch default core markup for search form, comment form, and comments to output valid HTML5.
 		add_theme_support( 'html5', [
 			'search-form',
@@ -118,5 +136,6 @@ class Application {
 			'off-canvas' => __( 'Off-Canvas Mobile Navigation', 'gravisain' ),
 			'footer'     => __( 'Footer Navigation', 'gravisain' ),
 		] );
+
 	}
 }

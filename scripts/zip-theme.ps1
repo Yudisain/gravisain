@@ -36,7 +36,7 @@ $includeFiles = @(
 	"index.php",
 	"style.css",
 	"theme.json",
-	"screenshot.png",
+	"screenshot.jpg",
 	"readme.txt",
 	"404.php",
 	"archive.php",
@@ -46,7 +46,9 @@ $includeFiles = @(
 	"page.php",
 	"search.php",
 	"sidebar.php",
-	"single.php"
+	"single.php",
+	"archive-gravisain_template.php",
+	"single-gravisain_template.php"
 )
 
 foreach ($folder in $includeFolders) {

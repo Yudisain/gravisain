@@ -2,9 +2,9 @@
 Contributors: gravisain
 Tags: custom-menu, custom-logo, e-commerce, blog, custom-colors, editor-style, block-styles, wide-blocks
 Requires at least: 6.4
-Tested up to: 6.6
-Requires PHP: 7.4
-Stable tag: 1.0.0
+Tested up to: 7.2
+Requires PHP: 8.0
+Stable tag: 1.0.2
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,9 @@ Yes, Gravisain is a hybrid theme. All global layout options, colors, typography,
 Yes, Gravisain has built-in deep WooCommerce integration, including modular grid product lists and customizable distraction-free checkout options.
 
 == Changelog ==
+
+= 1.0.2 =
+* Maintenance update, style refinements, and sticky layout improvements.
 
 = 1.0.0 =
 * Initial release.

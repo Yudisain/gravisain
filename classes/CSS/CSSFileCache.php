@@ -7,6 +7,10 @@
 
 namespace Gravisain\CSS;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * CSSFileCache Class
  *
@@ -51,7 +55,9 @@ class CSSFileCache {
 		$cache_dir = trailingslashit( $upload_dir['basedir'] ) . 'gravisain';
 		$cache_url = trailingslashit( $upload_dir['baseurl'] ) . 'gravisain';
 		$file_path = $cache_dir . '/gravisain-dynamic.css';
-		$file_url  = $cache_url . '/gravisain-dynamic.css';
+
+		$scheme = ( is_ssl() || ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $_SERVER['HTTP_X_FORWARDED_PROTO'] ) || ( isset( $_SERVER['HTTPS'] ) && 'off' !== $_SERVER['HTTPS'] ) ) ? 'https' : null;
+		$file_url  = set_url_scheme( $cache_url . '/gravisain-dynamic.css', $scheme );
 
 		// Ensure directory exists.
 		if ( ! file_exists( $cache_dir ) ) {
@@ -72,9 +78,6 @@ class CSSFileCache {
 			$written = false;
 			if ( $wp_filesystem ) {
 				$written = $wp_filesystem->put_contents( $file_path, $css_content, FS_CHMOD_FILE );
-			}
-			if ( ! $written ) {
-				$written = @file_put_contents( $file_path, $css_content ) !== false;
 			}
 
 			if ( ! $written ) {

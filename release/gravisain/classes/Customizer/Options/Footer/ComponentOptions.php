@@ -22,11 +22,11 @@ class ComponentOptions {
 			'priority' => 40,
 		] );
 
-		$wp_customize->add_setting( 'gravisain_footer_copyright_text', [
-			'default'           => __( 'Copyright &copy; [year] [site_title]. All rights reserved.', 'gravisain' ),
+		$wp_customize->add_setting( 'gravisain_footer_copyright_text', array(
 			'sanitize_callback' => 'wp_kses_post',
+			'default'           => __( 'Copyright &copy; [year] [site_title]. All rights reserved.', 'gravisain' ),
 			'transport'         => 'refresh',
-		] );
+		) );
 
 		$wp_customize->add_control( 'gravisain_footer_copyright_text', [
 			'label'       => __( 'Copyright HTML Text', 'gravisain' ),

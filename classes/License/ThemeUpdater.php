@@ -38,11 +38,15 @@ class ThemeUpdater {
 		$parsed = wp_parse_url($url);
 		$domain = isset($parsed['host']) ? $parsed['host'] : $url;
 
-		$api_url = self::API_URL . '/check?license_key=' . urlencode( $license_key ) . '&domain=' . urlencode( $domain ) . '&product=' . LicenseManager::PRODUCT_SLUG;
+		// Send license_key via Authorization header (not query string) to avoid
+		// exposure in server logs, browser history, and proxy caches.
+		$api_url = self::API_URL . '/check?domain=' . urlencode( $domain ) . '&product=' . LicenseManager::PRODUCT_SLUG;
 
 		$response = wp_remote_get( $api_url, [
 			'timeout' => 15,
-			'sslverify' => false,
+			'headers' => [
+				'Authorization' => 'Bearer ' . $license_key,
+			],
 		] );
 
 		if ( is_wp_error( $response ) ) {

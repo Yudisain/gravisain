@@ -7,6 +7,10 @@
 
 namespace Gravisain\CSS;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * LocalFontDownloader Class
  *
@@ -50,8 +54,9 @@ class LocalFontDownloader {
 			return $remote_url;
 		}
 
+		$scheme = ( is_ssl() || ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $_SERVER['HTTP_X_FORWARDED_PROTO'] ) || ( isset( $_SERVER['HTTPS'] ) && 'off' !== $_SERVER['HTTPS'] ) ) ? 'https' : null;
 		$fonts_dir = trailingslashit( $upload_dir['basedir'] ) . 'gravisain/fonts';
-		$fonts_url = trailingslashit( $upload_dir['baseurl'] ) . 'gravisain/fonts';
+		$fonts_url = set_url_scheme( trailingslashit( $upload_dir['baseurl'] ) . 'gravisain/fonts', $scheme );
 
 		$hash      = md5( $remote_url );
 		$css_file  = $fonts_dir . '/google-fonts-' . $hash . '.css';
@@ -91,6 +96,12 @@ class LocalFontDownloader {
 			foreach ( $unique_urls as $font_remote_url ) {
 				$font_filename = basename( parse_url( $font_remote_url, PHP_URL_PATH ) );
 
+				// Validate strictly against allowed font file extensions
+				$ext = strtolower( pathinfo( $font_filename, PATHINFO_EXTENSION ) );
+				if ( ! in_array( $ext, [ 'woff2', 'woff', 'ttf', 'eot', 'otf' ], true ) ) {
+					continue;
+				}
+
 				// Append hash to avoid name collisions across different font versions
 				$local_font_file = $fonts_dir . '/' . $font_filename;
 				$local_font_url  = $fonts_url . '/' . $font_filename;
@@ -127,10 +138,7 @@ class LocalFontDownloader {
 			return $css_url;
 		}
 
-		// Fallback to safe file_put_contents if WP_Filesystem couldn't write
-		if ( @file_put_contents( $css_file, $css_content ) !== false ) {
-			return $css_url;
-		}
+		// Removed file_put_contents fallback to comply with Theme Check rules.
 
 		return $remote_url;
 	}

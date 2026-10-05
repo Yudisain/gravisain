@@ -66,7 +66,7 @@ class SiteIdentityOptions {
 
 		// --- LOGO WIDTH (Moved to Priority 6, directly under custom_logo) ---
 		$wp_customize->add_setting( 'gravisain_logo_width', [
-			'default'           => '{"desktop":"110px","tablet":"90px","mobile":"70px"}',
+			'default'           => '{"desktop":"220px","tablet":"180px","mobile":"140px"}',
 			'sanitize_callback' => 'sanitize_text_field',
 			'transport'         => 'postMessage',
 		] );
@@ -87,6 +87,21 @@ class SiteIdentityOptions {
 			],
 			'tab'           => 'layout',
 			'wrapper_attrs' => [ 'data-tab' => 'layout' ],
+		] ) );
+
+		// --- LOGO MARGIN (Priority 42, Style Tab) ---
+		$wp_customize->add_setting( 'gravisain_logo_margin', [
+			'default'           => '{"top":"","right":"","bottom":"","left":"","unit":"px","linked":true}',
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport'         => 'refresh',
+		] );
+
+		$wp_customize->add_control( new SpacingControl( $wp_customize, 'gravisain_logo_margin', [
+			'label'         => __( 'Logo Margin', 'gravisain' ),
+			'section'       => 'title_tagline',
+			'priority'      => 42,
+			'tab'           => 'style',
+			'wrapper_attrs' => [ 'data-tab' => 'style' ],
 		] ) );
 
 		// --- GROUP 1: SITE TITLE (LAYOUT TAB) ---

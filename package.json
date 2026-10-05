@@ -1,6 +1,6 @@
 {
   "name": "gravisain-theme",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Gravisain Premium WordPress Theme",
   "type": "module",
   "scripts": {
@@ -11,7 +11,9 @@
     "starter-sites:zip": "powershell -ExecutionPolicy Bypass -File ../gravisain-starter-sites/scripts/zip-starter-sites.ps1",
     "blocks:zip": "powershell -ExecutionPolicy Bypass -File ../gravisain-blocks/scripts/zip-plugin.ps1",
     "studio:zip": "powershell -ExecutionPolicy Bypass -File ../gravisain-studio/scripts/zip-plugin.ps1",
-    "all:zip": "npm run theme:zip && npm run starter-sites:zip && npm run blocks:zip && npm run studio:zip"
+    "all:zip": "npm run theme:zip && npm run starter-sites:zip && npm run blocks:zip && npm run studio:zip",
+    "set-version": "node scripts/set-version.js",
+    "bump": "node scripts/set-version.js"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
@@ -23,7 +25,8 @@
     "postcss-nested": "^6.0.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "vite": "^5.2.11"
+    "vite": "^5.2.11",
+    "vite-plugin-static-copy": "^1.0.6"
   },
   "dependencies": {
     "react-color": "^2.19.3"

@@ -12,6 +12,36 @@ class Welcome {
 		$instance = new self();
 		add_action( 'admin_menu', [ $instance, 'add_menu_page' ] );
 		add_action( 'wp_ajax_gravisain_purge_cache', [ $instance, 'ajax_purge_cache' ] );
+		add_filter( 'parent_file', [ $instance, 'filter_parent_file' ] );
+		add_filter( 'submenu_file', [ $instance, 'filter_submenu_file' ] );
+	}
+
+	/**
+	 * Keep Gravisain menu active when viewing or editing Reusable Blocks (wp_block).
+	 *
+	 * @param string $parent_file
+	 * @return string
+	 */
+	public function filter_parent_file( string $parent_file ): string {
+		global $current_screen;
+		if ( $current_screen && 'wp_block' === $current_screen->post_type ) {
+			return 'gravisain-dashboard';
+		}
+		return $parent_file;
+	}
+
+	/**
+	 * Keep Reusable Blocks submenu active when viewing or editing Reusable Blocks (wp_block).
+	 *
+	 * @param string|null $submenu_file
+	 * @return string|null
+	 */
+	public function filter_submenu_file( ?string $submenu_file ): ?string {
+		global $current_screen;
+		if ( $current_screen && 'wp_block' === $current_screen->post_type ) {
+			return 'edit.php?post_type=wp_block';
+		}
+		return $submenu_file;
 	}
 
 	public function ajax_purge_cache(): void {
@@ -42,9 +72,7 @@ class Welcome {
 		$page_title  = 'Gravisain Dashboard';
 
 		// Custom SVG Icon for Gravisain (Custom Diamond GRV Monogram)
-		$svg_icon = 'data:image/svg+xml;base64,' . base64_encode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" stroke="#fff" stroke-width="30" stroke-linecap="round" stroke-linejoin="round">
-  <path d="m256 48 164 152M256 48 92 192m0 96 164 176m164-176L256 464M92 192l164 144m-96-131h260m-164 0v125m29-125 100 113"/>
-</svg>');
+		$svg_icon = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMzAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgPHBhdGggZD0ibTI1NiA0OCAxNjQgMTUyTTI1NiA0OCA5MiAxOTJtMCA5NiAxNjQgMTc2bTE2NC0xNzZMMjU2IDQ2NE05MiAxOTJsMTY0IDE0NG0tOTYtMTMxaDI2MG0tMTY0IDB2MTI1bTI5LTEyNSAxMDAgMTEzIi8+Cjwvc3ZnPg==';
 
 		// 1. Register Top-Level Menu (Position 59 sets it right above Appearance which is 60)
 		add_menu_page(
@@ -87,7 +115,17 @@ class Welcome {
 			null
 		);
 
-		// 5. Full System Status & Diagnostics Tab
+		// 5. Reusable Blocks (Synced Patterns)
+		add_submenu_page(
+			'gravisain-dashboard',
+			__( 'Reusable Blocks', 'gravisain' ),
+			__( 'Reusable Blocks', 'gravisain' ),
+			'edit_posts',
+			'edit.php?post_type=wp_block',
+			null
+		);
+
+		// 6. Full System Status & Diagnostics Tab
 		add_submenu_page(
 			'gravisain-dashboard',
 			'System Status & Diagnostics',
@@ -97,7 +135,7 @@ class Welcome {
 			[ '\Gravisain\Dashboard\SystemStatus', 'render_page' ]
 		);
 
-		// 6. Import / Export
+		// 7. Import / Export
 		add_submenu_page(
 			'gravisain-dashboard',
 			'Import / Export Settings',
@@ -152,7 +190,7 @@ class Welcome {
 			?>
 			<div class="gravisain-header">
 				<div>
-					<h1><?php echo esc_html( sprintf( __( 'Welcome to %s', 'gravisain' ), $display_name ) ); ?> <span class="gravisain-badge">v1.0.0</span></h1>
+					<h1><?php echo esc_html( sprintf( __( 'Welcome to %s', 'gravisain' ), $display_name ) ); ?> <span class="gravisain-badge">v<?php echo esc_html( defined( 'GRAVISAIN_VERSION' ) ? GRAVISAIN_VERSION : '1.0.0' ); ?></span></h1>
 					<p style="color: #646970; font-size: 16px; margin-top: 5px;"><?php echo esc_html( $display_desc ); ?></p>
 				</div>
 				<div>
@@ -220,6 +258,10 @@ class Welcome {
 							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=gravisain_element' ) ); ?>" class="gravisain-quick-item">
 								<span class="gravisain-quick-title">Hooked Elements</span>
 								<span class="gravisain-quick-sub">Manage ↗</span>
+							</a>
+							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=wp_block' ) ); ?>" class="gravisain-quick-item">
+								<span class="gravisain-quick-title"><?php esc_html_e( 'Reusable Blocks', 'gravisain' ); ?></span>
+								<span class="gravisain-quick-sub"><?php esc_html_e( 'Manage ↗', 'gravisain' ); ?></span>
 							</a>
 						</div>
 					</div>

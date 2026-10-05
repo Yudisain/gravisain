@@ -75,6 +75,19 @@ class GeneralCSS extends AbstractGenerator {
 			}
 		}
 
+		// Dark Mode Palette
+		$dark_palette = $this->decode_json_val( get_theme_mod( 'gravisain_dark_palette', '["#818cf8","#38bdf8","#f8fafc","#cbd5e1","#0f172a","#1e293b","#334155","#fb7185"]' ) );
+		if ( is_array( $dark_palette ) && ! empty( $dark_palette ) ) {
+			$builder->add( 'html.dark', 'color-scheme', 'dark' );
+			foreach ( $dark_palette as $index => $color ) {
+				$color_num = $index + 1;
+				$builder->add( 'html.dark', "--gravisain-global-color-{$color_num}", $color );
+			}
+			$builder->add( 'html.dark', '--gravisain-content-bg', 'var(--gravisain-global-color-6)' );
+			$builder->add( 'html.dark body', 'background-color', 'var(--gravisain-global-color-5) !important' );
+			$builder->add( 'html.dark body', 'color', 'var(--gravisain-global-color-3) !important' );
+		}
+
 		// Site Background Color.
 		$site_bg = get_theme_mod( 'gravisain_site_background', '' );
 		if ( ! empty( $site_bg ) && is_string( $site_bg ) ) {

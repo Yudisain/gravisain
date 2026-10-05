@@ -39,6 +39,8 @@ class ServiceProvider {
 		\Gravisain\Dashboard\Welcome::class,
 		\Gravisain\Dashboard\ImportExport::class,
 		\Gravisain\Customizer\Customizer::class,
+		\Gravisain\Customizer\StarterContent::class,
+		\Gravisain\Rest\DemoDataEndpoint::class,
 		\Gravisain\Integrations\WooCommerce::class,
 		\Gravisain\Integrations\CompanionNotice::class,
 	];

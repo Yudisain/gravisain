@@ -17,6 +17,7 @@ use WP_Customize_Manager;
 use Gravisain\Customizer\Options\ComponentOptionInterface;
 use Gravisain\Customizer\Controls\ColorGroupControl;
 use Gravisain\Customizer\Controls\TypographyControl;
+use Gravisain\Customizer\Controls\SliderControl;
 
 /**
  * OffCanvasOptions Class
@@ -56,6 +57,27 @@ class OffCanvasOptions implements ComponentOptionInterface {
 				'push-top'   => __( 'Push Body From Top', 'gravisain' ),
 			],
 		] );
+
+		// Off-Canvas Width (Responsive Slider: %, px, vw).
+		$wp_customize->add_setting( 'gravisain_offcanvas_width', [
+			'default'           => '{"desktop":"380px","tablet":"380px","mobile":"100%"}',
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport'         => 'postMessage',
+		] );
+
+		$wp_customize->add_control( new SliderControl( $wp_customize, 'gravisain_offcanvas_width', [
+			'label'         => __( 'Drawer Width', 'gravisain' ),
+			'description'   => __( 'Set side drawer width (e.g. 50% for half, 33% for third, 25% for quarter, or in px). Works for slide and push body.', 'gravisain' ),
+			'section'       => 'gravisain_header_offcanvas',
+			'priority'      => 14,
+			'responsive'    => true,
+			'units'         => [ '%', 'px', 'vw' ],
+			'input_attrs'   => [
+				'%'   => [ 'min' => 15, 'max' => 100, 'step' => 1 ],
+				'px'  => [ 'min' => 150, 'max' => 1200, 'step' => 10 ],
+				'vw'  => [ 'min' => 15, 'max' => 100, 'step' => 1 ],
+			],
+		] ) );
 
 		// 1. Off-Canvas Colors.
 		$wp_customize->add_setting( 'gravisain_header_offcanvas_colors', [

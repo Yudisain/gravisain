@@ -1,6 +1,6 @@
 {
   "src/css/customizer-controls.css": {
-    "file": "css/customizer-controls-style-DIqaQACw.css",
+    "file": "css/customizer-controls-style-DieXbDjl.css",
     "src": "src/css/customizer-controls.css",
     "isEntry": true
   },
@@ -10,18 +10,18 @@
     "isEntry": true
   },
   "src/css/main.css": {
-    "file": "css/style-DQGW0Qne.css",
+    "file": "css/style-CIM7jWl8.css",
     "src": "src/css/main.css",
     "isEntry": true
   },
   "src/js/customize-preview.js": {
-    "file": "js/customize-preview-DgT6e5kT.js",
+    "file": "js/customize-preview-BkpIOuwK.js",
     "name": "customize-preview",
     "src": "src/js/customize-preview.js",
     "isEntry": true
   },
   "src/js/customizer-controls.js": {
-    "file": "js/customizer-controls-nN8lXbJV.js",
+    "file": "js/customizer-controls-Cdm07Lxu.js",
     "name": "customizer-controls",
     "src": "src/js/customizer-controls.js",
     "isEntry": true
@@ -33,13 +33,13 @@
     "isEntry": true
   },
   "src/js/customizer.js": {
-    "file": "js/customizer-DMUmw3Nm.js",
+    "file": "js/customizer-DV5JPseY.js",
     "name": "customizer",
     "src": "src/js/customizer.js",
     "isEntry": true
   },
   "src/js/main.js": {
-    "file": "js/main-BrRRlLPY.js",
+    "file": "js/main-j-wS9RY0.js",
     "name": "main",
     "src": "src/js/main.js",
     "isEntry": true

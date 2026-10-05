@@ -1502,6 +1502,46 @@
             var $linkBtn = $el.find('.gravisain-spacing-link');
             var $resetBtn = $el.find('.gravisain-spacing-reset');
             var $hidden = $el.find('.gravisain-spacing-hidden-value');
+            var $sliderSection = $el.find('.gravisain-spacing-slider-section');
+            var $sliderHeader = $el.find('.gravisain-slider-header');
+            var $rangeInput = $el.find('.gravisain-spacing-range');
+            var $tooltip = $el.find('.gravisain-slider-tooltip');
+            var $sideResetBtn = $el.find('.gravisain-slider-side-reset-btn');
+
+            var activeSide = 'top';
+            var controlLabel = control.params.label || 'SPACING';
+
+            var updateSliderUI = function() {
+                var isLinked = !$el.find('.dashicons-admin-links').is(':hidden');
+                var currentVal = isLinked ? $el.find('[data-id="top"]').val() : $el.find('[data-id="' + activeSide + '"]').val();
+                var unit = $unitSelect.val() || 'px';
+                var prefix = controlLabel.toUpperCase();
+                var statusText = '';
+
+                if ( isLinked ) {
+                    statusText = ( currentVal !== '' && currentVal !== undefined ) ? ( prefix + ': ' + currentVal + unit.toUpperCase() ) : ( prefix + ' UNSET' );
+                } else {
+                    var sideName = activeSide.toUpperCase();
+                    statusText = ( currentVal !== '' && currentVal !== undefined ) ? ( prefix + ' ' + sideName + ': ' + currentVal + unit.toUpperCase() ) : ( prefix + ' ' + sideName + ' UNSET' );
+                }
+                $sliderHeader.text( statusText );
+
+                var min = 0;
+                var max = unit === 'px' ? 120 : ( unit === '%' ? 100 : 6 );
+                var step = ( unit === 'em' || unit === 'rem' ) ? 0.1 : 1;
+
+                $rangeInput.attr( 'min', min ).attr( 'max', max ).attr( 'step', step );
+
+                if ( currentVal !== '' && currentVal !== undefined && !isNaN( currentVal ) ) {
+                    var num = parseFloat( currentVal );
+                    $rangeInput.val( num );
+                    var pct = Math.max( 0, Math.min( 100, ( ( num - min ) / ( max - min ) ) * 100 ) );
+                    $tooltip.text( currentVal + unit.toUpperCase() ).css( 'left', pct + '%' ).show();
+                } else {
+                    $rangeInput.val( min );
+                    $tooltip.hide();
+                }
+            };
 
             var updateSetting = function() {
                 var val = {
@@ -1515,12 +1555,66 @@
                 var jsonStr = JSON.stringify(val);
                 $hidden.val(jsonStr);
                 control.setting.set(jsonStr);
+                updateSliderUI();
             };
+
+            // Show slider when clicking any box or focusing its input
+            $el.find('.gravisain-spacing-box').on('click', function(e) {
+                var side = $(this).data('side');
+                if ( side ) {
+                    activeSide = side;
+                    $el.find('.gravisain-spacing-box').removeClass('is-focused');
+                    $(this).addClass('is-focused');
+                    $sliderSection.slideDown(150);
+                    updateSliderUI();
+                }
+            });
+
+            $inputs.on('focus', function() {
+                var side = $(this).closest('.gravisain-spacing-box').data('side');
+                if ( side ) {
+                    activeSide = side;
+                    $el.find('.gravisain-spacing-box').removeClass('is-focused');
+                    $(this).closest('.gravisain-spacing-box').addClass('is-focused');
+                    $sliderSection.slideDown(150);
+                    updateSliderUI();
+                }
+            });
+
+            // Close slider when clicking outside
+            $(document).on('mousedown.gravisain_spacing_' + control.id, function(e) {
+                if ( !$el.is(e.target) && $el.has(e.target).length === 0 ) {
+                    $sliderSection.slideUp(150);
+                    $el.find('.gravisain-spacing-box').removeClass('is-focused');
+                }
+            });
 
             $inputs.on('input change', function() {
                 var $this = $(this);
                 if ( !$el.find('.dashicons-admin-links').is(':hidden') ) {
                     $inputs.val($this.val());
+                }
+                updateSetting();
+            });
+
+            // Range slider change
+            $rangeInput.on('input change', function() {
+                var val = $(this).val();
+                if ( !$el.find('.dashicons-admin-links').is(':hidden') ) {
+                    $inputs.val(val);
+                } else {
+                    $el.find('[data-id="' + activeSide + '"]').val(val);
+                }
+                updateSetting();
+            });
+
+            // Slider side reset button
+            $sideResetBtn.on('click', function(e) {
+                e.preventDefault();
+                if ( !$el.find('.dashicons-admin-links').is(':hidden') ) {
+                    $inputs.val('');
+                } else {
+                    $el.find('[data-id="' + activeSide + '"]').val('');
                 }
                 updateSetting();
             });
@@ -1536,11 +1630,13 @@
                 if ( $linkedIcon.is(':hidden') ) {
                     $linkedIcon.show();
                     $unlinkedIcon.hide();
+                    $(this).addClass('is-active');
                     var topVal = $el.find('[data-id="top"]').val();
                     $inputs.val(topVal);
                 } else {
                     $linkedIcon.hide();
                     $unlinkedIcon.show();
+                    $(this).removeClass('is-active');
                 }
                 updateSetting();
             });
@@ -1563,9 +1659,11 @@
                 if ( defaultVal.linked ) {
                     $el.find('.dashicons-admin-links').show();
                     $el.find('.dashicons-editor-unlink').hide();
+                    $linkBtn.addClass('is-active');
                 } else {
                     $el.find('.dashicons-admin-links').hide();
                     $el.find('.dashicons-editor-unlink').show();
+                    $linkBtn.removeClass('is-active');
                 }
                 updateSetting();
             });
@@ -1768,6 +1866,35 @@
                 updateScrollTopControlsVisibility(val);
             });
         });
+    });
+
+    // Section Shortcut Navigation Handler
+    $(document).on('click', '.gravisain-focus-section-btn', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var targetSectionId = $(this).data('target-section');
+        if (!targetSectionId || !wp.customize || !wp.customize.section(targetSectionId)) {
+            return;
+        }
+
+        var targetSection = wp.customize.section(targetSectionId);
+
+        // Find any currently expanded section to collapse it first
+        var currentSection = null;
+        wp.customize.section.each(function(s) {
+            if (s.id !== targetSectionId && s.expanded && s.expanded()) {
+                currentSection = s;
+            }
+        });
+
+        if (currentSection) {
+            currentSection.collapse();
+            setTimeout(function() {
+                targetSection.focus();
+            }, 180);
+        } else {
+            targetSection.focus();
+        }
     });
 
 })(jQuery, wp);

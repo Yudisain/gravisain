@@ -1293,59 +1293,120 @@
     background-color: #0071a1 !important;
 }
 
-/* Spacing Control */
-.gravisain-spacing-wrapper .gravisain-spacing-inputs-wrapper {
-    background: #f6f7f7;
-    padding: 8px;
-    border: 1px solid #dcdcde;
-    border-radius: 3px;
+/* Kadence-style Spacing Control in Customizer */
+.gravisain-spacing-wrapper .gravisain-spacing-link {
+    width: 26px !important;
+    height: 26px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #fff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    color: #64748b !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    transition: all 0.15s ease !important;
 }
 
-.gravisain-spacing-input {
-    border: 1px solid #dcdcde !important;
-    border-radius: 4px !important;
-    box-shadow: none !important;
-    width: 100% !important;
+.gravisain-spacing-wrapper .gravisain-spacing-link.is-active {
+    background: #2563eb !important;
+    border-color: #2563eb !important;
+    color: #fff !important;
+}
+
+.gravisain-spacing-wrapper .gravisain-spacing-reset {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    transition: color 0.15s ease;
+}
+
+.gravisain-spacing-wrapper .gravisain-spacing-reset:hover {
+    color: #2563eb !important;
+}
+
+.gravisain-spacing-box-group {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+}
+
+.gravisain-spacing-box-group .gravisain-spacing-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #cbd5e1;
+    border-right: none;
+    background: #ffffff;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.gravisain-spacing-box-group .gravisain-spacing-box:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.gravisain-spacing-box-group .gravisain-box-label {
+    font-size: 10px;
+    font-weight: 600;
     text-align: center;
-    padding-left: 4px !important;
-    padding-right: 16px !important;
-    /* Cadangkan ruang di kanan untuk panah */
-    height: 30px !important;
+    padding: 4px 2px 3px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.15s ease, color 0.15s ease;
+    user-select: none;
+    display: block;
+}
+
+.gravisain-spacing-box-group .gravisain-spacing-input {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    width: 100% !important;
+    text-align: center !important;
     font-size: 13px !important;
-    line-height: 28px !important;
+    font-weight: 500 !important;
+    color: #1e293b !important;
+    padding: 6px 2px !important;
+    min-height: 28px !important;
+    height: 28px !important;
     box-sizing: border-box !important;
 }
 
-.gravisain-spacing-input:focus {
-    border-color: #2271b1 !important;
-    box-shadow: 0 0 0 1px #2271b1 !important;
+.gravisain-spacing-box-group .gravisain-spacing-box:focus-within {
+    z-index: 2;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 1px #2563eb;
 }
 
-.gravisain-spacing-unit {
-    box-shadow: none !important;
-    background-color: #fff !important;
-    min-width: 50px;
+.gravisain-spacing-box-group .gravisain-spacing-box:focus-within .gravisain-box-label {
+    border-bottom-color: #2563eb;
+    color: #2563eb;
 }
 
-.gravisain-spacing-unit select {
-    height: 30px !important;
-    border: 1px solid #dcdcde !important;
-    border-radius: 4px !important;
-    box-shadow: none !important;
-    font-size: 12px !important;
+.gravisain-spacing-box-group .gravisain-unit-wrapper {
+    display: flex;
 }
 
-.gravisain-spacing-link {
-    height: 30px !important;
-    width: 30px !important;
-    border: 1px solid #dcdcde !important;
-    border-radius: 4px !important;
-    transition: all 0.2s;
-}
-
-.gravisain-spacing-link:hover {
-    border-color: #2271b1 !important;
-    color: #2271b1 !important;
+.gravisain-spacing-box-group .gravisain-spacing-unit {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+    padding: 0 6px !important;
+    cursor: pointer !important;
+    min-width: 48px !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+    text-transform: uppercase !important;
 }
 
 .gravisain-dependency-hidden {
@@ -1470,4 +1531,282 @@
 
 .gravisain-palette-color-picker-wrap.is-open {
     display: block;
+}
+
+/* ==========================================
+   SPACING CONTROL UI (Customizer)
+   ========================================== */
+.gravisain-spacing-wrapper {
+    box-sizing: border-box;
+    margin-bottom: 16px;
+}
+
+.gravisain-spacing-wrapper .gravisain-control-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 8px !important;
+}
+
+.gravisain-spacing-header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.gravisain-spacing-link {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 4px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #64748b !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    transition: all 0.15s ease !important;
+}
+
+.gravisain-spacing-link:hover {
+    border-color: #94a3b8 !important;
+    color: #1e293b !important;
+}
+
+.gravisain-spacing-link.is-active {
+    background: #2563eb !important;
+    border-color: #2563eb !important;
+    color: #ffffff !important;
+}
+
+.gravisain-spacing-link .dashicons {
+    font-size: 15px !important;
+    width: 15px !important;
+    height: 15px !important;
+    line-height: 15px !important;
+}
+
+.gravisain-spacing-box-group {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    gap: 0 !important;
+    position: relative !important;
+}
+
+.gravisain-spacing-box-group .gravisain-spacing-box {
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    border: 1px solid #cbd5e1 !important;
+    border-right: none !important;
+    background: #ffffff !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.gravisain-spacing-box-group .gravisain-spacing-box:first-child {
+    border-top-left-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+}
+
+.gravisain-spacing-box-group .gravisain-box-label {
+    font-size: 9px !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    padding: 4px 2px 2px !important;
+    color: #64748b !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.3px !important;
+    border-bottom: 2px solid transparent !important;
+    user-select: none !important;
+    line-height: 1 !important;
+}
+
+.gravisain-spacing-box-group .gravisain-spacing-input {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: #1e293b !important;
+    padding: 3px 2px !important;
+    height: 28px !important;
+    min-height: 28px !important;
+    max-height: 28px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    -moz-appearance: textfield !important;
+}
+
+.gravisain-spacing-box-group .gravisain-spacing-input::-webkit-outer-spin-button,
+.gravisain-spacing-box-group .gravisain-spacing-input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+}
+
+.gravisain-spacing-box-group .gravisain-spacing-box:focus-within {
+    z-index: 2 !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 1px #2563eb !important;
+}
+
+.gravisain-spacing-box-group .gravisain-spacing-box:focus-within .gravisain-box-label {
+    border-bottom-color: #2563eb !important;
+    color: #2563eb !important;
+}
+
+.gravisain-spacing-box-group .gravisain-unit-wrapper {
+    position: relative !important;
+    display: flex !important;
+}
+
+.gravisain-spacing-box-group .gravisain-spacing-unit {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+    padding: 0 4px !important;
+    cursor: pointer !important;
+    min-width: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+    margin: 0 !important;
+}
+
+.gravisain-spacing-slider-section {
+    margin-top: 8px !important;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    padding: 10px 12px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    box-sizing: border-box !important;
+}
+
+.gravisain-spacing-slider-section .gravisain-slider-header {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.4px !important;
+    margin-bottom: 8px !important;
+}
+
+.gravisain-spacing-slider-section .gravisain-slider-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.gravisain-spacing-slider-section .gravisain-slider-track-wrap {
+    flex: 1 !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.gravisain-spacing-slider-section .gravisain-slider-track-wrap input[type="range"] {
+    -webkit-appearance: none !important;
+    width: 100% !important;
+    height: 6px !important;
+    background: transparent !important;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 2 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+.gravisain-spacing-slider-section .gravisain-slider-track-wrap input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 50% !important;
+    background: #2563eb !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25) !important;
+    cursor: pointer !important;
+    margin-top: -5px !important;
+}
+
+.gravisain-spacing-slider-section .gravisain-slider-track-wrap input[type="range"]::-moz-range-thumb {
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 50% !important;
+    background: #2563eb !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25) !important;
+    cursor: pointer !important;
+}
+
+.gravisain-spacing-slider-section .gravisain-slider-stepped-track {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 6px !important;
+    background: #e2e8f0 !important;
+    border-radius: 3px !important;
+    pointer-events: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 4px !important;
+    box-sizing: border-box !important;
+}
+
+.gravisain-spacing-slider-section .gravisain-step-tick {
+    width: 2px !important;
+    height: 2px !important;
+    background: #94a3b8 !important;
+    border-radius: 50% !important;
+}
+
+.gravisain-spacing-slider-section .gravisain-slider-tooltip {
+    position: absolute !important;
+    top: 20px !important;
+    background: #1e293b !important;
+    color: #ffffff !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    padding: 2px 6px !important;
+    border-radius: 3px !important;
+    pointer-events: none !important;
+    white-space: nowrap !important;
+    transform: translateX(-50%) !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+    z-index: 10 !important;
+}
+
+.gravisain-spacing-slider-section .gravisain-slider-side-reset-btn {
+    background: #ffffff !important;
+    border: 1px solid #2563eb !important;
+    color: #2563eb !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    padding: 4px 10px !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    flex-shrink: 0 !important;
+    line-height: 1.4 !important;
+}
+
+.gravisain-spacing-slider-section .gravisain-slider-side-reset-btn:hover {
+    background: #2563eb !important;
+    color: #ffffff !important;
 }

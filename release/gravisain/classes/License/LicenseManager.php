@@ -7,6 +7,10 @@
 
 namespace Gravisain\License;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class LicenseManager {
 
 	// The API Endpoint of the Laravel License Server
@@ -93,7 +97,6 @@ class LicenseManager {
 				'telemetry'   => $this->get_telemetry_data(),
 			] ),
 			'timeout'   => 15,
-			'sslverify' => false,
 		] );
 
 		// If network request failed entirely, don't revoke. (Assume temporary network issue)
@@ -164,11 +167,10 @@ class LicenseManager {
 				'telemetry'   => $this->get_telemetry_data(),
 			] ),
 			'timeout'   => 15,
-			'sslverify' => false,
 		] );
 
 		if ( is_wp_error( $response ) ) {
-			wp_send_json_error( [ 'message' => __( 'Failed to connect to the license server. Error: ' . $response->get_error_message(), 'gravisain' ) ] );
+			wp_send_json_error( [ 'message' => sprintf( __( 'Failed to connect to the license server. Error: %s', 'gravisain' ), $response->get_error_message() ) ] );
 		}
 
 		$body = json_decode( wp_remote_retrieve_body( $response ), true );
@@ -206,7 +208,6 @@ class LicenseManager {
 					'product'     => self::PRODUCT_SLUG
 				] ),
 				'timeout'   => 15,
-				'sslverify' => false,
 			] );
 		}
 

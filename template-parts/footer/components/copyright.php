@@ -5,7 +5,7 @@
  * @package Gravisain\Components
  */
 
-$default_text = __( 'Copyright &copy; [year] [site_title]. All rights reserved.', 'gravisain' );
+$default_text = __( 'Copyright &copy; [year] [site_title]. <a href="https://undagital.com" target="_blank" rel="noopener noreferrer">Gravisain Studio</a>', 'gravisain' );
 $copyright    = get_theme_mod( 'gravisain_footer_copyright_text', $default_text );
 
 // Parse shorttags

@@ -26,11 +26,12 @@ use Gravisain\Customizer\Options\Header\Components\AccountOptions;
 use Gravisain\Customizer\Options\Header\Components\DividerOptions;
 use Gravisain\Customizer\Options\Header\Components\ContactOptions;
 use Gravisain\Customizer\Options\Header\Components\CartOptions;
+use Gravisain\Customizer\Options\Header\Components\ThemeSwitcherOptions;
 
 /**
  * ComponentOptions Class
  *
- * Orchestrates all 12 header builder component options in the Customizer.
+ * Orchestrates all header builder component options in the Customizer.
  */
 class ComponentOptions {
 
@@ -54,6 +55,7 @@ class ComponentOptions {
 			new DividerOptions(),
 			new ContactOptions(),
 			new CartOptions(),
+			new ThemeSwitcherOptions(),
 		];
 
 		foreach ( $components as $component ) {

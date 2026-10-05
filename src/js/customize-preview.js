@@ -119,7 +119,7 @@
                     css += '@media (max-width: 1024px) { .site-branding img.custom-logo { max-width: ' + obj.tablet + ' !important; } }\n';
                 }
                 if (obj.mobile) {
-                    css += '@media (max-width: 719px) { .site-branding img.custom-logo { max-width: ' + obj.mobile + ' !important; } }\n';
+                    css += '@media (max-width: 768px) { .site-branding img.custom-logo { max-width: ' + obj.mobile + ' !important; } }\n';
                 }
                 $style.html(css);
             } else {
@@ -944,6 +944,44 @@
         });
     });
 
+    // Off-Canvas Width Live Preview (Responsive: %, px, vw)
+    wp.customize('gravisain_offcanvas_width', function(setting) {
+        setting.bind(function(val) {
+            var $style = $('#gravisain-offcanvas-width-preview-css');
+            if (!$style.length) {
+                $style = $('<style id="gravisain-offcanvas-width-preview-css"></style>').appendTo('head');
+            }
+            if (val) {
+                var obj = {};
+                try {
+                    if (typeof val === 'string' && val.charAt(0) === '{') {
+                        obj = JSON.parse(val);
+                    } else if (typeof val === 'object' && val !== null) {
+                        obj = val;
+                    } else {
+                        obj = { desktop: val };
+                    }
+                } catch (e) {
+                    obj = { desktop: val };
+                }
+
+                var css = '';
+                if (obj.desktop) {
+                    css += ':root { --gravisain-offcanvas-width: ' + obj.desktop + ' !important; }\n';
+                }
+                if (obj.tablet) {
+                    css += '@media (max-width: 1024px) { :root { --gravisain-offcanvas-width: ' + obj.tablet + ' !important; } }\n';
+                }
+                if (obj.mobile) {
+                    css += '@media (max-width: 768px) { :root { --gravisain-offcanvas-width: ' + obj.mobile + ' !important; } }\n';
+                }
+                $style.html(css);
+            } else {
+                $style.html('');
+            }
+        });
+    });
+
     
 // 5B-3. Social Icons Spacing Live Preview (Responsive)
     wp.customize('gravisain_header_social_spacing', function(setting) {
@@ -1233,6 +1271,7 @@
             { id: 'gravisain_header_divider', selector: '.ghb-divider', cls: 'gravisain-component-shortcut' },
             { id: 'gravisain_header_contact', selector: '.ghb-contact-info', cls: 'gravisain-component-shortcut' },
             { id: 'gravisain_header_cart', selector: '.ghb-cart', cls: 'gravisain-component-shortcut' },
+            { id: 'gravisain_header_theme_switcher', selector: '.ghb-theme-switcher', cls: 'gravisain-component-shortcut' },
             { id: 'gravisain_footer_copyright_section', selector: '.gfb-copyright', cls: 'gravisain-component-shortcut' },
             { id: 'gravisain_footer_social', selector: '.gfb-social', cls: 'gravisain-component-shortcut' },
             { id: 'gravisain_footer_navigation', selector: '.gfb-footer-navigation', cls: 'gravisain-component-shortcut' },

@@ -48,6 +48,9 @@ class WooCommerce {
 			return;
 		}
 
+		add_filter( 'gravisain_element_display_rules', [ $this, 'add_element_display_rules' ] );
+		add_filter( 'gravisain_element_should_display', [ $this, 'evaluate_element_display_rule' ], 10, 3 );
+
 		// 1. Catalog Grid Columns
 		add_filter( 'loop_shop_columns', [ $this, 'get_shop_columns' ], 20 );
 
@@ -189,5 +192,51 @@ class WooCommerce {
 			</div>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Add WooCommerce display rules for Theme Builder Elements.
+	 *
+	 * @param array $rules Existing display rules.
+	 * @return array
+	 */
+	public function add_element_display_rules( array $rules ): array {
+		$rules['woo_shop']    = __( 'WooCommerce Shop / Catalog', 'gravisain' );
+		$rules['woo_product'] = __( 'WooCommerce Single Product', 'gravisain' );
+		$rules['woo_cart']    = __( 'WooCommerce Cart', 'gravisain' );
+		$rules['woo_checkout']= __( 'WooCommerce Checkout', 'gravisain' );
+		return $rules;
+	}
+
+	/**
+	 * Evaluate WooCommerce display rules.
+	 *
+	 * @param bool   $should_display Current evaluation status.
+	 * @param string $display_rule   The display rule for the element.
+	 * @param int    $post_id        The element post ID.
+	 * @return bool
+	 */
+	public function evaluate_element_display_rule( bool $should_display, string $display_rule, int $post_id ): bool {
+		if ( $should_display ) {
+			return true; // Already matched by another rule.
+		}
+
+		if ( 'woo_shop' === $display_rule && ( is_shop() || is_product_category() || is_product_tag() ) ) {
+			return true;
+		}
+
+		if ( 'woo_product' === $display_rule && is_product() ) {
+			return true;
+		}
+
+		if ( 'woo_cart' === $display_rule && is_cart() ) {
+			return true;
+		}
+
+		if ( 'woo_checkout' === $display_rule && is_checkout() ) {
+			return true;
+		}
+
+		return false;
 	}
 }

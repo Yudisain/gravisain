@@ -74,6 +74,7 @@
                     <div class="ghb-picker-item" data-type="divider" data-label="Divider"><span class="dashicons dashicons-minus"></span> Divider</div>
                     <div class="ghb-picker-item" data-type="contact" data-label="Contact Info"><span class="dashicons dashicons-phone"></span> Contact Info</div>
                     <div class="ghb-picker-item" data-type="cart" data-label="Cart"><span class="dashicons dashicons-cart"></span> Cart</div>
+                    <div class="ghb-picker-item" data-type="theme-switcher" data-label="Theme Switcher"><span class="dashicons dashicons-admin-appearance"></span> Theme Switcher</div>
                 </div>
             </div>
         `;
@@ -90,7 +91,7 @@
         // Append add buttons to all columns
         $builder.find('.ghb-col').append('<div class="ghb-add-item" title="Add Component"><span class="dashicons dashicons-plus"></span></div>');
         
-        var uniqueComponentTypes = ['logo', 'primary-navigation', 'secondary-navigation', 'action-button', 'social', 'html', 'search', 'menu-trigger', 'account', 'divider', 'contact', 'cart'];
+        var uniqueComponentTypes = ['logo', 'primary-navigation', 'secondary-navigation', 'action-button', 'social', 'html', 'search', 'menu-trigger', 'account', 'divider', 'contact', 'cart', 'theme-switcher'];
 
         function updatePickerAvailability() {
             var usedTypes = [];
@@ -367,7 +368,8 @@
             'account': { label: 'Account', icon: 'dashicons dashicons-admin-users', section: 'gravisain_header_account' },
             'divider': { label: 'Divider', icon: 'dashicons dashicons-minus', section: 'gravisain_header_divider' },
             'contact': { label: 'Contact Info', icon: 'dashicons dashicons-phone', section: 'gravisain_header_contact' },
-            'cart': { label: 'Cart', icon: 'dashicons dashicons-cart', section: 'gravisain_header_cart' }
+            'cart': { label: 'Cart', icon: 'dashicons dashicons-cart', section: 'gravisain_header_cart' },
+            'theme-switcher': { label: 'Theme Switcher', icon: 'dashicons dashicons-admin-appearance', section: 'gravisain_header_theme_switcher' }
         };
 
         function populateHeaderBuilderGrid() {

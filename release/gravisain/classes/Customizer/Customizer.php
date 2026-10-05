@@ -42,6 +42,7 @@ class Customizer {
 		$wp_customize->register_control_type( 'Gravisain\Customizer\Controls\SpacingControl' );
 		$wp_customize->register_control_type( 'Gravisain\Customizer\Controls\PaletteControl' );
 		$wp_customize->register_control_type( 'Gravisain\Customizer\Controls\HeadingControl' );
+		$wp_customize->register_control_type( 'Gravisain\Customizer\Controls\ShortcutControl' );
 
 		// 0.1 Register Custom Section Types
 		$wp_customize->register_section_type( 'Gravisain\Customizer\Sections\HeadingSection' );

@@ -31,6 +31,7 @@ class Assets {
 	 * @return void
 	 */
 	private function setup_hooks(): void {
+		add_action( 'wp_head', [ $this, 'print_theme_anti_flicker_script' ], 0 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_frontend_assets' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_assets' ] );
 		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_editor_assets' ] );
@@ -80,6 +81,10 @@ class Assets {
 					true
 				);
 			}
+		}
+
+		if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+			wp_enqueue_script( 'comment-reply' );
 		}
 	}
 
@@ -155,4 +160,32 @@ class Assets {
 		</style>
 		<?php
 	}
+
+	/**
+	 * Print inline script directly in head to prevent FOUC / light-dark blinking.
+	 *
+	 * @return void
+	 */
+	public function print_theme_anti_flicker_script(): void {
+		$default_mode = get_theme_mod( 'gravisain_header_theme_switcher_default', 'system' );
+		?>
+		<script id="gravisain-theme-mode-init">
+			(function() {
+				try {
+					var fallback = <?php echo wp_json_encode( $default_mode ); ?> || 'system';
+					var storedTheme = localStorage.getItem('gravisain_theme') || fallback;
+					var isDark = storedTheme === 'dark' || (storedTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+					if (isDark) {
+						document.documentElement.classList.add('dark');
+						document.documentElement.setAttribute('data-theme', 'dark');
+					} else {
+						document.documentElement.classList.remove('dark');
+						document.documentElement.setAttribute('data-theme', 'light');
+					}
+				} catch (e) {}
+			})();
+		</script>
+		<?php
+	}
 }
+

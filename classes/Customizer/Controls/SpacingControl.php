@@ -59,50 +59,75 @@ class SpacingControl extends \WP_Customize_Control {
 	protected function content_template() {
 		?>
 		<div class="gravisain-control-wrapper gravisain-spacing-wrapper" <# if ( data.wrapper_attrs ) { _.each( data.wrapper_attrs, function( value, key ) { #> {{ key }}="{{ value }}" <# } ); } #>>
-			<div class="gravisain-control-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+			<div class="gravisain-control-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
 				<# if ( data.label ) { #>
 					<span class="customize-control-title" style="margin-bottom: 0;">{{ data.label }}</span>
 				<# } #>
-				<span class="gravisain-spacing-reset dashicons dashicons-image-rotate" title="<?php esc_attr_e( 'Reset', 'gravisain' ); ?>"></span>
+				<div class="gravisain-spacing-header-actions" style="display: flex; align-items: center; gap: 6px;">
+					<button type="button" class="gravisain-spacing-link <# if ( data.value.linked ) { #>is-active<# } #>" title="<?php esc_attr_e( 'Link / Unlink Values', 'gravisain' ); ?>">
+						<span class="dashicons dashicons-admin-links" <# if ( ! data.value.linked ) { #> style="display: none;" <# } #>></span>
+						<span class="dashicons dashicons-editor-unlink" <# if ( data.value.linked ) { #> style="display: none;" <# } #>></span>
+					</button>
+					<span class="gravisain-spacing-reset dashicons dashicons-image-rotate" title="<?php esc_attr_e( 'Reset', 'gravisain' ); ?>" style="cursor: pointer; color: #64748b;"></span>
+				</div>
 			</div>
 			
 			<# if ( data.description ) { #>
 				<span class="description customize-control-description" style="margin-bottom: 8px; display: block;">{{ data.description }}</span>
 			<# } #>
 			
-			<div class="gravisain-spacing-inputs-wrapper" style="display: flex; flex-direction: column; gap: 8px;">
-				<div class="gravisain-spacing-inputs" style="display: flex; width: 100%; gap: 6px;">
-					<div class="gravisain-spacing-input-item" style="flex: 1; text-align: center;">
-						<input type="number" class="gravisain-spacing-input" data-id="top" value="{{ data.value.top }}" />
-						<span class="gravisain-spacing-label" style="font-size: 11px; color: #50575e; display: block; margin-top: 4px;"><?php esc_html_e( 'Top', 'gravisain' ); ?></span>
-					</div>
-					<div class="gravisain-spacing-input-item" style="flex: 1; text-align: center;">
-						<input type="number" class="gravisain-spacing-input" data-id="right" value="{{ data.value.right }}" />
-						<span class="gravisain-spacing-label" style="font-size: 11px; color: #50575e; display: block; margin-top: 4px;"><?php esc_html_e( 'Right', 'gravisain' ); ?></span>
-					</div>
-					<div class="gravisain-spacing-input-item" style="flex: 1; text-align: center;">
-						<input type="number" class="gravisain-spacing-input" data-id="bottom" value="{{ data.value.bottom }}" />
-						<span class="gravisain-spacing-label" style="font-size: 11px; color: #50575e; display: block; margin-top: 4px;"><?php esc_html_e( 'Bottom', 'gravisain' ); ?></span>
-					</div>
-					<div class="gravisain-spacing-input-item" style="flex: 1; text-align: center;">
-						<input type="number" class="gravisain-spacing-input" data-id="left" value="{{ data.value.left }}" />
-						<span class="gravisain-spacing-label" style="font-size: 11px; color: #50575e; display: block; margin-top: 4px;"><?php esc_html_e( 'Left', 'gravisain' ); ?></span>
-					</div>
+			<div class="gravisain-spacing-box-group <# if ( data.value.linked ) { #>is-linked<# } else { #>is-unlinked<# } #>">
+				<div class="gravisain-spacing-box" data-side="top">
+					<span class="gravisain-box-label"><?php esc_html_e( 'Top', 'gravisain' ); ?></span>
+					<input type="number" class="gravisain-spacing-input" data-id="top" value="{{ data.value.top }}" placeholder="-" />
+				</div>
+				<div class="gravisain-spacing-box" data-side="right">
+					<span class="gravisain-box-label"><?php esc_html_e( 'Right', 'gravisain' ); ?></span>
+					<input type="number" class="gravisain-spacing-input" data-id="right" value="{{ data.value.right }}" placeholder="-" />
+				</div>
+				<div class="gravisain-spacing-box" data-side="bottom">
+					<span class="gravisain-box-label"><?php esc_html_e( 'Bottom', 'gravisain' ); ?></span>
+					<input type="number" class="gravisain-spacing-input" data-id="bottom" value="{{ data.value.bottom }}" placeholder="-" />
+				</div>
+				<div class="gravisain-spacing-box" data-side="left">
+					<span class="gravisain-box-label"><?php esc_html_e( 'Left', 'gravisain' ); ?></span>
+					<input type="number" class="gravisain-spacing-input" data-id="left" value="{{ data.value.left }}" placeholder="-" />
 				</div>
 
-				<div class="gravisain-spacing-actions" style="display: flex; justify-content: flex-end; gap: 6px; width: 100%; border-top: 1px solid #e2e8f0; padding-top: 8px;">
-					<button type="button" class="gravisain-spacing-link" style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #dcdcde; cursor: pointer; border-radius: 4px; padding: 0;">
-						<span class="dashicons dashicons-admin-links" <# if ( ! data.value.linked ) { #> style="display: none;" <# } #>></span>
-						<span class="dashicons dashicons-editor-unlink" <# if ( data.value.linked ) { #> style="display: none;" <# } #>></span>
-					</button>
+				<div class="gravisain-unit-wrapper">
+					<select class="gravisain-spacing-unit">
+						<option value="px" <# if ( 'px' === data.value.unit ) { #> selected <# } #>>PX</option>
+						<option value="em" <# if ( 'em' === data.value.unit ) { #> selected <# } #>>EM</option>
+						<option value="rem" <# if ( 'rem' === data.value.unit ) { #> selected <# } #>>REM</option>
+						<option value="%" <# if ( '%' === data.value.unit ) { #> selected <# } #>>%</option>
+					</select>
+				</div>
+			</div>
 
-					<div class="gravisain-spacing-units">
-						<select class="gravisain-spacing-unit" style="height: 30px; padding: 0 20px 0 8px; font-size: 12px; line-height: 1;">
-							<option value="px" <# if ( 'px' === data.value.unit ) { #> selected <# } #>>px</option>
-							<option value="em" <# if ( 'em' === data.value.unit ) { #> selected <# } #>>em</option>
-							<option value="rem" <# if ( 'rem' === data.value.unit ) { #> selected <# } #>>rem</option>
-						</select>
+			<!-- Stepped Slider Section (Appears when TOP/RIGHT/BOTTOM/LEFT is clicked) -->
+			<div class="gravisain-spacing-slider-section" style="display: none;">
+				<div class="gravisain-slider-header"></div>
+				<div class="gravisain-slider-row">
+					<div class="gravisain-slider-track-wrap">
+						<div class="gravisain-slider-stepped-track">
+							<span class="gravisain-step-tick"></span>
+							<span class="gravisain-step-tick"></span>
+							<span class="gravisain-step-tick"></span>
+							<span class="gravisain-step-tick"></span>
+							<span class="gravisain-step-tick"></span>
+							<span class="gravisain-step-tick"></span>
+							<span class="gravisain-step-tick"></span>
+							<span class="gravisain-step-tick"></span>
+							<span class="gravisain-step-tick"></span>
+							<span class="gravisain-step-tick"></span>
+							<span class="gravisain-step-tick"></span>
+							<span class="gravisain-step-tick"></span>
+							<span class="gravisain-step-tick"></span>
+						</div>
+						<input type="range" class="gravisain-spacing-range" min="0" max="120" step="1" value="0" />
+						<div class="gravisain-slider-tooltip" style="display: none;"></div>
 					</div>
+					<button type="button" class="gravisain-slider-side-reset-btn"><?php esc_html_e( 'Reset', 'gravisain' ); ?></button>
 				</div>
 			</div>
 			

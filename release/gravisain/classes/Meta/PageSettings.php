@@ -516,6 +516,12 @@ class PageSettings {
 			return $default;
 		}
 
+		if ( $post_id < 0 && is_customize_preview() ) {
+			if ( '_gravisain_vertical_spacing' === $meta_key ) {
+				return 'disable';
+			}
+		}
+
 		if ( is_preview() ) {
 			// Check transient first for perfectly synced REST API preview meta
 			$user_id = get_current_user_id();

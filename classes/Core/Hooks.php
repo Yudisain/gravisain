@@ -36,6 +36,7 @@ class Hooks {
 		add_action( 'init', [ $this, 'register_pattern_categories' ] );
 		add_filter( 'body_class', [ $this, 'add_body_classes' ] );
 		add_filter( 'script_loader_tag', [ $this, 'add_module_type_to_vite_scripts' ], 10, 3 );
+		add_filter( 'get_site_icon_url', [ $this, 'fallback_site_icon' ], 10, 3 );
 
 		// Support PHP template hierarchy in templates/ folder
 		$hierarchy_types = [
@@ -157,5 +158,21 @@ class Hooks {
 		}
 
 		return $classes;
+	}
+
+	/**
+	 * Provide a fallback site icon (favicon) if none is configured by the user.
+	 *
+	 * @param string|null $url     Site icon URL.
+	 * @param int         $size    Size of the site icon.
+	 * @param int         $blog_id Blog ID.
+	 * @return string
+	 */
+	public function fallback_site_icon( ?string $url, int $size, int $blog_id ): string {
+		if ( empty( $url ) ) {
+			return get_template_directory_uri() . '/assets/images/default-site-icon.png';
+		}
+
+		return (string) $url;
 	}
 }

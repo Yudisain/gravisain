@@ -28,7 +28,7 @@ class SystemStatus {
 		return [
 			'WordPress Environment' => [
 				'WordPress Version' => get_bloginfo( 'version' ),
-				'Site URL'          => site_url(),
+				'Site URL'          => get_option( 'siteurl' ),
 				'Home URL'          => home_url(),
 				'WP Debug Mode'     => defined( 'WP_DEBUG' ) && WP_DEBUG ? 'Enabled' : 'Disabled',
 				'WP Multisite'      => is_multisite() ? 'Yes' : 'No',
@@ -47,7 +47,7 @@ class SystemStatus {
 			],
 			'Gravisain Theme Status'=> [
 				'Theme Name'        => 'Gravisain',
-				'Theme Version'     => '1.0.0',
+				'Theme Version'     => defined( 'GRAVISAIN_VERSION' ) ? GRAVISAIN_VERSION : '1.0.0',
 				'CSS Cache Writable'=> wp_is_writable( $css_dir ) || wp_is_writable( $wp_upload_dir['basedir'] ) ? 'Yes' : 'No',
 				'Font Cache Writable'=> wp_is_writable( $fonts_dir ) || wp_is_writable( $wp_upload_dir['basedir'] ) ? 'Yes' : 'No',
 				'Active Plugins'    => count( (array) get_option( 'active_plugins', [] ) ),
@@ -102,7 +102,7 @@ class SystemStatus {
 		<div class="wrap gravisain-wrap">
 			<div class="gravisain-header">
 				<div>
-					<h1>System Status & Diagnostics <span class="gravisain-badge">Gravisain v1.0.0</span></h1>
+					<h1>System Status & Diagnostics <span class="gravisain-badge">Gravisain v<?php echo esc_html( defined( 'GRAVISAIN_VERSION' ) ? GRAVISAIN_VERSION : '1.0.0' ); ?></span></h1>
 					<p style="color: #646970; font-size: 16px; margin-top: 5px;">Inspect server readiness, WordPress environment, and filesystem permissions.</p>
 				</div>
 				<div>

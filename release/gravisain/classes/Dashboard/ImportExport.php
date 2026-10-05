@@ -20,7 +20,7 @@ class ImportExport {
 			return;
 		}
 
-		if ( ! wp_verify_nonce( $_POST['gravisain_export_nonce'], 'gravisain_export' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gravisain_export_nonce'] ) ), 'gravisain_export' ) ) {
 			wp_die( esc_html__( 'Invalid nonce. Please try again.', 'gravisain' ) );
 		}
 
@@ -64,7 +64,7 @@ class ImportExport {
 			return;
 		}
 
-		if ( ! wp_verify_nonce( $_POST['gravisain_import_nonce'], 'gravisain_import' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gravisain_import_nonce'] ) ), 'gravisain_import' ) ) {
 			add_settings_error( 'gravisain_import', 'invalid_nonce', __( 'Invalid nonce. Please try again.', 'gravisain' ), 'error' );
 			return;
 		}

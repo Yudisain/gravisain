@@ -35,6 +35,7 @@ class HeaderCSS extends AbstractGenerator {
 	 */
 	public function generate( Builder $builder ): void {
 		$this->generate_logo_width( $builder );
+		$this->generate_logo_margin( $builder );
 		$this->generate_header_rows( $builder );
 		$this->generate_transparent_header( $builder );
 		$this->generate_sticky_header( $builder );
@@ -44,6 +45,9 @@ class HeaderCSS extends AbstractGenerator {
 		$this->generate_offcanvas_navigation( $builder );
 		$this->generate_header_social_icons( $builder );
 		$this->generate_action_button( $builder );
+		$this->generate_theme_switcher( $builder );
+		$this->generate_menu_trigger( $builder );
+		$this->generate_mobile_header_safety( $builder );
 	}
 
 	/**
@@ -53,26 +57,56 @@ class HeaderCSS extends AbstractGenerator {
 	 * @return void
 	 */
 	private function generate_logo_width( Builder $builder ): void {
-		$logo_width = get_theme_mod( 'gravisain_logo_width', '{"desktop":"110px","tablet":"90px","mobile":"70px"}' );
+		$logo_width = get_theme_mod( 'gravisain_logo_width', '{"desktop":"220px","tablet":"180px","mobile":"140px"}' );
+		$sel = '.site-branding img.custom-logo, .site-branding img.transparent-logo, .site-header .custom-logo, .site-header .transparent-logo';
 		if ( ! empty( $logo_width ) ) {
 			$obj = $this->decode_json_val( $logo_width );
 			if ( is_array( $obj ) ) {
 				if ( ! empty( $obj['desktop'] ) ) {
-					$builder->add( '.site-branding img.custom-logo', 'max-width', $obj['desktop'] );
-					$builder->add( '.site-branding img.custom-logo', 'width', '100%' );
-					$builder->add( '.site-branding img.custom-logo', 'height', 'auto' );
+					$builder->add( $sel, 'max-width', $obj['desktop'] . ' !important' );
+					$builder->add( $sel, 'width', 'auto !important' );
+					$builder->add( $sel, 'height', 'auto !important' );
 				}
 				if ( ! empty( $obj['tablet'] ) ) {
-					$builder->add( '.site-branding img.custom-logo', 'max-width', $obj['tablet'], 'max-width: 1024px' );
+					$builder->add( $sel, 'max-width', $obj['tablet'] . ' !important', 'max-width: 1024px' );
 				}
 				if ( ! empty( $obj['mobile'] ) ) {
-					$builder->add( '.site-branding img.custom-logo', 'max-width', $obj['mobile'], 'max-width: 719px' );
+					$builder->add( $sel, 'max-width', $obj['mobile'] . ' !important', 'max-width: 768px' );
 				}
 			} else {
 				// Fallback for simple string.
-				$builder->add( '.site-branding img.custom-logo', 'max-width', $logo_width );
-				$builder->add( '.site-branding img.custom-logo', 'width', '100%' );
-				$builder->add( '.site-branding img.custom-logo', 'height', 'auto' );
+				$builder->add( $sel, 'max-width', $logo_width . ' !important' );
+				$builder->add( $sel, 'width', 'auto !important' );
+				$builder->add( $sel, 'height', 'auto !important' );
+			}
+		}
+	}
+
+	/**
+	 * Generate logo margin CSS.
+	 *
+	 * @param Builder $builder Dynamic CSS Builder instance.
+	 * @return void
+	 */
+	private function generate_logo_margin( Builder $builder ): void {
+		$margin_json = get_theme_mod( 'gravisain_logo_margin', '' );
+		if ( ! empty( $margin_json ) ) {
+			$margin = $this->decode_json_val( $margin_json );
+			if ( is_array( $margin ) ) {
+				$unit = ! empty( $margin['unit'] ) ? $margin['unit'] : 'px';
+				$sel = '.site-header .site-branding .custom-logo-link, .site-header .site-branding img.custom-logo';
+				if ( isset( $margin['top'] ) && '' !== $margin['top'] ) {
+					$builder->add( $sel, 'margin-top', $margin['top'] . $unit . ' !important' );
+				}
+				if ( isset( $margin['right'] ) && '' !== $margin['right'] ) {
+					$builder->add( $sel, 'margin-right', $margin['right'] . $unit . ' !important' );
+				}
+				if ( isset( $margin['bottom'] ) && '' !== $margin['bottom'] ) {
+					$builder->add( $sel, 'margin-bottom', $margin['bottom'] . $unit . ' !important' );
+				}
+				if ( isset( $margin['left'] ) && '' !== $margin['left'] ) {
+					$builder->add( $sel, 'margin-left', $margin['left'] . $unit . ' !important' );
+				}
 			}
 		}
 	}
@@ -632,6 +666,25 @@ class HeaderCSS extends AbstractGenerator {
 	 * @return void
 	 */
 	private function generate_offcanvas_navigation( Builder $builder ): void {
+		// Off-Canvas Width (Responsive: desktop, tablet, mobile).
+		$off_width = get_theme_mod( 'gravisain_offcanvas_width', '{"desktop":"380px","tablet":"380px","mobile":"100%"}' );
+		if ( ! empty( $off_width ) ) {
+			$width_obj = $this->decode_json_val( $off_width );
+			if ( is_array( $width_obj ) ) {
+				if ( ! empty( $width_obj['desktop'] ) ) {
+					$builder->add( ':root', '--gravisain-offcanvas-width', $width_obj['desktop'] );
+				}
+				if ( ! empty( $width_obj['tablet'] ) ) {
+					$builder->add( ':root', '--gravisain-offcanvas-width', $width_obj['tablet'], 'max-width: 1024px' );
+				}
+				if ( ! empty( $width_obj['mobile'] ) ) {
+					$builder->add( ':root', '--gravisain-offcanvas-width', $width_obj['mobile'], 'max-width: 768px' );
+				}
+			} elseif ( is_string( $off_width ) ) {
+				$builder->add( ':root', '--gravisain-offcanvas-width', $off_width );
+			}
+		}
+
 		// Off-Canvas Navigation Colors.
 		$off_colors = $this->decode_json_val( get_theme_mod( 'gravisain_header_offcanvas_colors', '{"initial":"","hover":"","active":""}' ) );
 		if ( is_array( $off_colors ) ) {
@@ -873,7 +926,9 @@ class HeaderCSS extends AbstractGenerator {
 			}
 
 			// Compensate site-content top padding when transparent header is active so content does not collide with header.
-			$builder->add( '.has-transparent-header .site-content', 'padding-top', 'calc(var(--gravisain-header-offset, 120px) + var(--gravisain-content-padding-top, 56px)) !important' );
+			// Only apply if user hasn't explicitly disabled top spacing in Page Settings!
+			$builder->add( '.has-transparent-header:not(.gravisain-spacing-disable):not(.gravisain-spacing-bottom-only) .site-content', 'padding-top', 'calc(var(--gravisain-header-offset, 120px) + var(--gravisain-content-padding-top, 56px)) !important' );
+			$builder->add( '.home.has-transparent-header .site-content', 'padding-top', '0 !important' );
 
 			// Force inner rows to be transparent.
 			$builder->add( '.has-transparent-header .site-header-top-row, .has-transparent-header .site-header-top', 'background-color', 'transparent !important' );
@@ -946,5 +1001,98 @@ class HeaderCSS extends AbstractGenerator {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Generate Menu Trigger (Hamburger) CSS.
+	 *
+	 * @param Builder $builder Dynamic CSS Builder instance.
+	 * @return void
+	 */
+	private function generate_menu_trigger( Builder $builder ): void {
+		$trigger_color       = get_theme_mod( 'gravisain_header_trigger_color', '' );
+		$trigger_color_hover = get_theme_mod( 'gravisain_header_trigger_color_hover', '' );
+		$trigger_bg          = get_theme_mod( 'gravisain_header_trigger_bg_color', '' );
+		$trigger_bg_hover    = get_theme_mod( 'gravisain_header_trigger_bg_color_hover', '' );
+
+		if ( ! empty( $trigger_color ) ) {
+			$builder->add( '.gravisain-menu-trigger', 'color', $trigger_color . ' !important' );
+		}
+		if ( ! empty( $trigger_color_hover ) ) {
+			$builder->add( '.gravisain-menu-trigger:hover', 'color', $trigger_color_hover . ' !important' );
+		}
+		if ( ! empty( $trigger_bg ) ) {
+			$builder->add( '.gravisain-menu-trigger', 'background-color', $trigger_bg . ' !important' );
+		}
+		if ( ! empty( $trigger_bg_hover ) ) {
+			$builder->add( '.gravisain-menu-trigger:hover', 'background-color', $trigger_bg_hover . ' !important' );
+		}
+	}
+
+	/**
+	 * Generate Theme Switcher CSS rules.
+	 *
+	 * @param Builder $builder Dynamic CSS Builder instance.
+	 * @return void
+	 */
+	private function generate_theme_switcher( Builder $builder ): void {
+		$bg           = get_theme_mod( 'gravisain_header_theme_switcher_bg_color', '' );
+		$bg_hover     = get_theme_mod( 'gravisain_header_theme_switcher_bg_color_hover', '' );
+		$color        = get_theme_mod( 'gravisain_header_theme_switcher_color', '' );
+		$color_hover  = get_theme_mod( 'gravisain_header_theme_switcher_color_hover', '' );
+		$border_color = get_theme_mod( 'gravisain_header_theme_switcher_border_color', '' );
+		$thumb_color  = get_theme_mod( 'gravisain_header_theme_switcher_thumb_color', '' );
+
+		if ( ! empty( $bg ) ) {
+			$builder->add( '.ghb-theme-btn, .ghb-theme-switch-slider .ghb-switch-track', 'background-color', $bg . ' !important' );
+		}
+		if ( ! empty( $bg_hover ) ) {
+			$builder->add( '.ghb-theme-btn:hover, .ghb-theme-switch-slider:hover .ghb-switch-track', 'background-color', $bg_hover . ' !important' );
+		}
+		if ( ! empty( $color ) ) {
+			$builder->add( '.ghb-theme-btn, .ghb-theme-btn-label, .ghb-theme-switch-slider .ghb-theme-btn-label', 'color', $color . ' !important' );
+		}
+		if ( ! empty( $color_hover ) ) {
+			$builder->add( '.ghb-theme-btn:hover, .ghb-theme-btn:hover .ghb-theme-btn-label, .ghb-theme-switch-slider:hover .ghb-theme-btn-label', 'color', $color_hover . ' !important' );
+		}
+		if ( ! empty( $border_color ) ) {
+			$builder->add( '.ghb-theme-btn, .ghb-theme-switch-slider .ghb-switch-track', 'border-color', $border_color . ' !important' );
+		}
+		if ( ! empty( $thumb_color ) ) {
+			$builder->add( '.ghb-switch-thumb', 'background-color', $thumb_color . ' !important' );
+		}
+	}
+
+	/**
+	 * Generate Mobile Header Safety & Layout Rules.
+	 * Prevents overlapping, squished circular buttons, and oversized logos on narrow viewports.
+	 *
+	 * @param Builder $builder Dynamic CSS Builder instance.
+	 * @return void
+	 */
+	private function generate_mobile_header_safety( Builder $builder ): void {
+		$mobile_mq = 'max-width: 768px';
+
+		// Hide empty header columns to prevent taking up flex space.
+		$builder->add( '.site-header-row .col-left:empty, .site-header-row .col-center:empty, .site-header-row .col-right:empty', 'display', 'none !important', $mobile_mq );
+
+		// Header rows layout on mobile: ensure smooth flex without awkward breaking.
+		$builder->add( '.site-header-row .row, .site-header-main .row', 'flex-wrap', 'nowrap !important', $mobile_mq );
+		$builder->add( '.site-header-row .row, .site-header-main .row', 'gap', '10px !important', $mobile_mq );
+
+		// Protect action button from being squished into a circle or wrapping text.
+		$builder->add( '.ghb-action-button-wrapper, .ghb-action-button-wrapper .gravisain-btn', 'white-space', 'nowrap !important' );
+		$builder->add( '.ghb-action-button-wrapper', 'flex-shrink', '0 !important' );
+
+		// Site branding & logo flexbox behavior on mobile.
+		$builder->add( '.site-branding', 'flex-wrap', 'nowrap !important', $mobile_mq );
+		$builder->add( '.site-branding', 'gap', '10px !important', $mobile_mq );
+		$builder->add( '.site-branding', 'min-width', '0 !important', $mobile_mq );
+		$builder->add( '.site-branding img.custom-logo, .site-branding img.transparent-logo', 'height', 'auto !important', $mobile_mq );
+		$builder->add( '.site-branding img.custom-logo, .site-branding img.transparent-logo', 'flex-shrink', '0 !important', $mobile_mq );
+
+		// Title wrapper scaling on mobile.
+		$builder->add( '.site-title-wrapper', 'min-width', '0 !important', $mobile_mq );
+		$builder->add( '.site-title-wrapper', 'overflow', 'hidden !important', $mobile_mq );
 	}
 }

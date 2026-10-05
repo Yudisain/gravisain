@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Title: GraviLP Homepage
  * Slug: gravisain/home-gravilp

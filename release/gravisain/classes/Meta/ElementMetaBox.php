@@ -38,7 +38,7 @@ class ElementMetaBox {
 			__( 'Element Settings', 'gravisain' ),
 			[ $this, 'render_meta_box' ],
 			'gravisain_element',
-			'normal',
+			'side',
 			'high'
 		);
 	}
@@ -90,7 +90,7 @@ class ElementMetaBox {
 			.gravisain-element-meta { padding: 10px 0; }
 			.gravisain-element-field { margin-bottom: 20px; }
 			.gravisain-element-field label { display: block; font-weight: 600; margin-bottom: 8px; color: #1d2327; }
-			.gravisain-element-field select, .gravisain-element-field input { width: 100%; max-width: 400px; padding: 6px 12px; }
+			.gravisain-element-field select, .gravisain-element-field input { width: 100%; box-sizing: border-box; max-width: 400px; }
 		</style>
 		<div class="gravisain-element-meta">
 			<div class="gravisain-element-field">

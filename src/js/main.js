@@ -4,6 +4,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+	initThemeSwitcher();
 	initOffCanvasDrawer();
 	initStickyHeader();
 	initAccessibleDropdownNavigation();
@@ -350,3 +351,186 @@ function initReadingProgressBar() {
 		}
 	}, { passive: true });
 }
+
+/**
+ * Initialize Theme Switcher (Light / Dark / System)
+ */
+function initThemeSwitcher() {
+	const THEME_KEY = 'gravisain_theme';
+	const switchers = document.querySelectorAll('.ghb-theme-switcher');
+
+	function getStoredTheme() {
+		try {
+			return localStorage.getItem(THEME_KEY) || 'system';
+		} catch (e) {
+			return 'system';
+		}
+	}
+
+	function applyTheme(themeMode) {
+		const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+		const shouldBeDark = themeMode === 'dark' || (themeMode === 'system' && isSystemDark);
+
+		if (shouldBeDark) {
+			document.documentElement.classList.add('dark');
+			document.documentElement.setAttribute('data-theme', 'dark');
+		} else {
+			document.documentElement.classList.remove('dark');
+			document.documentElement.setAttribute('data-theme', 'light');
+		}
+
+		// Update all switcher instances in DOM
+		document.querySelectorAll('.ghb-theme-switcher').forEach((switcher) => {
+			switcher.setAttribute('data-active-theme', themeMode);
+			const btn = switcher.querySelector('.ghb-theme-btn');
+			if (btn) {
+				const capitalized = themeMode.charAt(0).toUpperCase() + themeMode.slice(1);
+				btn.setAttribute('title', `Theme: ${capitalized}`);
+				btn.setAttribute('aria-label', `Theme: ${capitalized}`);
+			}
+
+			const slider = switcher.querySelector('.ghb-theme-switch-slider');
+			if (slider) {
+				slider.setAttribute('aria-checked', shouldBeDark ? 'true' : 'false');
+				slider.setAttribute('title', `Theme: ${shouldBeDark ? 'Dark' : 'Light'} (Click to toggle)`);
+			}
+
+			// Dropdown active states
+			switcher.querySelectorAll('.ghb-theme-item').forEach((item) => {
+				const itemMode = item.getAttribute('data-mode');
+				if (itemMode === themeMode) {
+					item.classList.add('is-active');
+					item.setAttribute('aria-selected', 'true');
+				} else {
+					item.classList.remove('is-active');
+					item.removeAttribute('aria-selected');
+				}
+			});
+		});
+	}
+
+	function setTheme(themeMode) {
+		if (!['light', 'dark', 'system'].includes(themeMode)) {
+			themeMode = 'system';
+		}
+		try {
+			localStorage.setItem(THEME_KEY, themeMode);
+		} catch (e) {}
+
+		applyTheme(themeMode);
+	}
+
+	// Initial apply
+	const currentTheme = getStoredTheme();
+	applyTheme(currentTheme);
+
+	// Setup event listeners for each switcher instance
+	switchers.forEach((switcher) => {
+		const btn = switcher.querySelector('.ghb-theme-btn');
+		const dropdown = switcher.querySelector('.ghb-theme-dropdown');
+		const slider = switcher.querySelector('.ghb-theme-switch-slider');
+		const isToggleStyle = switcher.classList.contains('ghb-theme-switcher-toggle');
+
+		if (slider) {
+			slider.addEventListener('click', (e) => {
+				e.stopPropagation();
+				const current = getStoredTheme();
+				const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				const effectiveDark = current === 'dark' || (current === 'system' && isSystemDark);
+				setTheme(effectiveDark ? 'light' : 'dark');
+			});
+		}
+
+		if (!btn) return;
+
+		btn.addEventListener('click', (e) => {
+			e.stopPropagation();
+
+			if (isToggleStyle) {
+				// Simple direct toggle between light and dark
+				const current = getStoredTheme();
+				const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				const effectiveDark = current === 'dark' || (current === 'system' && isSystemDark);
+				setTheme(effectiveDark ? 'light' : 'dark');
+				return;
+			}
+
+			// Dropdown toggle
+			if (dropdown) {
+				const isOpen = dropdown.classList.contains('is-open');
+				// Close all other open dropdowns first
+				document.querySelectorAll('.ghb-theme-dropdown.is-open').forEach((d) => {
+					d.classList.remove('is-open');
+					const toggle = d.closest('.ghb-theme-switcher')?.querySelector('.ghb-theme-btn');
+					if (toggle) toggle.setAttribute('aria-expanded', 'false');
+				});
+
+				if (!isOpen) {
+					dropdown.classList.add('is-open');
+					btn.setAttribute('aria-expanded', 'true');
+				} else {
+					dropdown.classList.remove('is-open');
+					btn.setAttribute('aria-expanded', 'false');
+				}
+			}
+		});
+
+		if (dropdown) {
+			dropdown.querySelectorAll('.ghb-theme-item').forEach((item) => {
+				item.addEventListener('click', (e) => {
+					e.stopPropagation();
+					const mode = item.getAttribute('data-mode');
+					if (mode) {
+						setTheme(mode);
+						dropdown.classList.remove('is-open');
+						btn.setAttribute('aria-expanded', 'false');
+					}
+				});
+			});
+		}
+	});
+
+	// Global click outside listener to close dropdowns
+	document.addEventListener('click', (e) => {
+		if (!e.target.closest('.ghb-theme-switcher')) {
+			document.querySelectorAll('.ghb-theme-dropdown.is-open').forEach((d) => {
+				d.classList.remove('is-open');
+				const toggleBtn = d.closest('.ghb-theme-switcher')?.querySelector('.ghb-theme-btn');
+				if (toggleBtn) {
+					toggleBtn.setAttribute('aria-expanded', 'false');
+				}
+			});
+		}
+	});
+
+	// Escape key to close
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape') {
+			document.querySelectorAll('.ghb-theme-dropdown.is-open').forEach((d) => {
+				d.classList.remove('is-open');
+				const toggleBtn = d.closest('.ghb-theme-switcher')?.querySelector('.ghb-theme-btn');
+				if (toggleBtn) {
+					toggleBtn.setAttribute('aria-expanded', 'false');
+					toggleBtn.focus();
+				}
+			});
+		}
+	});
+
+	// Listen to OS system color changes
+	try {
+		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+			if (getStoredTheme() === 'system') {
+				applyTheme('system');
+			}
+		});
+	} catch (e) {}
+
+	// Cross-tab sync
+	window.addEventListener('storage', (e) => {
+		if (e.key === THEME_KEY) {
+			applyTheme(e.newValue || 'system');
+		}
+	});
+}
+
