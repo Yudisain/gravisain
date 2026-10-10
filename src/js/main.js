@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	initSkipLinkFocus();
 	initScrollToTop();
 	initReadingProgressBar();
+	initSmoothScroll();
 });
 
 /**
@@ -143,7 +144,10 @@ function initOffCanvasDrawer() {
 		if (activeTrigger && typeof activeTrigger.setAttribute === 'function') {
 			activeTrigger.setAttribute('aria-expanded', 'false');
 			if (typeof activeTrigger.focus === 'function') {
-				activeTrigger.focus();
+				// preventScroll stops the browser from scrolling the page up to the
+				// header trigger when closing the drawer after the user has scrolled
+				// down the page (previously caused a "jump to top").
+				activeTrigger.focus({ preventScroll: true });
 			}
 		}
 	};
@@ -533,4 +537,66 @@ function initThemeSwitcher() {
 		}
 	});
 }
+
+/**
+ * Initialize Smooth Scrolling for in-page Anchor Links
+ */
+function initSmoothScroll() {
+	document.addEventListener('click', (e) => {
+		const link = e.target.closest('a[href*="#"]');
+		if (!link) return;
+
+		const href = link.getAttribute('href');
+		if (!href || href === '#' || href === '#!') return;
+
+		if (e.defaultPrevented) return;
+
+		try {
+			const targetUrl = new URL(link.href, window.location.href);
+			if (targetUrl.pathname !== window.location.pathname || targetUrl.hostname !== window.location.hostname) {
+				return;
+			}
+
+			const hash = targetUrl.hash;
+			if (!hash || hash === '#') return;
+
+			const targetId = decodeURIComponent(hash.substring(1));
+			const targetElement = document.getElementById(targetId) || document.querySelector(`[name="${targetId}"]`);
+
+			if (targetElement) {
+				const computedBehavior = getComputedStyle(document.documentElement).scrollBehavior;
+				if (computedBehavior === 'smooth' || document.documentElement.classList.contains('has-smooth-scroll')) {
+					e.preventDefault();
+
+					// Close off-canvas drawer if opened
+					if (document.body.classList.contains('off-canvas-opened')) {
+						const closeBtn = document.querySelector('[data-close="off-canvas"]') || document.querySelector('.off-canvas-backdrop');
+						if (closeBtn) closeBtn.click();
+					}
+
+					const adminBar = document.getElementById('wpadminbar');
+					const adminBarHeight = adminBar ? adminBar.offsetHeight : 0;
+
+					const customOffsetStr = getComputedStyle(document.documentElement).getPropertyValue('--gravisain-scroll-offset');
+					const customOffset = parseInt(customOffsetStr, 10) || 80;
+
+					const totalOffset = adminBarHeight + customOffset;
+					const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - totalOffset;
+
+					window.scrollTo({
+						top: Math.max(0, targetPosition),
+						behavior: 'smooth'
+					});
+
+					if (history.pushState) {
+						history.pushState(null, '', hash);
+					} else {
+						window.location.hash = hash;
+					}
+				}
+			}
+		} catch (err) {}
+	});
+}
+
 
