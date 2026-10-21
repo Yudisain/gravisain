@@ -32,17 +32,18 @@ Yes, Gravisain has built-in deep WooCommerce integration, including modular grid
 
 == Changelog ==
 
+= 1.0.0 =
+* Major release with WordPress.org Theme Review guidelines compliance.
+* Moved theme dashboard menu under Appearance > Gravisain.
+* Enhanced GDPR compliance with strict local Google Fonts caching.
+* Improved Customizer API data sanitization and WPCS standards.
+* Localized all template strings and added Theme/Author URIs.
+
 = 0.9.1 =
 * Maintenance update, style refinements, and sticky layout improvements.
 
 = 0.9.0 =
-* Maintenance update, style refinements, and sticky layout improvements.
-
-= 1.0.2 =
-* Maintenance update, style refinements, and sticky layout improvements.
-
-= 1.0.0 =
-* Initial release.
+* Initial submission.
 
 == License & Copyright ==
 
