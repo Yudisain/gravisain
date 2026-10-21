@@ -12,11 +12,25 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+*.code-workspace
 
-# Environment variables & secrets (Security Hardening)
+# Environment variables & secrets
 .env
 .env.*
 !.env.example
 
 # Temporary runtime logs
 *.log
+
+# Internal dev & project planning files
+*.xlsx
+*.csv
+PROJECT_STATUS.md
+root cause/
+template-landing-gravisain.php
+templates/template-landing-gravisain.php
+
+# Release & distribution packages
+release/
+*.zip
+
