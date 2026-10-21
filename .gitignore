@@ -36,3 +36,7 @@ docs/
 release/
 *.zip
 
+# Internal dev & build scripts
+scripts/
+.antigravityignore
+
