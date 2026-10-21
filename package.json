@@ -7,21 +7,13 @@
     "dev": "vite",
     "build:meta": "wp-scripts build src/meta/index.js --output-path=assets/meta",
     "build": "vite build && npm run build:meta",
-    "theme:zip": "npm run build && powershell -ExecutionPolicy Bypass -File scripts/zip-theme.ps1",
-    "starter-sites:zip": "powershell -ExecutionPolicy Bypass -File ../gravisain-starter-sites/scripts/zip-starter-sites.ps1",
-    "blocks:zip": "powershell -ExecutionPolicy Bypass -File ../gravisain-blocks/scripts/zip-plugin.ps1",
-    "studio:zip": "powershell -ExecutionPolicy Bypass -File ../gravisain-studio/scripts/zip-plugin.ps1",
-    "news:zip": "powershell -ExecutionPolicy Bypass -File ../gravinews/scripts/zip-plugin.ps1",
-    "all:zip": "npm run theme:zip && npm run starter-sites:zip && npm run blocks:zip && npm run studio:zip && npm run news:zip",
-    "set-version": "node scripts/set-version.js",
-    "bump": "node scripts/set-version.js"
+    "theme:zip": "npm run build && powershell -ExecutionPolicy Bypass -File scripts/zip-theme.ps1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
     "@wordpress/scripts": "^27.9.0",
     "autoprefixer": "^10.4.19",
     "bestzip": "^3.0.1",
-    "exceljs": "^4.4.0",
     "postcss": "^8.4.38",
     "postcss-nested": "^6.0.1",
     "react": "^19.2.7",
