@@ -1,6 +1,6 @@
 {
   "name": "gravisain-theme",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "description": "Gravisain Premium WordPress Theme",
   "type": "module",
   "scripts": {
@@ -11,7 +11,8 @@
     "starter-sites:zip": "powershell -ExecutionPolicy Bypass -File ../gravisain-starter-sites/scripts/zip-starter-sites.ps1",
     "blocks:zip": "powershell -ExecutionPolicy Bypass -File ../gravisain-blocks/scripts/zip-plugin.ps1",
     "studio:zip": "powershell -ExecutionPolicy Bypass -File ../gravisain-studio/scripts/zip-plugin.ps1",
-    "all:zip": "npm run theme:zip && npm run starter-sites:zip && npm run blocks:zip && npm run studio:zip",
+    "news:zip": "powershell -ExecutionPolicy Bypass -File ../gravinews/scripts/zip-plugin.ps1",
+    "all:zip": "npm run theme:zip && npm run starter-sites:zip && npm run blocks:zip && npm run studio:zip && npm run news:zip",
     "set-version": "node scripts/set-version.js",
     "bump": "node scripts/set-version.js"
   },

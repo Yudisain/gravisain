@@ -21,8 +21,6 @@ class ServiceProvider {
 	 */
 	private array $services = [
 		Hooks::class,
-		\Gravisain\License\LicenseManager::class,
-		\Gravisain\License\ThemeUpdater::class,
 		Assets::class,
 		Sidebars::class,
 		\Gravisain\Core\ElementsEngine::class,
@@ -51,7 +49,14 @@ class ServiceProvider {
 	 * @return void
 	 */
 	public function register(): void {
-		foreach ( $this->services as $service_class ) {
+		$services = $this->services;
+
+		if ( defined( 'GRAVISAIN_ENABLE_THEME_LICENSE' ) && GRAVISAIN_ENABLE_THEME_LICENSE ) {
+			$services[] = \Gravisain\License\LicenseManager::class;
+			$services[] = \Gravisain\License\ThemeUpdater::class;
+		}
+
+		foreach ( $services as $service_class ) {
 			try {
 				if ( class_exists( $service_class ) && method_exists( $service_class, 'init' ) ) {
 					call_user_func( [ $service_class, 'init' ] );

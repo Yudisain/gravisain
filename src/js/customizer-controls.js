@@ -30,7 +30,7 @@
                     activeDevices.push($(this).data('device'));
                 });
 
-                var valStr = activeDevices.join(',');
+                var valStr = activeDevices.length > 0 ? activeDevices.join(',') : 'none';
                 $hidden.val(valStr);
                 control.setting.set(valStr);
             });
@@ -1456,6 +1456,47 @@
                 });
             }
         });
+
+        // Toggle Background Type (Solid vs Gradient) for Header Rows
+        ['top', 'main', 'bottom'].forEach(function(row) {
+            var settingId = 'gravisain_header_' + row + '_bg_type';
+            var updateRowBgControls = function(val) {
+                var isGradient = (val === 'gradient');
+                var solidCtrl = wp.customize.control('gravisain_header_' + row + '_bg_color');
+                var grad1Ctrl = wp.customize.control('gravisain_header_' + row + '_bg_gradient_1');
+                var grad2Ctrl = wp.customize.control('gravisain_header_' + row + '_bg_gradient_2');
+                var angleCtrl = wp.customize.control('gravisain_header_' + row + '_bg_gradient_angle');
+
+                if (solidCtrl && solidCtrl.container) {
+                    if (isGradient) {
+                        solidCtrl.container.addClass('gravisain-dependency-hidden').hide();
+                    } else {
+                        solidCtrl.container.removeClass('gravisain-dependency-hidden').show();
+                    }
+                }
+
+                [grad1Ctrl, grad2Ctrl, angleCtrl].forEach(function(ctrl) {
+                    if (ctrl && ctrl.container) {
+                        if (isGradient) {
+                            ctrl.container.removeClass('gravisain-dependency-hidden').show();
+                        } else {
+                            ctrl.container.addClass('gravisain-dependency-hidden').hide();
+                        }
+                    }
+                });
+            };
+
+            var setting = wp.customize(settingId);
+            if (setting) {
+                updateRowBgControls(setting.get());
+                setting.bind(updateRowBgControls);
+            } else {
+                wp.customize(settingId, function(st) {
+                    updateRowBgControls(st.get());
+                    st.bind(updateRowBgControls);
+                });
+            }
+        });
     });
 
     /**
@@ -1835,9 +1876,26 @@
     });
 
     /**
-     * Scroll to Top Controls Real-Time Visibility Toggle
+     * Smooth Scroll Controls Real-Time Visibility Toggle
      */
     wp.customize.bind('ready', function() {
+        wp.customize('gravisain_enable_smooth_scroll', function(setting) {
+            var updateSmoothScrollVisibility = function(enabled) {
+                var ctrl = wp.customize.control('gravisain_smooth_scroll_offset');
+                if (ctrl && ctrl.container) {
+                    if (enabled) {
+                        ctrl.container.slideDown(180);
+                    } else {
+                        ctrl.container.slideUp(180);
+                    }
+                }
+            };
+            setting.bind(function(val) {
+                updateSmoothScrollVisibility(val);
+            });
+            updateSmoothScrollVisibility(setting.get());
+        });
+
         wp.customize('gravisain_enable_scroll_top', function(setting) {
             var updateScrollTopControlsVisibility = function(enabled) {
                 var controls = [

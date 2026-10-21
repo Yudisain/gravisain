@@ -54,10 +54,6 @@ class HeaderBuilder {
 	 * @return bool
 	 */
 	public static function is_row_empty( string $row ): bool {
-		if ( is_customize_preview() ) {
-			return false;
-		}
-
 		$layout = self::get_layout();
 		
 		if ( empty( $layout[ $row ] ) ) {

@@ -11,6 +11,7 @@ use Gravisain\Customizer\Controls\SectionTabsControl;
 use Gravisain\Customizer\Controls\SliderControl;
 use Gravisain\Customizer\Controls\VisibilityControl;
 use Gravisain\Customizer\Controls\NoticeControl;
+use Gravisain\Customizer\Controls\ButtonGroupControl;
 
 class MainRowOptions {
 	public function register( $wp_customize ): void {
@@ -117,7 +118,34 @@ class MainRowOptions {
 			'tab'         => 'style',
 		] ) );
 
-		// Background Color
+		// Background Type
+		$wp_customize->add_setting( 'gravisain_header_main_bg_type', [
+			'default'           => 'solid',
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport'         => 'postMessage',
+		] );
+
+		$wp_customize->add_control( new ButtonGroupControl( $wp_customize, 'gravisain_header_main_bg_type', [
+			'label'         => __( 'Background Type', 'gravisain' ),
+			'section'       => 'gravisain_header_main_row',
+			'priority'      => 39,
+			'tab'           => 'style',
+			'wrapper_attrs' => [ 'data-tab' => 'style' ],
+			'choices'       => [
+				'solid'    => __( 'Solid', 'gravisain' ),
+				'gradient' => __( 'Gradient', 'gravisain' ),
+			],
+		] ) );
+
+		$main_solid_cb = function() {
+			return get_theme_mod( 'gravisain_header_main_bg_type', 'solid' ) === 'solid';
+		};
+
+		$main_grad_cb = function() {
+			return get_theme_mod( 'gravisain_header_main_bg_type', 'solid' ) === 'gradient';
+		};
+
+		// Background Color (Solid)
 		$wp_customize->add_setting( 'gravisain_header_main_bg_color', [
 			'default'           => '#ffffff',
 			'sanitize_callback' => 'sanitize_hex_color',
@@ -125,10 +153,61 @@ class MainRowOptions {
 		] );
 
 		$wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, 'gravisain_header_main_bg_color', [
-			'label'         => __( 'Background Color', 'gravisain' ),
-			'section'       => 'gravisain_header_main_row',
-			'priority'      => 40,
-			'wrapper_attrs' => [ 'data-tab' => 'style' ],
+			'label'           => __( 'Background Color', 'gravisain' ),
+			'section'         => 'gravisain_header_main_row',
+			'priority'        => 40,
+			'wrapper_attrs'   => [ 'data-tab' => 'style' ],
+			'active_callback' => $main_solid_cb,
+		] ) );
+
+		// Gradient Color 1
+		$wp_customize->add_setting( 'gravisain_header_main_bg_gradient_1', [
+			'default'           => '#064e3b',
+			'sanitize_callback' => 'sanitize_hex_color',
+			'transport'         => 'postMessage',
+		] );
+
+		$wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, 'gravisain_header_main_bg_gradient_1', [
+			'label'           => __( 'Gradient Color 1', 'gravisain' ),
+			'section'         => 'gravisain_header_main_row',
+			'priority'        => 41,
+			'wrapper_attrs'   => [ 'data-tab' => 'style' ],
+			'active_callback' => $main_grad_cb,
+		] ) );
+
+		// Gradient Color 2
+		$wp_customize->add_setting( 'gravisain_header_main_bg_gradient_2', [
+			'default'           => '#0f392b',
+			'sanitize_callback' => 'sanitize_hex_color',
+			'transport'         => 'postMessage',
+		] );
+
+		$wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, 'gravisain_header_main_bg_gradient_2', [
+			'label'           => __( 'Gradient Color 2', 'gravisain' ),
+			'section'         => 'gravisain_header_main_row',
+			'priority'        => 42,
+			'wrapper_attrs'   => [ 'data-tab' => 'style' ],
+			'active_callback' => $main_grad_cb,
+		] ) );
+
+		// Gradient Angle
+		$wp_customize->add_setting( 'gravisain_header_main_bg_gradient_angle', [
+			'default'           => '135deg',
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport'         => 'postMessage',
+		] );
+
+		$wp_customize->add_control( new SliderControl( $wp_customize, 'gravisain_header_main_bg_gradient_angle', [
+			'label'           => __( 'Gradient Angle', 'gravisain' ),
+			'section'         => 'gravisain_header_main_row',
+			'priority'        => 43,
+			'default'         => '135deg',
+			'units'           => [ 'deg' ],
+			'input_attrs'     => [
+				'deg' => [ 'min' => 0, 'max' => 360, 'step' => 1 ],
+			],
+			'wrapper_attrs'   => [ 'data-tab' => 'style' ],
+			'active_callback' => $main_grad_cb,
 		] ) );
 
 		// Text Color

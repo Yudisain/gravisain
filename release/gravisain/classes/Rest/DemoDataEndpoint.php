@@ -71,11 +71,22 @@ class DemoDataEndpoint {
 			}
 		}
 
+		$page_for_posts_id   = (int) get_option( 'page_for_posts', 0 );
+		$page_for_posts_slug = '';
+
+		if ( $page_for_posts_id > 0 ) {
+			$posts_post = get_post( $page_for_posts_id );
+			if ( $posts_post ) {
+				$page_for_posts_slug = $posts_post->post_name;
+			}
+		}
+
 		return [
-			'title'              => get_bloginfo( 'name' ),
-			'tagline'            => get_bloginfo( 'description' ),
-			'show_on_front'      => get_option( 'show_on_front', 'posts' ),
-			'page_on_front_slug' => $page_on_front_slug,
+			'title'               => get_bloginfo( 'name' ),
+			'tagline'             => get_bloginfo( 'description' ),
+			'show_on_front'       => get_option( 'show_on_front', 'posts' ),
+			'page_on_front_slug'  => $page_on_front_slug,
+			'page_for_posts_slug' => $page_for_posts_slug,
 		];
 	}
 
@@ -105,6 +116,22 @@ class DemoDataEndpoint {
 			$trans_logo_url = wp_get_attachment_image_url( (int) $mods['gravisain_transparent_header_logo'], 'full' );
 			if ( $trans_logo_url ) {
 				$mods['_gravisain_transparent_logo_url'] = $trans_logo_url;
+			}
+		}
+
+		if ( ! empty( $mods['gravisain_sticky_header_logo'] ) && is_numeric( $mods['gravisain_sticky_header_logo'] ) ) {
+			$sticky_logo_url = wp_get_attachment_image_url( (int) $mods['gravisain_sticky_header_logo'], 'full' );
+			if ( $sticky_logo_url ) {
+				$mods['_gravisain_sticky_logo_url'] = $sticky_logo_url;
+			}
+		}
+
+		// Provide site icon (favicon) URL if configured in WordPress
+		$site_icon_id = (int) get_option( 'site_icon', 0 );
+		if ( $site_icon_id > 0 ) {
+			$site_icon_url = wp_get_attachment_image_url( $site_icon_id, 'full' );
+			if ( $site_icon_url ) {
+				$mods['_gravisain_site_icon_url'] = $site_icon_url;
 			}
 		}
 

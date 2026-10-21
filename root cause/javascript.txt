@@ -1,0 +1,193 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const canvasCard = document.getElementById('grvCanvasCard');
+
+    // 1. SUB-TABS INSPECTOR SWITCHER (General | Style | Advanced)
+    const subTabs = document.querySelectorAll('.grv-style-subtab');
+    const panels = {
+        general: document.getElementById('grv-panel-general'),
+        style: document.getElementById('grv-panel-style'),
+        advanced: document.getElementById('grv-panel-advanced')
+    };
+
+    subTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const target = this.getAttribute('data-sub');
+
+            // Set active class pada button
+            subTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+
+            // Ganti panel yang tampil
+            Object.keys(panels).forEach(key => {
+                if (panels[key]) {
+                    panels[key].classList.toggle('active', key === target);
+                }
+            });
+        });
+    });
+
+    // 2. ACCORDION TOGGLE (Buka / Tutup)
+    document.querySelectorAll('.grv-accord-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const content = this.nextElementSibling;
+            const arrow = this.querySelector('.grv-arrow-icon');
+            if (content) {
+                const isCollapsed = content.classList.contains('collapsed') || window.getComputedStyle(content).display === 'none';
+                if (isCollapsed) {
+                    content.classList.remove('collapsed');
+                    content.style.display = 'block';
+                    if (arrow) arrow.classList.remove('rotate');
+                } else {
+                    content.classList.add('collapsed');
+                    content.style.display = 'none';
+                    if (arrow) arrow.classList.add('rotate');
+                }
+            }
+        });
+    });
+
+    // 3. DEVICE SWITCHER (Desktop, Tablet, Mobile)
+    document.querySelectorAll('.grv-dev-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const group = this.closest('.grv-dev-group, .grv-device-toolbar');
+            if (group) {
+                group.querySelectorAll('.grv-dev-btn').forEach(b => b.classList.remove('active'));
+            }
+            this.classList.add('active');
+        });
+    });
+
+    // 4. TEXT ALIGNMENT SWITCHER (Panel General)
+    const alignBtns = document.querySelectorAll('.grv-align-btn');
+    alignBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            alignBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            if (canvasCard) {
+                canvasCard.style.textAlign = this.getAttribute('data-align');
+            }
+        });
+    });
+
+    // 5. INNER CONTAINER MAX WIDTH (SLIDER & INPUT) (Panel General)
+    const rangeSlider = document.getElementById('grvMaxWidthRange');
+    const widthInput = document.getElementById('grvMaxWidthInput');
+    const resetWidthBtn = document.getElementById('grvResetWidthBtn');
+
+    function updateCardMaxWidth(val) {
+        val = parseInt(val) || 0;
+        if (rangeSlider) rangeSlider.value = val;
+        if (widthInput) widthInput.value = val;
+        if (canvasCard) {
+            canvasCard.style.maxWidth = val > 0 ? val + 'px' : '440px';
+        }
+    }
+
+    if (rangeSlider && widthInput) {
+        rangeSlider.addEventListener('input', function() {
+            updateCardMaxWidth(this.value);
+        });
+        widthInput.addEventListener('input', function() {
+            updateCardMaxWidth(this.value);
+        });
+        if (resetWidthBtn) {
+            resetWidthBtn.addEventListener('click', () => updateCardMaxWidth(0));
+        }
+    }
+
+    // 6. COLOR CHIP BACKGROUND SELECTION (Panel General)
+    const colorChips = document.querySelectorAll('.grv-color-chip');
+    colorChips.forEach(chip => {
+        chip.addEventListener('click', function() {
+            if (!canvasCard) return;
+            if (this.classList.contains('bg-white')) canvasCard.style.background = '#ffffff';
+            else if (this.classList.contains('bg-slate')) canvasCard.style.background = '#f8fafc';
+            else if (this.classList.contains('bg-indigo')) canvasCard.style.background = '#eef2ff';
+            else if (this.classList.contains('bg-dark')) {
+                canvasCard.style.background = '#0f172a';
+            }
+        });
+    });
+
+    // 7. PADDING & MARGIN (Panel Style)
+    const paddingInputs = document.querySelector('.grv-box-inputs[data-type="padding"]');
+    if (paddingInputs && canvasCard) {
+        const topField = paddingInputs.querySelector('.field-top');
+        const rightField = paddingInputs.querySelector('.field-right');
+        const bottomField = paddingInputs.querySelector('.field-bottom');
+        const leftField = paddingInputs.querySelector('.field-left');
+
+        const applyPadding = () => {
+            const t = topField.value.trim() ? topField.value + 'px' : '24px';
+            const r = rightField.value.trim() ? rightField.value + 'px' : '28px';
+            const b = bottomField.value.trim() ? bottomField.value + 'px' : '24px';
+            const l = leftField.value.trim() ? leftField.value + 'px' : '28px';
+            canvasCard.style.padding = `${t} ${r} ${b} ${l}`;
+        };
+
+        [topField, rightField, bottomField, leftField].forEach(field => {
+            field.addEventListener('input', applyPadding);
+        });
+
+        const resetBtn = paddingInputs.closest('.grv-spacing-group').querySelector('.grv-reset-spacing');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                [topField, rightField, bottomField, leftField].forEach(f => f.value = '');
+                canvasCard.style.padding = '24px 28px';
+            });
+        }
+    }
+
+    // 8. HEADER INSPECTOR (Page vs Block Tabs)
+    document.querySelectorAll('.grv-tab-switch').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.grv-tab-switch').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // 9. SIDEBAR KIRI TABS (Blocks, Patterns, Media)
+    document.querySelectorAll('.grv-tab-btn').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.grv-tab-btn').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // 10. SEARCH BLOCK FILTER
+    const searchInput = document.getElementById('grvSearchBlock');
+    const blockItems = document.querySelectorAll('.grv-block-item');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            blockItems.forEach(item => {
+                const text = item.innerText.toLowerCase();
+                item.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        });
+    }
+
+    // 11. TOOLBAR MINI CANVAS ACTIVE TOGGLE
+    document.querySelectorAll('.grv-tool-icon-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.grv-tool-icon-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // 12. UPDATE BUTTON SIMULASI
+    const updateBtn = document.getElementById('grvUpdateBtn');
+    const saveStatus = document.getElementById('grvSaveStatus');
+    if (updateBtn && saveStatus) {
+        updateBtn.addEventListener('click', function() {
+            saveStatus.innerText = 'Updating...';
+            saveStatus.style.background = '#fef3c7';
+            saveStatus.style.color = '#d97706';
+            setTimeout(() => {
+                saveStatus.innerText = 'Saved just now';
+                saveStatus.style.background = '#ecfdf5';
+                saveStatus.style.color = '#059669';
+            }, 800);
+        });
+    }
+});

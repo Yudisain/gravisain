@@ -249,15 +249,21 @@ class HeaderCSS extends AbstractGenerator {
 	private function generate_header_rows( Builder $builder ): void {
 		// Top Row.
 		if ( ! HeaderBuilder::is_row_empty( 'top' ) ) {
-			$top_bg          = get_theme_mod( 'gravisain_header_top_bg_color', '#f8f9fa' );
-			$top_color       = get_theme_mod( 'gravisain_header_top_text_color', '#333333' );
-			$top_link        = get_theme_mod( 'gravisain_header_top_link_color', '#0073aa' );
-			$top_link_hover  = get_theme_mod( 'gravisain_header_top_link_hover_color', '#005177' );
-			$top_border_w    = intval( get_theme_mod( 'gravisain_header_top_border_width', 1 ) );
-			$top_border_c    = get_theme_mod( 'gravisain_header_top_border_color', '#e2e8f0' );
-			$top_height_json = get_theme_mod( 'gravisain_header_top_height', '{"desktop":"40","tablet":"40","mobile":"35"}' );
+			$top_bg_type      = get_theme_mod( 'gravisain_header_top_bg_type', 'solid' );
+			$top_bg           = get_theme_mod( 'gravisain_header_top_bg_color', '#f8f9fa' );
+			$top_grad_1       = get_theme_mod( 'gravisain_header_top_bg_gradient_1', '#064e3b' );
+			$top_grad_2       = get_theme_mod( 'gravisain_header_top_bg_gradient_2', '#0f392b' );
+			$top_grad_angle   = intval( get_theme_mod( 'gravisain_header_top_bg_gradient_angle', 135 ) );
+			$top_color        = get_theme_mod( 'gravisain_header_top_text_color', '#333333' );
+			$top_link         = get_theme_mod( 'gravisain_header_top_link_color', '#0073aa' );
+			$top_link_hover   = get_theme_mod( 'gravisain_header_top_link_hover_color', '#005177' );
+			$top_border_w     = intval( get_theme_mod( 'gravisain_header_top_border_width', 1 ) );
+			$top_border_c     = get_theme_mod( 'gravisain_header_top_border_color', '#e2e8f0' );
+			$top_height_json  = get_theme_mod( 'gravisain_header_top_height', '{"desktop":"40","tablet":"40","mobile":"35"}' );
 
-			if ( ! empty( $top_bg ) ) {
+			if ( 'gradient' === $top_bg_type ) {
+				$builder->add( '.site-header-top-row, .site-header-top', 'background', sprintf( 'linear-gradient(%ddeg, %s 0%%, %s 100%%)', $top_grad_angle, $top_grad_1, $top_grad_2 ) );
+			} elseif ( ! empty( $top_bg ) ) {
 				$builder->add( '.site-header-top-row, .site-header-top', 'background-color', $top_bg );
 			}
 			if ( ! empty( $top_color ) ) {
@@ -296,7 +302,11 @@ class HeaderCSS extends AbstractGenerator {
 
 		// Main Row.
 		if ( ! HeaderBuilder::is_row_empty( 'main' ) ) {
+			$main_bg_type     = get_theme_mod( 'gravisain_header_main_bg_type', 'solid' );
 			$main_bg          = get_theme_mod( 'gravisain_header_main_bg_color', '#ffffff' );
+			$main_grad_1      = get_theme_mod( 'gravisain_header_main_bg_gradient_1', '#064e3b' );
+			$main_grad_2      = get_theme_mod( 'gravisain_header_main_bg_gradient_2', '#0f392b' );
+			$main_grad_angle  = intval( get_theme_mod( 'gravisain_header_main_bg_gradient_angle', 135 ) );
 			$main_color       = get_theme_mod( 'gravisain_header_main_text_color', '#333333' );
 			$main_link        = get_theme_mod( 'gravisain_header_main_link_color', '#0073aa' );
 			$main_link_hover  = get_theme_mod( 'gravisain_header_main_link_hover_color', '#005177' );
@@ -304,7 +314,9 @@ class HeaderCSS extends AbstractGenerator {
 			$main_border_c    = get_theme_mod( 'gravisain_header_main_border_color', '#e2e8f0' );
 			$main_height_json = get_theme_mod( 'gravisain_header_main_height', '{"desktop":"80","tablet":"70","mobile":"60"}' );
 
-			if ( ! empty( $main_bg ) ) {
+			if ( 'gradient' === $main_bg_type ) {
+				$builder->add( '.site-header-main', 'background', sprintf( 'linear-gradient(%ddeg, %s 0%%, %s 100%%)', $main_grad_angle, $main_grad_1, $main_grad_2 ) );
+			} elseif ( ! empty( $main_bg ) ) {
 				$builder->add( '.site-header-main', 'background-color', $main_bg );
 			}
 			if ( ! empty( $main_color ) ) {
@@ -343,7 +355,11 @@ class HeaderCSS extends AbstractGenerator {
 
 		// Bottom Row.
 		if ( ! HeaderBuilder::is_row_empty( 'bottom' ) ) {
+			$bottom_bg_type     = get_theme_mod( 'gravisain_header_bottom_bg_type', 'solid' );
 			$bottom_bg          = get_theme_mod( 'gravisain_header_bottom_bg_color', '#f8f9fa' );
+			$bottom_grad_1      = get_theme_mod( 'gravisain_header_bottom_bg_gradient_1', '#064e3b' );
+			$bottom_grad_2      = get_theme_mod( 'gravisain_header_bottom_bg_gradient_2', '#0f392b' );
+			$bottom_grad_angle  = intval( get_theme_mod( 'gravisain_header_bottom_bg_gradient_angle', 135 ) );
 			$bottom_color       = get_theme_mod( 'gravisain_header_bottom_text_color', '#333333' );
 			$bottom_link        = get_theme_mod( 'gravisain_header_bottom_link_color', '#0073aa' );
 			$bottom_link_hover  = get_theme_mod( 'gravisain_header_bottom_link_hover_color', '#005177' );
@@ -351,7 +367,9 @@ class HeaderCSS extends AbstractGenerator {
 			$bottom_border_c    = get_theme_mod( 'gravisain_header_bottom_border_color', '#e2e8f0' );
 			$bottom_height_json = get_theme_mod( 'gravisain_header_bottom_height', '{"desktop":"40","tablet":"40","mobile":"35"}' );
 
-			if ( ! empty( $bottom_bg ) ) {
+			if ( 'gradient' === $bottom_bg_type ) {
+				$builder->add( '.site-header-bottom-row, .site-header-bottom', 'background', sprintf( 'linear-gradient(%ddeg, %s 0%%, %s 100%%)', $bottom_grad_angle, $bottom_grad_1, $bottom_grad_2 ) );
+			} elseif ( ! empty( $bottom_bg ) ) {
 				$builder->add( '.site-header-bottom-row, .site-header-bottom', 'background-color', $bottom_bg );
 			}
 			if ( ! empty( $bottom_color ) ) {
@@ -956,9 +974,9 @@ class HeaderCSS extends AbstractGenerator {
 				$builder->add( '.has-transparent-header .site-header .site-title a:hover', 'color', $trans_hover . ' !important' );
 			}
 
-			// Logo switching.
-			$builder->add( '.has-transparent-header .site-branding.has-transparent-logo .custom-logo-link', 'display', 'none !important' );
-			$builder->add( '.has-transparent-header .site-branding.has-transparent-logo .transparent-custom-logo-link', 'display', 'inline-block !important' );
+			// Logo switching for transparent header (when not sticky).
+			$builder->add( '.has-transparent-header .site-header:not(.is-sticky) .site-branding.has-transparent-logo .custom-logo-link', 'display', 'none !important' );
+			$builder->add( '.has-transparent-header .site-header:not(.is-sticky) .site-branding.has-transparent-logo .transparent-custom-logo-link', 'display', 'inline-flex !important' );
 		}
 	}
 
@@ -986,8 +1004,31 @@ class HeaderCSS extends AbstractGenerator {
 				}
 
 				if ( ! empty( $sticky_text ) ) {
-					$builder->add( '.has-sticky-header .site-header.is-sticky .main-navigation a, .has-sticky-header .site-header.is-sticky .site-title a', 'color', $sticky_text . ' !important' );
+					$builder->add( 'body.has-sticky-header .site-header.is-sticky .site-header-row .main-navigation a:not(.gravisain-btn), body.has-sticky-header .site-header.is-sticky .site-header-row .main-navigation ul li a:not(.gravisain-btn), body.has-sticky-header .site-header.is-sticky .site-header-row .main-navigation li:hover > a:not(.gravisain-btn), body.has-sticky-header .site-header.is-sticky .site-header-row .main-navigation li.current-menu-item > a:not(.gravisain-btn), body.has-sticky-header .site-header.is-sticky .site-title a', 'color', $sticky_text . ' !important' );
 				}
+
+				// Sticky Menu Trigger (Hamburger) Color.
+				$sticky_trigger_color = get_theme_mod( 'gravisain_sticky_header_trigger_color', '' );
+				$sticky_trigger_hover = get_theme_mod( 'gravisain_sticky_header_trigger_color_hover', '' );
+				$final_trigger_color  = ! empty( $sticky_trigger_color ) ? $sticky_trigger_color : ( ! empty( $sticky_text ) ? $sticky_text : '' );
+
+				if ( ! empty( $final_trigger_color ) ) {
+					$builder->add( 'body.has-sticky-header .site-header.is-sticky .gravisain-menu-trigger', 'color', $final_trigger_color . ' !important' );
+				}
+				if ( ! empty( $sticky_trigger_hover ) ) {
+					$builder->add( 'body.has-sticky-header .site-header.is-sticky .gravisain-menu-trigger:hover', 'color', $sticky_trigger_hover . ' !important' );
+				}
+
+				// Sticky Logo switching.
+				$builder->add( '.site-branding .sticky-custom-logo-link', 'display', 'none !important' );
+				$builder->add( '.has-sticky-header .site-header.is-sticky .site-branding.has-sticky-logo .sticky-custom-logo-link', 'display', 'inline-flex !important' );
+				$builder->add( '.has-sticky-header .site-header.is-sticky .site-branding.has-sticky-logo .custom-logo-link', 'display', 'none !important' );
+				$builder->add( '.has-sticky-header .site-header.is-sticky .site-branding.has-sticky-logo .transparent-custom-logo-link', 'display', 'none !important' );
+
+				// Fallback when transparent header is used but NO sticky logo is set:
+				// Ensure sticky header switches back to default custom logo instead of transparent logo.
+				$builder->add( '.has-transparent-header .site-header.is-sticky .site-branding:not(.has-sticky-logo) .transparent-custom-logo-link', 'display', 'none !important' );
+				$builder->add( '.has-transparent-header .site-header.is-sticky .site-branding:not(.has-sticky-logo) .custom-logo-link', 'display', 'inline-flex !important' );
 
 				if ( get_theme_mod( 'gravisain_sticky_header_shrink', true ) ) {
 					$shrink_height      = get_theme_mod( 'gravisain_sticky_header_shrink_height', '54px' );
@@ -996,7 +1037,7 @@ class HeaderCSS extends AbstractGenerator {
 						$builder->add( 'body.sticky-shrink .site-header.is-sticky .site-header-row', 'min-height', $shrink_height . ' !important' );
 					}
 					if ( ! empty( $shrink_logo_height ) ) {
-						$builder->add( 'body.sticky-shrink .site-header.is-sticky .custom-logo, body.sticky-shrink .site-header.is-sticky .transparent-logo', 'max-height', $shrink_logo_height . ' !important' );
+						$builder->add( 'body.sticky-shrink .site-header.is-sticky .custom-logo, body.sticky-shrink .site-header.is-sticky .transparent-logo, body.sticky-shrink .site-header.is-sticky .sticky-logo', 'max-height', $shrink_logo_height . ' !important' );
 					}
 				}
 			}

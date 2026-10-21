@@ -37,6 +37,14 @@ class GeneralOptions {
 			'priority' => 5,
 		] ) );
 
+		// 2.5 Sub-Section: Smooth Scroll
+		$wp_customize->add_section( 'gravisain_smooth_scroll_section', [
+			'title'       => __( 'Smooth Scroll', 'gravisain' ),
+			'description' => __( 'Configure smooth scrolling animations and header clearance for in-page anchor links (e.g., #blocks).', 'gravisain' ),
+			'panel'       => 'gravisain_general_panel',
+			'priority'    => 8,
+		] );
+
 		// 3. Sub-Section: Scroll to Top
 		$wp_customize->add_section( 'gravisain_scroll_top_section', [
 			'title'       => __( 'Scroll to Top', 'gravisain' ),
@@ -58,6 +66,48 @@ class GeneralOptions {
 			'description' => __( 'Configure reading progress indicator on single post articles.', 'gravisain' ),
 			'panel'       => 'gravisain_general_panel',
 			'priority'    => 40,
+		] );
+
+		/* -------------------------------------------------------------------------
+		 * SECTION 0: SMOOTH SCROLL CONTROLS
+		 * ------------------------------------------------------------------------- */
+
+		// 0.1 Enable Smooth Scroll
+		$wp_customize->add_setting( 'gravisain_enable_smooth_scroll', [
+			'default'           => true,
+			'sanitize_callback' => [ Sanitize::class, 'checkbox' ],
+			'transport'         => 'postMessage',
+		] );
+
+		$wp_customize->add_control( 'gravisain_enable_smooth_scroll', [
+			'label'       => __( 'Enable Smooth Scroll', 'gravisain' ),
+			'description' => __( 'Smoothly animates scrolling when clicking in-page anchor links like #blocks or header menu anchors.', 'gravisain' ),
+			'section'     => 'gravisain_smooth_scroll_section',
+			'settings'    => 'gravisain_enable_smooth_scroll',
+			'type'        => 'checkbox',
+		] );
+
+		// 0.2 Smooth Scroll Offset (Header Clearance)
+		$wp_customize->add_setting( 'gravisain_smooth_scroll_offset', [
+			'default'           => 80,
+			'sanitize_callback' => 'absint',
+			'transport'         => 'postMessage',
+		] );
+
+		$wp_customize->add_control( 'gravisain_smooth_scroll_offset', [
+			'label'           => __( 'Scroll Offset / Header Clearance (px)', 'gravisain' ),
+			'description'     => __( 'Top offset spacing in pixels so sticky headers do not cover your anchor content.', 'gravisain' ),
+			'section'         => 'gravisain_smooth_scroll_section',
+			'settings'        => 'gravisain_smooth_scroll_offset',
+			'type'            => 'number',
+			'input_attrs'     => [
+				'min'  => 0,
+				'max'  => 300,
+				'step' => 5,
+			],
+			'active_callback' => function() {
+				return get_theme_mod( 'gravisain_enable_smooth_scroll', true );
+			},
 		] );
 
 		/* -------------------------------------------------------------------------

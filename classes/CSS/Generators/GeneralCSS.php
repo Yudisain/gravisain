@@ -185,6 +185,15 @@ class GeneralCSS extends AbstractGenerator {
 	 * @return void
 	 */
 	private function generate_ux_components( Builder $builder ): void {
+		// Smooth Scroll & Anchor Offset.
+		$enable_smooth_scroll = get_theme_mod( 'gravisain_enable_smooth_scroll', true );
+		if ( $enable_smooth_scroll ) {
+			$scroll_offset = absint( get_theme_mod( 'gravisain_smooth_scroll_offset', 80 ) );
+			$builder->add( 'html', 'scroll-behavior', 'smooth' );
+			$builder->add( 'html', '--gravisain-scroll-offset', $scroll_offset . 'px' );
+			$builder->add( 'html', 'scroll-padding-top', "calc(var(--gravisain-scroll-offset, {$scroll_offset}px) + var(--wp-admin--admin-bar--height, 0px))" );
+		}
+
 		// Scroll to Top Position & Side Offset (Responsive).
 		$scroll_top_position    = get_theme_mod( 'gravisain_scroll_top_position', 'right' );
 		$side_prop              = ( 'left' === $scroll_top_position ) ? 'left' : 'right';

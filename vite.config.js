@@ -22,7 +22,7 @@ export default defineConfig({
   build: {
     outDir: 'assets',
     emptyOutDir: true,
-    manifest: true,
+    manifest: 'manifest.json',
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'src/js/main.js'),

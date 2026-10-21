@@ -128,6 +128,26 @@
         });
     });
 
+    // 4-9-9. Smooth Scroll & Offset Live Preview
+    wp.customize('gravisain_enable_smooth_scroll', function(setting) {
+        setting.bind(function(val) {
+            document.documentElement.style.scrollBehavior = val ? 'smooth' : 'auto';
+            if (val) {
+                document.documentElement.classList.add('has-smooth-scroll');
+            } else {
+                document.documentElement.classList.remove('has-smooth-scroll');
+            }
+        });
+    });
+
+    wp.customize('gravisain_smooth_scroll_offset', function(setting) {
+        setting.bind(function(val) {
+            var offset = parseInt(val, 10) || 80;
+            document.documentElement.style.setProperty('--gravisain-scroll-offset', offset + 'px');
+            document.documentElement.style.scrollPaddingTop = 'calc(' + offset + 'px + var(--wp-admin--admin-bar--height, 0px))';
+        });
+    });
+
     // 5-0-0. Scroll to Top Position & Side Offset Live Preview
     var updateScrollTopPositionAndSideOffset = function() {
         var pos = wp.customize('gravisain_scroll_top_position') ? wp.customize('gravisain_scroll_top_position').get() : 'right';
@@ -1181,7 +1201,7 @@
             setting.bind(function(val) {
                 var $row = $(row.selector);
                 $row.removeClass('gravisain-hide-desktop gravisain-hide-tablet gravisain-hide-mobile');
-                var devices = (typeof val === 'string' && val !== '') ? val.split(',') : (Array.isArray(val) ? val : []);
+                var devices = (typeof val === 'string' && val !== '' && val !== 'none') ? val.split(',') : (Array.isArray(val) ? val : []);
                 if (devices.indexOf('desktop') === -1) $row.addClass('gravisain-hide-desktop');
                 if (devices.indexOf('tablet') === -1)  $row.addClass('gravisain-hide-tablet');
                 if (devices.indexOf('mobile') === -1)  $row.addClass('gravisain-hide-mobile');
@@ -1608,6 +1628,65 @@
     });
 
     // ==========================================
+    // HEADER ROWS LIVE PREVIEW
+    // ==========================================
+    var headerRows = [
+        { type: 'top', selector: '.site-header-top-row, .site-header-top' },
+        { type: 'main', selector: '.site-header-main' },
+        { type: 'bottom', selector: '.site-header-bottom-row, .site-header-bottom' }
+    ];
+
+    $.each(headerRows, function(i, row) {
+        var updateHeaderBg = function() {
+            var bgTypeSetting = wp.customize('gravisain_header_' + row.type + '_bg_type');
+            var bgType = bgTypeSetting ? bgTypeSetting.get() : 'solid';
+            var solidSetting = wp.customize('gravisain_header_' + row.type + '_bg_color');
+            var solidColor = solidSetting ? solidSetting.get() : '';
+            var grad1Setting = wp.customize('gravisain_header_' + row.type + '_bg_gradient_1');
+            var grad1 = grad1Setting ? grad1Setting.get() : '#064e3b';
+            var grad2Setting = wp.customize('gravisain_header_' + row.type + '_bg_gradient_2');
+            var grad2 = grad2Setting ? grad2Setting.get() : '#0f392b';
+            var angleSetting = wp.customize('gravisain_header_' + row.type + '_bg_gradient_angle');
+            var angleVal = angleSetting ? angleSetting.get() : '135deg';
+            var angle = parseInt(angleVal, 10);
+            if (isNaN(angle)) {
+                angle = 135;
+            }
+
+            var $style = $('#gravisain-header-' + row.type + '-bg-preview-css');
+            if (!$style.length) {
+                $style = $('<style id="gravisain-header-' + row.type + '-bg-preview-css"></style>').appendTo('head');
+            }
+
+            if (bgType === 'gradient') {
+                $style.html(row.selector + ' { background: linear-gradient(' + angle + 'deg, ' + grad1 + ' 0%, ' + grad2 + ' 100%) !important; }');
+            } else {
+                $style.html(row.selector + ' { background: ' + (solidColor || '#ffffff') + ' !important; }');
+            }
+        };
+
+        ['bg_type', 'bg_color', 'bg_gradient_1', 'bg_gradient_2', 'bg_gradient_angle'].forEach(function(prop) {
+            wp.customize('gravisain_header_' + row.type + '_' + prop, function(setting) {
+                setting.bind(updateHeaderBg);
+            });
+        });
+
+        // Text Color
+        wp.customize('gravisain_header_' + row.type + '_text_color', function(setting) {
+            setting.bind(function(val) {
+                $(row.selector).css('color', val);
+            });
+        });
+
+        // Link Color
+        wp.customize('gravisain_header_' + row.type + '_link_color', function(setting) {
+            setting.bind(function(val) {
+                $(row.selector).find('a').css('color', val);
+            });
+        });
+    });
+
+    // ==========================================
     // FOOTER ROWS LIVE PREVIEW
     // ==========================================
     var footerRows = [
@@ -1637,7 +1716,7 @@
             setting.bind(function(val) {
                 var $row = $(row.selector);
                 $row.removeClass('gravisain-hide-desktop gravisain-hide-tablet gravisain-hide-mobile');
-                var devices = (typeof val === 'string' && val !== '') ? val.split(',') : (Array.isArray(val) ? val : []);
+                var devices = (typeof val === 'string' && val !== '' && val !== 'none') ? val.split(',') : (Array.isArray(val) ? val : []);
                 if (devices.indexOf('desktop') === -1) $row.addClass('gravisain-hide-desktop');
                 if (devices.indexOf('tablet') === -1)  $row.addClass('gravisain-hide-tablet');
                 if (devices.indexOf('mobile') === -1)  $row.addClass('gravisain-hide-mobile');

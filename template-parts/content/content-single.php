@@ -20,11 +20,8 @@ $show_post_nav   = get_theme_mod( 'gravisain_single_post_navigation', true );
 				<span class="meta-author">
 					<?php echo \Gravisain\Helpers\SVG::icon( 'user' ); ?>
 					<?php
-					printf(
-						/* translators: %s: Author name */
-						esc_html__( 'By %s', 'gravisain' ),
-						'<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a>'
-					);
+					echo '<span class="byline-prefix">' . esc_html__( 'By', 'gravisain' ) . ' </span>';
+					echo '<a href="' . esc_url( get_author_posts_url( (int) get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a>';
 					?>
 				</span>
 

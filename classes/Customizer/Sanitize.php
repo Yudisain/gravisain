@@ -147,5 +147,30 @@ class Sanitize {
 		}
 		return $sanitized;
 	}
+
+	/**
+	 * Sanitize JSON Color Palette string.
+	 *
+	 * @param mixed $input JSON string or array of color hex codes.
+	 * @return string Sanitized JSON string.
+	 */
+	public static function color_palette( $input ): string {
+		if ( empty( $input ) ) {
+			return '[]';
+		}
+
+		$colors = is_array( $input ) ? $input : json_decode( (string) $input, true );
+
+		if ( ! is_array( $colors ) ) {
+			return '[]';
+		}
+
+		$sanitized = [];
+		foreach ( $colors as $color ) {
+			$sanitized[] = self::color( (string) $color );
+		}
+
+		return (string) wp_json_encode( $sanitized );
+	}
 }
 

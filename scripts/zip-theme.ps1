@@ -65,6 +65,11 @@ foreach ($file in $includeFiles) {
 	}
 }
 
+# Clean up any hidden files/folders that WordPress.org automated review rejects
+Get-ChildItem -Path $stagingDir -Recurse -Hidden | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+Get-ChildItem -Path $stagingDir -Filter ".git*" -Recurse -Force | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+Get-ChildItem -Path $stagingDir -Filter ".vite" -Recurse -Force | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 

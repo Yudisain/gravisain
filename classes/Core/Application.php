@@ -94,7 +94,7 @@ class Application {
 			'width'                => 300,
 			'flex-width'           => true,
 			'flex-height'          => true,
-			'unlink-homepage-logo' => true,
+			'unlink-homepage-logo' => false,
 		] );
 
 		// Enable support for Post Thumbnails on posts and pages.

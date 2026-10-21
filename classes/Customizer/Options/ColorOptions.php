@@ -30,7 +30,7 @@ class ColorOptions {
 				'#e2e8f0', // 6: Border
 				'#f43f5e', // 7: Accent
 			] ),
-			'sanitize_callback' => 'sanitize_text_field', // JSON string
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color_palette' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -80,7 +80,7 @@ class ColorOptions {
 				'#334155', // 6: Border
 				'#fb7185', // 7: Accent
 			] ),
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color_palette' ],
 			'transport'         => 'postMessage',
 		] );
 

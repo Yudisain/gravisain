@@ -12,36 +12,6 @@ class Welcome {
 		$instance = new self();
 		add_action( 'admin_menu', [ $instance, 'add_menu_page' ] );
 		add_action( 'wp_ajax_gravisain_purge_cache', [ $instance, 'ajax_purge_cache' ] );
-		add_filter( 'parent_file', [ $instance, 'filter_parent_file' ] );
-		add_filter( 'submenu_file', [ $instance, 'filter_submenu_file' ] );
-	}
-
-	/**
-	 * Keep Gravisain menu active when viewing or editing Reusable Blocks (wp_block).
-	 *
-	 * @param string $parent_file
-	 * @return string
-	 */
-	public function filter_parent_file( string $parent_file ): string {
-		global $current_screen;
-		if ( $current_screen && 'wp_block' === $current_screen->post_type ) {
-			return 'gravisain-dashboard';
-		}
-		return $parent_file;
-	}
-
-	/**
-	 * Keep Reusable Blocks submenu active when viewing or editing Reusable Blocks (wp_block).
-	 *
-	 * @param string|null $submenu_file
-	 * @return string|null
-	 */
-	public function filter_submenu_file( ?string $submenu_file ): ?string {
-		global $current_screen;
-		if ( $current_screen && 'wp_block' === $current_screen->post_type ) {
-			return 'edit.php?post_type=wp_block';
-		}
-		return $submenu_file;
 	}
 
 	public function ajax_purge_cache(): void {
@@ -68,78 +38,32 @@ class Welcome {
 	}
 
 	public function add_menu_page(): void {
-		$menu_label  = 'Gravisain';
-		$page_title  = 'Gravisain Dashboard';
+		$menu_label = __( 'Gravisain', 'gravisain' );
+		$page_title = __( 'Gravisain Dashboard', 'gravisain' );
 
-		// Custom SVG Icon for Gravisain (Custom Diamond GRV Monogram)
-		$svg_icon = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMzAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgPHBhdGggZD0ibTI1NiA0OCAxNjQgMTUyTTI1NiA0OCA5MiAxOTJtMCA5NiAxNjQgMTc2bTE2NC0xNzZMMjU2IDQ2NE05MiAxOTJsMTY0IDE0NG0tOTYtMTMxaDI2MG0tMTY0IDB2MTI1bTI5LTEyNSAxMDAgMTEzIi8+Cjwvc3ZnPg==';
-
-		// 1. Register Top-Level Menu (Position 59 sets it right above Appearance which is 60)
-		add_menu_page(
+		// Register theme dashboard under Appearance (themes.php) per Theme Review Guidelines
+		add_theme_page(
 			$page_title,
 			$menu_label,
-			'manage_options',
-			'gravisain-dashboard',
-			[ $this, 'render_page' ],
-			$svg_icon,
-			59
-		);
-
-		// 2. Rename the first default submenu item to "Dashboard"
-		add_submenu_page(
-			'gravisain-dashboard',
-			'Gravisain Dashboard',
-			'Dashboard',
 			'manage_options',
 			'gravisain-dashboard',
 			[ $this, 'render_page' ]
 		);
 
-		// 3. Direct shortcut to Customizer
+		// Submenus under Appearance
 		add_submenu_page(
-			'gravisain-dashboard',
-			'Customize Theme',
-			'Customize',
-			'manage_options',
-			'customize.php',
-			null
-		);
-
-		// 4. Direct shortcut to Header Builder
-		add_submenu_page(
-			'gravisain-dashboard',
-			'Header Builder',
-			'Header Builder',
-			'manage_options',
-			'customize.php?autofocus[panel]=gravisain_header_panel',
-			null
-		);
-
-		// 5. Reusable Blocks (Synced Patterns)
-		add_submenu_page(
-			'gravisain-dashboard',
-			__( 'Reusable Blocks', 'gravisain' ),
-			__( 'Reusable Blocks', 'gravisain' ),
-			'edit_posts',
-			'edit.php?post_type=wp_block',
-			null
-		);
-
-		// 6. Full System Status & Diagnostics Tab
-		add_submenu_page(
-			'gravisain-dashboard',
-			'System Status & Diagnostics',
-			'System Status',
+			'themes.php',
+			__( 'Gravisain Status & Diagnostics', 'gravisain' ),
+			__( 'Gravisain Status', 'gravisain' ),
 			'manage_options',
 			'gravisain-system-status',
 			[ '\Gravisain\Dashboard\SystemStatus', 'render_page' ]
 		);
 
-		// 7. Import / Export
 		add_submenu_page(
-			'gravisain-dashboard',
-			'Import / Export Settings',
-			'Import / Export',
+			'themes.php',
+			__( 'Gravisain Import / Export', 'gravisain' ),
+			__( 'Gravisain Import/Export', 'gravisain' ),
 			'manage_options',
 			'gravisain-import-export',
 			[ '\Gravisain\Dashboard\ImportExport', 'render_page' ]
@@ -200,30 +124,32 @@ class Welcome {
 
 			<div class="gravisain-grid">
 				<div class="gravisain-main">
-					<?php
-					$is_active = \Gravisain\License\LicenseManager::is_active();
-					$license_key = \Gravisain\License\LicenseManager::get_license_key();
-					?>
-					<div class="gravisain-card" style="margin-bottom: 20px;">
-						<h2>License Activation</h2>
-						<p style="color: #50575e; margin-bottom: 15px;">Activate your license key to receive automatic updates and premium support.</p>
-						
-						<div id="gravisain-license-status" style="margin-bottom: 15px; font-weight: bold; <?php echo $is_active ? 'color: #16a34a;' : 'display: none;'; ?>">
-							✓ License is Active
-						</div>
+					<?php if ( defined( 'GRAVISAIN_ENABLE_THEME_LICENSE' ) && GRAVISAIN_ENABLE_THEME_LICENSE ) : ?>
+						<?php
+						$is_active = \Gravisain\License\LicenseManager::is_active();
+						$license_key = \Gravisain\License\LicenseManager::get_license_key();
+						?>
+						<div class="gravisain-card" style="margin-bottom: 20px;">
+							<h2>License Activation</h2>
+							<p style="color: #50575e; margin-bottom: 15px;">Activate your license key to receive automatic updates and premium support.</p>
+							
+							<div id="gravisain-license-status" style="margin-bottom: 15px; font-weight: bold; <?php echo $is_active ? 'color: #16a34a;' : 'display: none;'; ?>">
+								✓ License is Active
+							</div>
 
-						<form id="gravisain-license-form" method="post" action="">
-							<input type="password" id="gravisain-license-key" class="gravisain-input" placeholder="Enter your license key here..." value="<?php echo esc_attr($is_active ? '****************' : $license_key); ?>" <?php echo $is_active ? 'disabled' : ''; ?>>
-							
-							<?php if ( $is_active ) : ?>
-								<button type="button" id="gravisain-deactivate-btn" class="gravisain-btn" style="background: #dc2626;">Deactivate License</button>
-							<?php else : ?>
-								<button type="button" id="gravisain-activate-btn" class="gravisain-btn">Activate License</button>
-							<?php endif; ?>
-							
-							<span id="gravisain-license-msg" style="display: block; margin-top: 10px; font-size: 13px;"></span>
-						</form>
-					</div>
+							<form id="gravisain-license-form" method="post" action="">
+								<input type="password" id="gravisain-license-key" class="gravisain-input" placeholder="Enter your license key here..." value="<?php echo esc_attr($is_active ? '****************' : $license_key); ?>" <?php echo $is_active ? 'disabled' : ''; ?>>
+								
+								<?php if ( $is_active ) : ?>
+									<button type="button" id="gravisain-deactivate-btn" class="gravisain-btn" style="background: #dc2626;">Deactivate License</button>
+								<?php else : ?>
+									<button type="button" id="gravisain-activate-btn" class="gravisain-btn">Activate License</button>
+								<?php endif; ?>
+								
+								<span id="gravisain-license-msg" style="display: block; margin-top: 10px; font-size: 13px;"></span>
+							</form>
+						</div>
+					<?php endif; ?>
 
 					<div class="gravisain-card" style="margin-bottom: 20px;">
 						<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f0f1; padding-bottom: 15px; margin-bottom: 15px;">

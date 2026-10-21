@@ -11,8 +11,8 @@ get_header(); ?>
 	<div class="<?php echo esc_attr( \Gravisain\Helpers\LayoutHelper::get_container_class( 'archive' ) ); ?>">
 		
 		<header class="archive-header" style="text-align: center; margin-bottom: 40px;">
-			<h1 style="font-size: 2.5rem; font-weight: 800; color: #0f172a; margin-bottom: 15px;">Gravisain Templates</h1>
-			<p style="font-size: 1.15rem; color: #475569; max-width: 600px; margin: 0 auto;">Choose from our collection of premium, blazing-fast templates to kickstart your next project.</p>
+			<h1 style="font-size: 2.5rem; font-weight: 800; color: #0f172a; margin-bottom: 15px;"><?php esc_html_e( 'Gravisain Templates', 'gravisain' ); ?></h1>
+			<p style="font-size: 1.15rem; color: #475569; max-width: 600px; margin: 0 auto;"><?php esc_html_e( 'Choose from our collection of premium, blazing-fast templates to kickstart your next project.', 'gravisain' ); ?></p>
 		</header>
 
 		<?php
@@ -23,7 +23,7 @@ get_header(); ?>
 		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) :
 		?>
 		<div class="template-filters" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap;">
-			<a href="<?php echo esc_url( get_post_type_archive_link( 'gravisain_template' ) ); ?>" class="button <?php echo ! is_tax( 'template_category' ) ? 'active' : ''; ?>" style="border-radius: 99px; padding: 8px 20px; font-weight: 600; text-decoration: none; background: <?php echo ! is_tax( 'template_category' ) ? '#4f46e5' : '#fff'; ?>; color: <?php echo ! is_tax( 'template_category' ) ? '#fff' : '#475569'; ?>; border: 1px solid #cbd5e1; transition: all 0.2s;">All Templates</a>
+			<a href="<?php echo esc_url( get_post_type_archive_link( 'gravisain_template' ) ); ?>" class="button <?php echo ! is_tax( 'template_category' ) ? 'active' : ''; ?>" style="border-radius: 99px; padding: 8px 20px; font-weight: 600; text-decoration: none; background: <?php echo ! is_tax( 'template_category' ) ? '#4f46e5' : '#fff'; ?>; color: <?php echo ! is_tax( 'template_category' ) ? '#fff' : '#475569'; ?>; border: 1px solid #cbd5e1; transition: all 0.2s;"><?php esc_html_e( 'All Templates', 'gravisain' ); ?></a>
 			<?php foreach ( $terms as $term ) : ?>
 				<a href="<?php echo esc_url( get_term_link( $term ) ); ?>" class="button <?php echo is_tax( 'template_category', $term->term_id ) ? 'active' : ''; ?>" style="border-radius: 99px; padding: 8px 20px; font-weight: 600; text-decoration: none; background: <?php echo is_tax( 'template_category', $term->term_id ) ? '#4f46e5' : '#fff'; ?>; color: <?php echo is_tax( 'template_category', $term->term_id ) ? '#fff' : '#475569'; ?>; border: 1px solid #cbd5e1; transition: all 0.2s;"><?php echo esc_html( $term->name ); ?></a>
 			<?php endforeach; ?>
@@ -60,9 +60,9 @@ get_header(); ?>
 							<?php the_title( '<h2 class="template-title" style="font-size: 1.25rem; font-weight: 700; margin: 0 0 12px 0; line-height: 1.4;"><a href="' . esc_url( get_permalink() ) . '" style="color: #0f172a; text-decoration: none;">', '</a></h2>' ); ?>
 							
 							<div class="template-actions" style="display: flex; gap: 10px; margin-top: 20px;">
-								<a href="<?php the_permalink(); ?>" style="flex: 1; text-align: center; padding: 10px; background: #f8fafc; color: #334155; border: 1px solid #cbd5e1; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: background 0.2s;">Details</a>
+								<a href="<?php the_permalink(); ?>" style="flex: 1; text-align: center; padding: 10px; background: #f8fafc; color: #334155; border: 1px solid #cbd5e1; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: background 0.2s;"><?php esc_html_e( 'Details', 'gravisain' ); ?></a>
 								<?php if ( $demo_url ) : ?>
-									<a href="<?php echo esc_url( $demo_url ); ?>" target="_blank" rel="noopener noreferrer" style="flex: 1; text-align: center; padding: 10px; background: #4f46e5; color: #fff; border: 1px solid #4f46e5; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: background 0.2s;">Live Demo</a>
+									<a href="<?php echo esc_url( $demo_url ); ?>" target="_blank" rel="noopener noreferrer" style="flex: 1; text-align: center; padding: 10px; background: #4f46e5; color: #fff; border: 1px solid #4f46e5; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: background 0.2s;"><?php esc_html_e( 'Live Demo', 'gravisain' ); ?></a>
 								<?php endif; ?>
 							</div>
 						</div>
@@ -70,7 +70,7 @@ get_header(); ?>
 					<?php
 				endwhile;
 			else :
-				echo '<div class="no-templates" style="grid-column: 1 / -1; text-align: center; padding: 40px; background: #fff; border-radius: 12px; border: 1px dashed #cbd5e1;"><p style="font-size: 1.1rem; color: #64748b;">No templates found.</p></div>';
+				echo '<div class="no-templates" style="grid-column: 1 / -1; text-align: center; padding: 40px; background: #fff; border-radius: 12px; border: 1px dashed #cbd5e1;"><p style="font-size: 1.1rem; color: #64748b;">' . esc_html__( 'No templates found.', 'gravisain' ) . '</p></div>';
 			endif;
 			?>
 		</div><!-- .templates-grid -->
@@ -106,6 +106,35 @@ get_header(); ?>
 	}
 	.template-actions a:hover {
 		filter: brightness(0.95);
+	}
+	@media (max-width: 640px) {
+		.templates-grid {
+			grid-template-columns: 1fr !important;
+			gap: 20px !important;
+		}
+		.template-card {
+			width: 100% !important;
+			box-sizing: border-box !important;
+		}
+		.template-filters {
+			flex-wrap: nowrap !important;
+			overflow-x: auto !important;
+			justify-content: flex-start !important;
+			gap: 8px !important;
+			padding: 4px 4px 14px !important;
+			margin-bottom: 24px !important;
+			-webkit-overflow-scrolling: touch;
+			scrollbar-width: none;
+		}
+		.template-filters::-webkit-scrollbar {
+			display: none;
+		}
+		.template-filters a.button {
+			flex-shrink: 0 !important;
+			white-space: nowrap !important;
+			padding: 7px 16px !important;
+			font-size: 0.85rem !important;
+		}
 	}
 </style>
 

@@ -49,14 +49,17 @@ class VisibilityControl extends \WP_Customize_Control {
 		parent::to_json();
 
 		$this->json['devices'] = $this->devices;
-		$this->json['tab']     = isset( $this->wrapper_attrs['data-tab'] ) ? $this->wrapper_attrs['data-tab'] : '';
-		$this->json['value']   = $this->value();
-		if ( ! is_array( $this->json['value'] ) ) {
-			if ( is_string( $this->json['value'] ) && ! empty( $this->json['value'] ) ) {
-				$this->json['value'] = explode( ',', $this->json['value'] );
+		$val = $this->value();
+		if ( is_array( $val ) ) {
+			$this->json['value'] = $val;
+		} elseif ( is_string( $val ) ) {
+			if ( '' === $val || 'none' === $val ) {
+				$this->json['value'] = [];
 			} else {
-				$this->json['value'] = [ 'desktop', 'tablet', 'mobile' ];
+				$this->json['value'] = array_values( array_filter( array_map( 'trim', explode( ',', $val ) ) ) );
 			}
+		} else {
+			$this->json['value'] = [ 'desktop', 'tablet', 'mobile' ];
 		}
 	}
 
@@ -81,7 +84,7 @@ class VisibilityControl extends \WP_Customize_Control {
 				<# } ); #>
 			</div>
 
-			<input type="hidden" class="gravisain-visibility-hidden-value" value="{{ Array.isArray(data.value) ? data.value.join(',') : data.value }}" {{{ data.link }}} />
+			<input type="hidden" class="gravisain-visibility-hidden-value" value="{{ Array.isArray(data.value) && data.value.length ? data.value.join(',') : 'none' }}" {{{ data.link }}} />
 		</div>
 		<?php
 	}

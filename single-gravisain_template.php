@@ -38,11 +38,11 @@ get_header(); ?>
 							<a href="<?php echo esc_url( $demo_url ); ?>" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 14px 28px; background: #4f46e5; color: #fff; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1.05rem; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3); transition: transform 0.2s, box-shadow 0.2s;">
 								<span style="display: flex; align-items: center; gap: 8px;">
 									<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
-									View Live Demo
+									<?php esc_html_e( 'View Live Demo', 'gravisain' ); ?>
 								</span>
 							</a>
 						<?php endif; ?>
-						<a href="#features" style="display: inline-block; padding: 14px 28px; background: #fff; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1.05rem; transition: background 0.2s;">Explore Features</a>
+						<a href="#features" style="display: inline-block; padding: 14px 28px; background: #fff; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1.05rem; transition: background 0.2s;"><?php esc_html_e( 'Explore Features', 'gravisain' ); ?></a>
 					</div>
 				</header>
 
@@ -55,7 +55,7 @@ get_header(); ?>
 				<div id="features" class="template-content-wrapper" style="display: grid; grid-template-columns: 1fr; gap: 40px; max-width: 900px; margin: 0 auto;">
 					
 					<div class="template-main-content" style="background: #fff; padding: 40px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-						<h2 style="font-size: 1.75rem; font-weight: 700; margin-top: 0; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;">Template Description</h2>
+						<h2 style="font-size: 1.75rem; font-weight: 700; margin-top: 0; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;"><?php esc_html_e( 'Template Description', 'gravisain' ); ?></h2>
 						<div class="entry-content" style="font-size: 1.1rem; line-height: 1.8; color: #334155;">
 							<?php the_content(); ?>
 						</div>

@@ -1,0 +1,451 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravisain Window Builder</title>
+    <link rel="stylesheet" href="style.css">
+
+
+
+    <div class="grv-mockup-wrapper">
+        <!-- Radio Tab Switcher untuk Layar Mobile -->
+        <input type="radio" name="grv-m-tab" id="grv-tab-b" checked="">
+        <input type="radio" name="grv-m-tab" id="grv-tab-c">
+        <input type="radio" name="grv-m-tab" id="grv-tab-s">
+
+        <!-- 1. Floating Badge Kiri Atas -->
+        <div class="grv-badge-tl" title="Performance score verified">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <span>Core Web Vitals: 100</span>
+        </div>
+
+        <!-- 1b. Floating Badge Kanan Atas -->
+        <div class="grv-badge-r" title="Lightweight core footprint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                <rect x="9" y="9" width="6" height="6"></rect>
+                <line x1="9" y1="1" x2="9" y2="4"></line>
+                <line x1="15" y1="1" x2="15" y2="4"></line>
+                <line x1="9" y1="20" x2="9" y2="23"></line>
+                <line x1="15" y1="20" x2="15" y2="23"></line>
+                <line x1="20" y1="9" x2="23" y2="9"></line>
+                <line x1="20" y1="15" x2="23" y2="15"></line>
+                <line x1="1" y1="9" x2="4" y2="9"></line>
+                <line x1="1" y1="15" x2="4" y2="15"></line>
+            </svg>
+            <span>Zero jQuery &lt; 45KB Core</span>
+        </div>
+
+        <!-- 2. Window Frame Utama -->
+        <div class="grv-window-frame">
+            
+            <!-- Window Topbar Header -->
+            <div class="grv-mockup-header">
+                <div class="grv-header-left">
+                    <div class="grv-mac-dots">
+                        <span class="grv-mac-dot dot-red" title="Close Window"></span>
+                        <span class="grv-mac-dot dot-yellow" title="Minimize Window"></span>
+                        <span class="grv-mac-dot dot-green" title="Expand Window"></span>
+                    </div>
+                    <span class="grv-url-text">gravisain-cloud.wp/wp-admin/post.php?post=408&amp;action=edit</span>
+                </div>
+                <div class="grv-header-right">
+                    <span id="grvSaveStatus" class="grv-save-badge">Saved 1s ago</span>
+                    <button type="button" id="grvUpdateBtn" class="grv-btn-update">
+                        <svg class="grv-rocket-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+                            <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+                        </svg>
+                        <span>Update</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Column Switcher Bar -->
+            <div class="grv-mobile-switcher">
+                <label for="grv-tab-b" class="grv-mobile-tab-btn grv-btn-tab-b">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Blocks Inserter</span>
+                </label>
+                <label for="grv-tab-c" class="grv-mobile-tab-btn grv-btn-tab-c">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                    <span>Canvas</span>
+                </label>
+                <label for="grv-tab-s" class="grv-mobile-tab-btn grv-btn-tab-s">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    <span>Settings</span>
+                </label>
+            </div>
+
+            <!-- Kontainer Utama 3 Kolom -->
+            <div class="grv-mockup-body">
+                
+                <!-- KOLOM KIRI: Block Inserter Sidebar -->
+                <div id="grv-col-blocks" class="grv-mockup-left grv-mockup-col">
+                    <div class="grv-top-toolbar">
+                        <div class="grv-toolbar-actions">
+                            <button type="button" class="grv-icon-btn" title="Back">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            </button>
+                            <button type="button" class="grv-add-block-btn" title="Add Block">+</button>
+                            <button type="button" class="grv-icon-btn" title="Undo">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7v6h6"></path><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></svg>
+                            </button>
+                            <button type="button" class="grv-icon-btn" title="Redo">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 7v6h-6"></path><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"></path></svg>
+                            </button>
+                            <button type="button" class="grv-icon-btn" title="List View">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grv-panel-tabs">
+                        <div class="grv-tab-items">
+                            <span class="grv-tab-btn active" data-tab="blocks">Blocks</span>
+                            <span class="grv-tab-btn" data-tab="patterns">Patterns</span>
+                            <span class="grv-tab-btn" data-tab="media">Media</span>
+                        </div>
+                        <span class="grv-close-btn" title="Close Panel">✕</span>
+                    </div>
+
+                    <div class="grv-search-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" id="grvSearchBlock" placeholder="Search blocks...">
+                    </div>
+
+                    <div class="grv-cat-header">
+                        <span>GRAVISAIN BLOCKS</span>
+                        <button type="button" class="grv-brand-icon-btn" title="Filter Gravisain Blocks">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <polygon points="6 3 18 3 12 12 6 3"></polygon>
+                                <polygon points="6 21 18 21 12 12 6 21"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="grv-blocks-grid">
+                        <div class="grv-block-item" tabindex="0" role="button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"></rect><line x1="12" y1="8" x2="12" y2="16"></line><polyline points="8 12 12 16 16 12"></polyline></svg>
+                            <div class="grv-block-label">Page Auto Scroll (Pro)</div>
+                        </div>
+                        <div class="grv-block-item" tabindex="0" role="button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"></rect><path d="M9 16V9l6-2v7"></path><circle cx="7.5" cy="16" r="1.5" fill="currentColor"></circle><circle cx="13.5" cy="14" r="1.5" fill="currentColor"></circle></svg>
+                            <div class="grv-block-label">Audio Page (Pro)</div>
+                        </div>
+                        <div class="grv-block-item" tabindex="0" role="button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"></line><rect x="6" y="4" width="4" height="4" rx="1" fill="currentColor"></rect><line x1="3" y1="12" x2="21" y2="12"></line><rect x="14" y="10" width="4" height="4" rx="1" fill="currentColor"></rect><line x1="3" y1="18" x2="21" y2="18"></line><rect x="8" y="16" width="4" height="4" rx="1" fill="currentColor"></rect></svg>
+                            <div class="grv-block-label">Pro Slider</div>
+                        </div>
+                        <div class="grv-block-item" tabindex="0" role="button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="20" r="1"></circle><circle cx="19" cy="20" r="1"></circle><path d="M2 3h3l2.5 12h11.5l2-8H6"></path></svg>
+                            <div class="grv-block-label">WooCommerce Carousel (Pro)</div>
+                        </div>
+                        <div class="grv-block-item" tabindex="0" role="button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="12" height="16" rx="2"></rect><line x1="9" y1="9" x2="15" y2="9"></line><line x1="9" y1="13" x2="13" y2="13"></line><polyline points="2 12 4 12"></polyline><polyline points="20 12 22 12"></polyline></svg>
+                            <div class="grv-block-label">Post Grid / Carousel (Pro)</div>
+                        </div>
+                        <div class="grv-block-item" tabindex="0" role="button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="3" width="6" height="5" rx="1"></rect><line x1="12" y1="8" x2="12" y2="13"></line><line x1="6" y1="13" x2="18" y2="13"></line><line x1="6" y1="13" x2="6" y2="16"></line><line x1="18" y1="13" x2="18" y2="16"></line><rect x="3" y="16" width="6" height="5" rx="1"></rect><rect x="15" y="16" width="6" height="5" rx="1"></rect></svg>
+                            <div class="grv-block-label">Diagram Tree</div>
+                        </div>
+                        <div class="grv-block-item" tabindex="0" role="button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="9" y1="10" x2="9" y2="20"></line><line x1="15" y1="10" x2="15" y2="20"></line></svg>
+                            <div class="grv-block-label">Advanced / Pricing Table</div>
+                        </div>
+                        <div class="grv-block-item" tabindex="0" role="button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="5" width="16" height="6" rx="3"></rect><rect x="4" y="13" width="16" height="6" rx="3"></rect></svg>
+                            <div class="grv-block-label">Advanced Buttons</div>
+                        </div>
+                        <div class="grv-block-item" tabindex="0" role="button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"></rect><line x1="8" y1="7" x2="16" y2="7"></line><line x1="8" y1="11" x2="16" y2="11"></line><line x1="8" y1="15" x2="12" y2="15"></line></svg>
+                            <div class="grv-block-label">Advanced Form</div>
+                        </div>
+                        <div class="grv-block-item" tabindex="0" role="button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="2"></rect><rect x="14" y="3" width="7" height="7" rx="2"></rect><rect x="3" y="14" width="7" height="7" rx="2"></rect><rect x="14" y="14" width="7" height="7" rx="2"></rect></svg>
+                            <div class="grv-block-label">Advanced Gallery</div>
+                        </div>
+                        <div class="grv-block-item" tabindex="0" role="button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="6" y1="4" x2="6" y2="20"></line><line x1="18" y1="4" x2="18" y2="20"></line><line x1="6" y1="12" x2="18" y2="12"></line></svg>
+                            <div class="grv-block-label">Advanced Heading</div>
+                        </div>
+                        <div class="grv-block-item" tabindex="0" role="button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"></rect><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                            <div class="grv-block-label">Advanced Image</div>
+                        </div>
+                    </div>
+
+                    <div class="grv-breadcrumb-bar">
+                        <button type="button" class="grv-breadcrumb-link">Page</button>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <button type="button" class="grv-breadcrumb-link">Row Layout</button>
+                    </div>
+                </div>
+
+                <!-- KOLOM TENGAH: Canvas Preview Area -->
+                <div id="grv-col-canvas" class="grv-mockup-center grv-mockup-col">
+                    <div id="grvCanvasCard" class="grv-canvas-card">
+                        <div class="grv-canvas-toolbar">
+                            <button type="button" class="grv-tool-icon-btn active" title="Transform to Container">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line></svg>
+                            </button>
+                            <button type="button" class="grv-tool-icon-btn" title="Drag Handle">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect></svg>
+                            </button>
+                            <button type="button" class="grv-tool-icon-btn" title="Move Up / Down">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                            </button>
+                            <span class="grv-separator">|</span>
+                            <button type="button" class="grv-tool-icon-btn" title="More Options">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                            </button>
+                        </div>
+
+                        <div class="grv-card-subtitle">NEXT-GENERATION WORDPRESS EXPERIENCE</div>
+                        <h2 class="grv-card-title">Welcome to Gravisain</h2>
+                        <p class="grv-card-desc">Gravisain combines a 100% hybrid PHP architecture with modern Gutenberg blocks, delivering exceptional PageSpeed scores and enterprise-grade maintainability.</p>
+
+                        <a href="javascript:void(0)" class="grv-btn-primary-card">
+                            <span>Get Started</span>
+                        </a>
+                        <a href="javascript:void(0)" class="grv-btn-secondary-card">
+                            <span>Learn More</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- KOLOM KANAN: Inspector Settings (General, Style & Advanced) -->
+                <div id="grv-col-settings" class="grv-mockup-right grv-mockup-col">
+                    <div class="grv-settings-tabs">
+                        <div class="grv-settings-tab-group">
+                            <span class="grv-tab-switch" data-target="page">Page</span>
+                            <span class="grv-tab-switch active" data-target="block">Block</span>
+                        </div>
+                        <span class="grv-close-btn" title="Close Panel">✕</span>
+                    </div>
+
+                    <!-- Block Identity -->
+                    <div class="grv-block-identity">
+                        <div class="grv-block-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+                                <line x1="7" y1="8" x2="17" y2="8"></line>
+                                <line x1="7" y1="12" x2="13" y2="12"></line>
+                            </svg>
+                        </div>
+                        <div class="grv-block-meta">
+                            <div class="grv-meta-title">Hero Section</div>
+                            <div class="grv-meta-desc">Premium Hero section block.</div>
+                        </div>
+                    </div>
+
+                    <!-- Subtabs Bar (General, Style, Advanced) -->
+                    <div class="grv-subtabs-bar">
+                        <button type="button" class="grv-style-subtab active" data-sub="general">General</button>
+                        <button type="button" class="grv-style-subtab" data-sub="style">Style</button>
+                        <button type="button" class="grv-style-subtab" data-sub="advanced">Advanced</button>
+                    </div>
+
+                    <!-- ================= PANEL 1: GENERAL ================= -->
+                    <div id="grv-panel-general" class="grv-subtab-panel active">
+                        <!-- Accordion 1: Layout Settings -->
+                        <div class="grv-accord-sec">
+                            <div class="grv-accord-toggle">
+                                <span class="grv-accord-title">Layout Settings</span>
+                                <svg class="grv-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                            </div>
+                            <div class="grv-accord-content">
+                                <!-- Layout Style Dropdown -->
+                                <div class="grv-ctrl-group">
+                                    <label class="grv-label-xs">LAYOUT STYLE</label>
+                                    <div class="grv-select-wrap">
+                                        <select id="grvLayoutStyle" class="grv-select-field">
+                                            <option value="1col">1 Column (Center)</option>
+                                            <option value="2col">2 Columns (50 / 50)</option>
+                                            <option value="3col">3 Columns (Grid)</option>
+                                        </select>
+                                        <svg class="grv-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                    </div>
+                                </div>
+
+                                <!-- Text Alignment + Device -->
+                                <div class="grv-ctrl-group">
+                                    <div class="grv-row-space">
+                                        <span class="grv-label-xs">TEXT ALIGNMENT</span>
+                                        <div class="grv-dev-group">
+                                            <button type="button" class="grv-dev-btn active" title="Desktop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></button>
+                                            <button type="button" class="grv-dev-btn" title="Tablet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg></button>
+                                            <button type="button" class="grv-dev-btn" title="Mobile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg></button>
+                                        </div>
+                                    </div>
+                                    <!-- 3 Alignment Segments -->
+                                    <div class="grv-align-box">
+                                        <button type="button" class="grv-align-btn" data-align="left" title="Align Left">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="17" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="17" y1="18" x2="3" y2="18"></line></svg>
+                                        </button>
+                                        <button type="button" class="grv-align-btn active" data-align="center" title="Align Center">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="10" x2="6" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="18" y1="18" x2="6" y2="18"></line></svg>
+                                        </button>
+                                        <button type="button" class="grv-align-btn" data-align="right" title="Align Right">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="7" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="21" y1="18" x2="7" y2="18"></line></svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Inner Container Max Width Slider -->
+                                <div class="grv-ctrl-group">
+                                    <label class="grv-label-xs">INNER CONTAINER MAX WIDTH (PX)</label>
+                                    <div class="grv-range-row">
+                                        <div class="grv-slider-box">
+                                            <input type="range" id="grvMaxWidthRange" min="0" max="1200" step="10" value="0" class="grv-range-slider">
+                                        </div>
+                                        <input type="number" id="grvMaxWidthInput" value="0" min="0" max="1200" class="grv-num-input">
+                                        <button type="button" id="grvResetWidthBtn" class="grv-reset-btn">Reset</button>
+                                    </div>
+                                    <div class="grv-help-text">Set to 0 to inherit theme container width.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accordion 2: Background & Overlay -->
+                        <div class="grv-accord-sec border-top">
+                            <div class="grv-accord-toggle">
+                                <span class="grv-accord-title">Background &amp; Overlay</span>
+                                <svg class="grv-arrow-icon rotate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </div>
+                            <div class="grv-accord-content collapsed">
+                                <div class="grv-color-swatches">
+                                    <button type="button" class="grv-color-chip bg-white" title="White"></button>
+                                    <button type="button" class="grv-color-chip bg-slate" title="Slate"></button>
+                                    <button type="button" class="grv-color-chip bg-indigo" title="Indigo Tint"></button>
+                                    <button type="button" class="grv-color-chip bg-dark" title="Dark"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accordion 3: Display Conditions -->
+                        <div class="grv-accord-sec border-top">
+                            <div class="grv-accord-toggle">
+                                <span class="grv-accord-title">Display Conditions (Pro)</span>
+                                <svg class="grv-arrow-icon rotate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </div>
+                            <div class="grv-accord-content collapsed">
+                                <label class="grv-checkbox-lbl">
+                                    <input type="checkbox" checked="">
+                                    <span>Show for logged-in users only</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================= PANEL 2: STYLE ================= -->
+                    <div id="grv-panel-style" class="grv-subtab-panel">
+                        <!-- Accordion 1: Spacing & Margin -->
+                        <div class="grv-accord-sec">
+                            <div class="grv-accord-toggle">
+                                <span class="grv-accord-title">Spacing &amp; Margin</span>
+                                <svg class="grv-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                            </div>
+
+                            <div class="grv-accord-content">
+                                <div class="grv-device-toolbar">
+                                    <button type="button" class="grv-dev-btn active" title="Desktop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></button>
+                                    <button type="button" class="grv-dev-btn" title="Tablet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg></button>
+                                    <button type="button" class="grv-dev-btn" title="Mobile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg></button>
+                                </div>
+
+                                <!-- Padding -->
+                                <div class="grv-spacing-group">
+                                    <div class="grv-spacing-header">
+                                        <span class="grv-spacing-label">Padding</span>
+                                        <div class="grv-tool-btns">
+                                            <button type="button" class="grv-tool-btn" title="Unlink / Link Sides"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="2" y1="2" x2="22" y2="22"></line><path d="M10 14l-2 2a4 4 0 0 1-5.66-5.66l2-2a4 4 0 0 1 5.66 0"></path><path d="M14 10l2-2a4 4 0 0 1 5.66 5.66l-2 2a4 4 0 0 1-5.66 0"></path></svg></button>
+                                            <button type="button" class="grv-tool-btn grv-reset-spacing" title="Reset Values"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg></button>
+                                        </div>
+                                    </div>
+                                    <div class="grv-box-inputs" data-type="padding">
+                                        <div class="grv-box-col"><span class="grv-box-tag">TOP</span><input type="text" placeholder="-" class="grv-box-field field-top"></div>
+                                        <div class="grv-box-col"><span class="grv-box-tag">RIGHT</span><input type="text" placeholder="-" class="grv-box-field field-right"></div>
+                                        <div class="grv-box-col"><span class="grv-box-tag">BOTTOM</span><input type="text" placeholder="-" class="grv-box-field field-bottom"></div>
+                                        <div class="grv-box-col"><span class="grv-box-tag">LEFT</span><input type="text" placeholder="-" class="grv-box-field field-left"></div>
+                                        <div class="grv-box-unit">PX</div>
+                                    </div>
+                                </div>
+
+                                <!-- Margin -->
+                                <div class="grv-spacing-group">
+                                    <div class="grv-spacing-header">
+                                        <span class="grv-spacing-label">Margin</span>
+                                        <div class="grv-tool-btns">
+                                            <button type="button" class="grv-tool-btn" title="Unlink / Link Sides"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="2" y1="2" x2="22" y2="22"></line><path d="M10 14l-2 2a4 4 0 0 1-5.66-5.66l2-2a4 4 0 0 1 5.66 0"></path><path d="M14 10l2-2a4 4 0 0 1 5.66 5.66l-2 2a4 4 0 0 1-5.66 0"></path></svg></button>
+                                            <button type="button" class="grv-tool-btn grv-reset-spacing" title="Reset Values"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg></button>
+                                        </div>
+                                    </div>
+                                    <div class="grv-box-inputs" data-type="margin">
+                                        <div class="grv-box-col"><span class="grv-box-tag">TOP</span><input type="text" placeholder="-" class="grv-box-field field-top"></div>
+                                        <div class="grv-box-col"><span class="grv-box-tag">RIGHT</span><input type="text" placeholder="-" class="grv-box-field field-right"></div>
+                                        <div class="grv-box-col"><span class="grv-box-tag">BOTTOM</span><input type="text" placeholder="-" class="grv-box-field field-bottom"></div>
+                                        <div class="grv-box-col"><span class="grv-box-tag">LEFT</span><input type="text" placeholder="-" class="grv-box-field field-left"></div>
+                                        <div class="grv-box-unit">PX</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accordion 2: Typography -->
+                        <div class="grv-accord-sec border-top">
+                            <div class="grv-accord-toggle">
+                                <span class="grv-accord-title">Typography</span>
+                                <svg class="grv-arrow-icon rotate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                            </div>
+                            <div class="grv-accord-content collapsed">
+                                <div class="grv-empty-opt">Font Family, Size, Weight, and Line-height controls.</div>
+                            </div>
+                        </div>
+
+                        <!-- Accordion 3: Buttons -->
+                        <div class="grv-accord-sec border-top">
+                            <div class="grv-accord-toggle">
+                                <span class="grv-accord-title">Buttons</span>
+                                <svg class="grv-arrow-icon rotate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                            </div>
+                            <div class="grv-accord-content collapsed">
+                                <div class="grv-empty-opt">Button color presets, borders, and hover effects.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================= PANEL 3: ADVANCED ================= -->
+                    <div id="grv-panel-advanced" class="grv-subtab-panel">
+                        <div class="grv-accord-sec">
+                            <div class="grv-accord-toggle">
+                                <span class="grv-accord-title">HTML Anchor &amp; CSS Classes</span>
+                                <svg class="grv-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                            </div>
+                            <div class="grv-accord-content">
+                                <div class="grv-ctrl-group">
+                                    <label class="grv-label-xs">ADDITIONAL CSS CLASS(ES)</label>
+                                    <input type="text" placeholder="custom-hero-class" class="grv-text-input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Floating Badge Bawah Tengah -->
+        <div class="grv-badge-b" title="DOM node efficiency count">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>Clean DOM Elements: 184</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>

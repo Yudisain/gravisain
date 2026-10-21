@@ -73,6 +73,20 @@ class StickyHeaderOptions {
 			],
 		] );
 
+		// Sticky Header Logo (Alternate Logo on Scroll)
+		$wp_customize->add_setting( 'gravisain_sticky_header_logo', [
+			'default'           => '',
+			'sanitize_callback' => 'absint',
+			'transport'         => 'refresh',
+		] );
+
+		$wp_customize->add_control( new \WP_Customize_Media_Control( $wp_customize, 'gravisain_sticky_header_logo', [
+			'label'       => __( 'Sticky Header Logo', 'gravisain' ),
+			'description' => __( 'Upload an alternate logo to display when header is scrolled/sticky (e.g. a light/white logo). Leave empty to use default logo.', 'gravisain' ),
+			'section'     => 'gravisain_header_sticky',
+			'mime_type'   => 'image',
+		] ) );
+
 		// Shrink Header
 		$wp_customize->add_setting( 'gravisain_sticky_header_shrink', [
 			'default'           => true,
@@ -144,6 +158,32 @@ class StickyHeaderOptions {
 		$wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, 'gravisain_sticky_header_text_color', [
 			'label'       => __( 'Sticky Navigation Text Color', 'gravisain' ),
 			'description' => __( 'Optional custom text color when sticky.', 'gravisain' ),
+			'section'     => 'gravisain_header_sticky',
+		] ) );
+
+		// Sticky Hamburger / Trigger Color
+		$wp_customize->add_setting( 'gravisain_sticky_header_trigger_color', [
+			'default'           => '',
+			'sanitize_callback' => 'sanitize_hex_color',
+			'transport'         => 'refresh',
+		] );
+
+		$wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, 'gravisain_sticky_header_trigger_color', [
+			'label'       => __( 'Sticky Hamburger / Trigger Color', 'gravisain' ),
+			'description' => __( 'Optional custom color for hamburger button when sticky. If left empty, it will follow Sticky Navigation Text Color.', 'gravisain' ),
+			'section'     => 'gravisain_header_sticky',
+		] ) );
+
+		// Sticky Hamburger / Trigger Hover Color
+		$wp_customize->add_setting( 'gravisain_sticky_header_trigger_color_hover', [
+			'default'           => '',
+			'sanitize_callback' => 'sanitize_hex_color',
+			'transport'         => 'refresh',
+		] );
+
+		$wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, 'gravisain_sticky_header_trigger_color_hover', [
+			'label'       => __( 'Sticky Hamburger Hover Color', 'gravisain' ),
+			'description' => __( 'Optional custom hover color for hamburger button when sticky.', 'gravisain' ),
 			'section'     => 'gravisain_header_sticky',
 		] ) );
 

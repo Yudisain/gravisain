@@ -73,7 +73,9 @@ class Customizer {
 
 	public function enqueue_assets(): void {
 		$theme_version = wp_get_theme()->get( 'Version' );
-		$manifest_path = get_template_directory() . '/assets/.vite/manifest.json';
+		$manifest_path = file_exists( get_template_directory() . '/assets/manifest.json' )
+			? get_template_directory() . '/assets/manifest.json'
+			: get_template_directory() . '/assets/.vite/manifest.json';
 		
 		if ( file_exists( $manifest_path ) ) {
 			$manifest      = json_decode( file_get_contents( $manifest_path ), true );
@@ -147,7 +149,9 @@ class Customizer {
 
 	public function enqueue_preview_assets(): void {
 		$theme_version = wp_get_theme()->get( 'Version' );
-		$manifest_path = get_template_directory() . '/assets/.vite/manifest.json';
+		$manifest_path = file_exists( get_template_directory() . '/assets/manifest.json' )
+			? get_template_directory() . '/assets/manifest.json'
+			: get_template_directory() . '/assets/.vite/manifest.json';
 		
 		if ( file_exists( $manifest_path ) ) {
 			$manifest = json_decode( file_get_contents( $manifest_path ), true );

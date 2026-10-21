@@ -14,16 +14,18 @@ $visibility = get_theme_mod( 'gravisain_footer_top_visibility', 'desktop,tablet,
 $layout     = get_theme_mod( 'gravisain_footer_top_layout', 'full-contained' );
 $classes    = [ 'site-footer-row', 'site-footer-top', 'cols-' . $columns, 'layout-' . sanitize_html_class( $layout ) ];
 
-if ( ! empty( $visibility ) ) {
-	if ( false === strpos( $visibility, 'desktop' ) ) {
-		$classes[] = 'gravisain-hide-desktop';
-	}
-	if ( false === strpos( $visibility, 'tablet' ) ) {
-		$classes[] = 'gravisain-hide-tablet';
-	}
-	if ( false === strpos( $visibility, 'mobile' ) ) {
-		$classes[] = 'gravisain-hide-mobile';
-	}
+$active_devices = ( '' !== $visibility && 'none' !== $visibility && null !== $visibility && ! empty( $visibility ) )
+	? array_filter( array_map( 'trim', explode( ',', (string) $visibility ) ) )
+	: [];
+
+if ( ! in_array( 'desktop', $active_devices, true ) ) {
+	$classes[] = 'gravisain-hide-desktop';
+}
+if ( ! in_array( 'tablet', $active_devices, true ) ) {
+	$classes[] = 'gravisain-hide-tablet';
+}
+if ( ! in_array( 'mobile', $active_devices, true ) ) {
+	$classes[] = 'gravisain-hide-mobile';
 }
 ?>
 

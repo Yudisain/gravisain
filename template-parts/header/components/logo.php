@@ -43,12 +43,32 @@ $trans_logo_url = ( \Gravisain\Helpers\HeaderHelper::is_transparent_header() && 
 	? wp_get_attachment_image_url( $trans_logo_id, 'full' )
 	: false;
 $has_trans_logo = ! empty( $trans_logo_url );
+
+$sticky_logo_id  = get_theme_mod( 'gravisain_sticky_header_logo' );
+$sticky_logo_url = ( 'none' !== \Gravisain\Helpers\HeaderHelper::get_sticky_header_mode() && $sticky_logo_id )
+	? wp_get_attachment_image_url( $sticky_logo_id, 'full' )
+	: false;
+$has_sticky_logo = ! empty( $sticky_logo_url );
+
+$branding_classes = [ 'site-branding' ];
+if ( $has_trans_logo ) {
+	$branding_classes[] = 'has-transparent-logo';
+}
+if ( $has_sticky_logo ) {
+	$branding_classes[] = 'has-sticky-logo';
+}
 ?>
-<div class="site-branding <?php echo $has_trans_logo ? 'has-transparent-logo' : ''; ?>">
+<div class="<?php echo esc_attr( implode( ' ', $branding_classes ) ); ?>">
 	<?php
 	if ( $has_trans_logo ) {
 		echo '<a href="' . esc_url( home_url( '/' ) ) . '" class="transparent-custom-logo-link" rel="home">';
 		echo '<img src="' . esc_url( $trans_logo_url ) . '" class="transparent-logo custom-logo" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '">';
+		echo '</a>';
+	}
+
+	if ( $has_sticky_logo ) {
+		echo '<a href="' . esc_url( home_url( '/' ) ) . '" class="sticky-custom-logo-link" rel="home">';
+		echo '<img src="' . esc_url( $sticky_logo_url ) . '" class="sticky-logo custom-logo" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '">';
 		echo '</a>';
 	}
 
