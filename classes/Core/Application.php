@@ -76,6 +76,12 @@ class Application {
 	 * @return void
 	 */
 	public function theme_setup(): void {
+		// Set global content width for media and oEmbeds.
+		global $content_width;
+		if ( ! isset( $content_width ) ) {
+			$content_width = 1200;
+		}
+
 		// Load translation files.
 		load_theme_textdomain( 'gravisain', get_template_directory() . '/languages' );
 

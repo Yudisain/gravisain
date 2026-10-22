@@ -10,3 +10,5 @@ postcss.config.js
 .gitignore
 .distignore
 scripts
+archive-gravisain_template.php
+single-gravisain_template.php
