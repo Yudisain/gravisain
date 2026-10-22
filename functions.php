@@ -26,7 +26,7 @@ if ( version_compare( PHP_VERSION, '8.0.0', '<' ) ) {
 }
 
 // 2. Define Theme Constants.
-define( 'GRAVISAIN_VERSION', '1.0.0' );
+define( 'GRAVISAIN_VERSION', '1.0.1' );
 define( 'GRAVISAIN_THEME_DIR', get_template_directory() . '/' );
 define( 'GRAVISAIN_THEME_URL', get_template_directory_uri() . '/' );
 
