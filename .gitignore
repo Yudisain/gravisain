@@ -13,7 +13,6 @@ Thumbs.db
 *.swp
 *.swo
 *.code-workspace
-.antigravityignore
 .agents/
 
 # Environment variables & secrets
