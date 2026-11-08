@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Controls;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! class_exists( 'WP_Customize_Control' ) ) {
 	return;
 }
@@ -27,20 +31,32 @@ class VisibilityControl extends \WP_Customize_Control {
 	 *
 	 * @var array
 	 */
-	public $devices = [
-		'desktop' => [
-			'label' => 'Desktop',
-			'icon'  => 'dashicons-desktop',
-		],
-		'tablet'  => [
-			'label' => 'Tablet',
-			'icon'  => 'dashicons-tablet',
-		],
-		'mobile'  => [
-			'label' => 'Mobile',
-			'icon'  => 'dashicons-smartphone',
-		],
-	];
+	public $devices = [];
+
+	/**
+	 * Constructor.
+	 *
+	 * @param \WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param string                $id      Control ID.
+	 * @param array                 $args    Optional. Arguments to override class property defaults.
+	 */
+	public function __construct( $manager, $id, $args = [] ) {
+		$this->devices = [
+			'desktop' => [
+				'label' => __( 'Desktop', 'gravisain' ),
+				'icon'  => 'dashicons-desktop',
+			],
+			'tablet'  => [
+				'label' => __( 'Tablet', 'gravisain' ),
+				'icon'  => 'dashicons-tablet',
+			],
+			'mobile'  => [
+				'label' => __( 'Mobile', 'gravisain' ),
+				'icon'  => 'dashicons-smartphone',
+			],
+		];
+		parent::__construct( $manager, $id, $args );
+	}
 
 	/**
 	 * Pass data to the Customizer JS API.

@@ -39,7 +39,7 @@ class MenuTriggerOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_trigger_style', [
 			'default'           => '3-lines',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -68,7 +68,7 @@ class MenuTriggerOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_trigger_target_menu', [
 			'default'           => 'primary',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -86,7 +86,7 @@ class MenuTriggerOptions implements ComponentOptionInterface {
 		// Shortcut to Off-Canvas Drawer Section.
 		$wp_customize->add_setting( 'gravisain_header_trigger_offcanvas_shortcut', [
 			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_key',
 		] );
 
 		$wp_customize->add_control( new ShortcutControl( $wp_customize, 'gravisain_header_trigger_offcanvas_shortcut', [
@@ -143,7 +143,7 @@ class MenuTriggerOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_trigger_visibility', [
 			'default'           => 'desktop,tablet,mobile',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'visibility' ],
 			'transport'         => 'postMessage',
 		] );
 

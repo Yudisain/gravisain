@@ -38,7 +38,7 @@ class DividerOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_divider_visibility', [
 			'default'           => 'desktop,tablet',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'visibility' ],
 			'transport'         => 'postMessage',
 		] );
 

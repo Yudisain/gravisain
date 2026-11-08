@@ -12,3 +12,7 @@ postcss.config.js
 scripts
 archive-gravisain_template.php
 single-gravisain_template.php
+wp-org-theme-review-audit.md
+MAIL/
+MAIL
+*.eml

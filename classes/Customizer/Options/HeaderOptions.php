@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Options;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Gravisain\Customizer\Options\Header\TopRowOptions;
 use Gravisain\Customizer\Options\Header\MainRowOptions;
 use Gravisain\Customizer\Options\Header\BottomRowOptions;

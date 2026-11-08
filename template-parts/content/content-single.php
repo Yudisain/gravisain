@@ -7,6 +7,10 @@
  * @package Gravisain
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $show_author_box = get_theme_mod( 'gravisain_single_post_author_box', true );
 $show_post_nav   = get_theme_mod( 'gravisain_single_post_navigation', true );
 ?>
@@ -18,7 +22,7 @@ $show_post_nav   = get_theme_mod( 'gravisain_single_post_navigation', true );
 
 			<div class="single-post-meta">
 				<span class="meta-author">
-					<?php echo \Gravisain\Helpers\SVG::icon( 'user' ); ?>
+					<?php echo wp_kses( \Gravisain\Helpers\SVG::icon( 'user' ), \Gravisain\Helpers\SVG::allowed_svg_html() ); ?>
 					<?php
 					echo '<span class="byline-prefix">' . esc_html__( 'By', 'gravisain' ) . ' </span>';
 					echo '<a href="' . esc_url( get_author_posts_url( (int) get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a>';
@@ -26,20 +30,20 @@ $show_post_nav   = get_theme_mod( 'gravisain_single_post_navigation', true );
 				</span>
 
 				<span class="meta-date">
-					<?php echo \Gravisain\Helpers\SVG::icon( 'calendar' ); ?>
+					<?php echo wp_kses( \Gravisain\Helpers\SVG::icon( 'calendar' ), \Gravisain\Helpers\SVG::allowed_svg_html() ); ?>
 					<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date() ); ?></time>
 				</span>
 
 				<?php if ( has_category() ) : ?>
 					<span class="meta-category">
-						<?php echo \Gravisain\Helpers\SVG::icon( 'tag' ); ?>
+						<?php echo wp_kses( \Gravisain\Helpers\SVG::icon( 'tag' ), \Gravisain\Helpers\SVG::allowed_svg_html() ); ?>
 						<?php the_category( ', ' ); ?>
 					</span>
 				<?php endif; ?>
 
 				<?php if ( ! post_password_required() && ( comments_open() || get_comments_number() ) ) : ?>
 					<span class="meta-comments">
-						<?php echo \Gravisain\Helpers\SVG::icon( 'comments' ); ?>
+						<?php echo wp_kses( \Gravisain\Helpers\SVG::icon( 'comments' ), \Gravisain\Helpers\SVG::allowed_svg_html() ); ?>
 						<?php comments_popup_link( esc_html__( '0 Comments', 'gravisain' ), esc_html__( '1 Comment', 'gravisain' ), esc_html__( '% Comments', 'gravisain' ) ); ?>
 					</span>
 				<?php endif; ?>
@@ -67,7 +71,7 @@ $show_post_nav   = get_theme_mod( 'gravisain_single_post_navigation', true );
 	<footer class="single-post-footer" style="margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid #f1f5f9;">
 		<?php if ( has_tag() ) : ?>
 			<div class="post-tags" style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 1.5rem;">
-				<?php echo \Gravisain\Helpers\SVG::icon( 'tag', [ 'style' => 'color: #64748b;' ] ); ?>
+				<?php echo wp_kses( \Gravisain\Helpers\SVG::icon( 'tag', [ 'style' => 'color: #64748b;' ] ), \Gravisain\Helpers\SVG::allowed_svg_html() ); ?>
 				<span style="font-weight: 600; color: #334155; margin-right: 0.5rem;"><?php esc_html_e( 'Tags:', 'gravisain' ); ?></span>
 				<?php the_tags( '<span class="tag-link" style="background: #f1f5f9; color: #475569; padding: 0.25rem 0.75rem; border-radius: 6px; font-size: 0.85rem; text-decoration: none;">', '</span><span class="tag-link" style="background: #f1f5f9; color: #475569; padding: 0.25rem 0.75rem; border-radius: 6px; font-size: 0.85rem; text-decoration: none;">', '</span>' ); ?>
 			</div>
@@ -80,7 +84,7 @@ $show_post_nav   = get_theme_mod( 'gravisain_single_post_navigation', true );
 <?php if ( $show_author_box && get_the_author_meta( 'description' ) ) : ?>
 	<div class="author-bio-box">
 		<div class="author-bio-avatar">
-			<?php echo get_avatar( get_the_author_meta( 'ID' ), 80 ); ?>
+			<?php echo wp_kses_post( get_avatar( get_the_author_meta( 'ID' ), 80 ) ); ?>
 		</div>
 		<div class="author-bio-content">
 			<h3 class="author-bio-name">

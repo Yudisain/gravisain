@@ -4,6 +4,10 @@
  * Slug: gravisain/home-yoga
  * Categories: featured, gravisain
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <p><!-- =================== HERO SECTION =================== --></p>
 

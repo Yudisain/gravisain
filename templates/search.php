@@ -7,6 +7,10 @@
  * @package Gravisain
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 get_header();
 
 $layout      = get_theme_mod( 'gravisain_blog_archive_layout', 'grid' );
@@ -31,7 +35,12 @@ $content_class = 'content-area-wrapper sidebar-' . esc_attr( $sidebar_pos ) . ' 
 							<h1 class="page-title" style="font-size: 2rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem;">
 								<?php
 								/* translators: %s: search query. */
-								printf( esc_html__( 'Search Results for: %s', 'gravisain' ), '<span style="color: var(--wp--preset--color--primary, #4f46e5);">' . get_search_query() . '</span>' );
+								echo wp_kses_post(
+									sprintf(
+										__( 'Search Results for: %s', 'gravisain' ),
+										'<span style="color: var(--wp--preset--color--primary, #4f46e5);">' . esc_html( get_search_query() ) . '</span>'
+									)
+								);
 								?>
 							</h1>
 						</header><!-- .page-header -->

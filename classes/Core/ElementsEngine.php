@@ -9,6 +9,10 @@ declare(strict_types=1);
 
 namespace Gravisain\Core;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Elements Engine Class
  * 
@@ -26,6 +30,22 @@ class ElementsEngine {
 		// Removed init action for CPT to comply with Theme Check.
 		add_action( 'wp', [ $instance, 'setup_hooks' ] );
 		add_action( 'save_post_gravisain_element', [ $instance, 'clear_cache' ] );
+		add_action( 'gravisain_dashboard_quick_items', [ $instance, 'render_dashboard_quick_item' ] );
+	}
+
+	/**
+	 * Render Hooked Elements shortcut in Theme Dashboard when CPT is registered.
+	 */
+	public function render_dashboard_quick_item(): void {
+		if ( ! post_type_exists( 'gravisain_element' ) ) {
+			return;
+		}
+		?>
+		<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=gravisain_element' ) ); ?>" class="gravisain-quick-item">
+			<span class="gravisain-quick-title"><?php esc_html_e( 'Hooked Elements', 'gravisain' ); ?></span>
+			<span class="gravisain-quick-sub"><?php esc_html_e( 'Manage ↗', 'gravisain' ); ?></span>
+		</a>
+		<?php
 	}
 
 

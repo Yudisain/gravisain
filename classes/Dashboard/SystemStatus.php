@@ -7,6 +7,10 @@
 
 namespace Gravisain\Dashboard;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * SystemStatus Class
  *
@@ -25,32 +29,38 @@ class SystemStatus {
 		$fonts_dir     = trailingslashit( $wp_upload_dir['basedir'] ) . 'gravisain/fonts';
 		$css_dir       = trailingslashit( $wp_upload_dir['basedir'] ) . 'gravisain';
 
+		$enabled_label  = __( 'Enabled', 'gravisain' );
+		$disabled_label = __( 'Disabled', 'gravisain' );
+		$yes_label      = __( 'Yes', 'gravisain' );
+		$no_label       = __( 'No', 'gravisain' );
+		$opcache_active = function_exists( 'opcache_get_status' ) && ini_get( 'opcache.enable' );
+
 		return [
-			'WordPress Environment' => [
-				'WordPress Version' => get_bloginfo( 'version' ),
-				'Site URL'          => get_option( 'siteurl' ),
-				'Home URL'          => home_url(),
-				'WP Debug Mode'     => defined( 'WP_DEBUG' ) && WP_DEBUG ? 'Enabled' : 'Disabled',
-				'WP Multisite'      => is_multisite() ? 'Yes' : 'No',
-				'Permalink Structure' => get_option( 'permalink_structure' ) ?: 'Default',
-				'Language'          => get_locale(),
+			__( 'WordPress Environment', 'gravisain' ) => [
+				__( 'WordPress Version', 'gravisain' )   => get_bloginfo( 'version' ),
+				__( 'Site URL', 'gravisain' )            => get_option( 'siteurl' ),
+				__( 'Home URL', 'gravisain' )            => home_url(),
+				__( 'WP Debug Mode', 'gravisain' )       => defined( 'WP_DEBUG' ) && WP_DEBUG ? $enabled_label : $disabled_label,
+				__( 'WP Multisite', 'gravisain' )        => is_multisite() ? $yes_label : $no_label,
+				__( 'Permalink Structure', 'gravisain' ) => get_option( 'permalink_structure' ) ?: __( 'Default', 'gravisain' ),
+				__( 'Language', 'gravisain' )            => get_locale(),
 			],
-			'Server Environment'    => [
-				'PHP Version'       => phpversion(),
-				'PHP Memory Limit'  => ini_get( 'memory_limit' ) ?: WP_MEMORY_LIMIT,
-				'Max Execution Time'=> ini_get( 'max_execution_time' ) . ' seconds',
-				'Max Input Vars'    => ini_get( 'max_input_vars' ) ?: 'Not set',
-				'cURL Support'      => function_exists( 'curl_version' ) ? 'Enabled' : 'Disabled',
-				'GD Library Support'=> extension_loaded( 'gd' ) ? 'Enabled' : 'Disabled',
-				'mbstring Extension'=> extension_loaded( 'mbstring' ) ? 'Enabled' : 'Disabled',
-				'OPcache Status'    => function_exists( 'opcache_get_status' ) && @opcache_get_status( false ) ? 'Enabled' : 'Disabled',
+			__( 'Server Environment', 'gravisain' )    => [
+				__( 'PHP Version', 'gravisain' )        => phpversion(),
+				__( 'PHP Memory Limit', 'gravisain' )   => ini_get( 'memory_limit' ) ?: WP_MEMORY_LIMIT,
+				__( 'Max Execution Time', 'gravisain' ) => ini_get( 'max_execution_time' ) . ' ' . __( 'seconds', 'gravisain' ),
+				__( 'Max Input Vars', 'gravisain' )     => ini_get( 'max_input_vars' ) ?: __( 'Not set', 'gravisain' ),
+				__( 'cURL Support', 'gravisain' )       => function_exists( 'curl_version' ) ? $enabled_label : $disabled_label,
+				__( 'GD Library Support', 'gravisain' ) => extension_loaded( 'gd' ) ? $enabled_label : $disabled_label,
+				__( 'mbstring Extension', 'gravisain' ) => extension_loaded( 'mbstring' ) ? $enabled_label : $disabled_label,
+				__( 'OPcache Status', 'gravisain' )     => $opcache_active ? $enabled_label : $disabled_label,
 			],
-			'Gravisain Theme Status'=> [
-				'Theme Name'        => 'Gravisain',
-				'Theme Version'     => defined( 'GRAVISAIN_VERSION' ) ? GRAVISAIN_VERSION : '1.0.0',
-				'CSS Cache Writable'=> wp_is_writable( $css_dir ) || wp_is_writable( $wp_upload_dir['basedir'] ) ? 'Yes' : 'No',
-				'Font Cache Writable'=> wp_is_writable( $fonts_dir ) || wp_is_writable( $wp_upload_dir['basedir'] ) ? 'Yes' : 'No',
-				'Active Plugins'    => count( (array) get_option( 'active_plugins', [] ) ),
+			__( 'Gravisain Theme Status', 'gravisain' ) => [
+				__( 'Theme Name', 'gravisain' )          => 'Gravisain',
+				__( 'Theme Version', 'gravisain' )       => defined( 'GRAVISAIN_VERSION' ) ? GRAVISAIN_VERSION : '1.0.0',
+				__( 'CSS Cache Writable', 'gravisain' )  => wp_is_writable( $css_dir ) || wp_is_writable( $wp_upload_dir['basedir'] ) ? $yes_label : $no_label,
+				__( 'Font Cache Writable', 'gravisain' ) => wp_is_writable( $fonts_dir ) || wp_is_writable( $wp_upload_dir['basedir'] ) ? $yes_label : $no_label,
+				__( 'Active Plugins', 'gravisain' )      => count( (array) get_option( 'active_plugins', [] ) ),
 			],
 		];
 	}
@@ -102,11 +112,11 @@ class SystemStatus {
 		<div class="wrap gravisain-wrap">
 			<div class="gravisain-header">
 				<div>
-					<h1>System Status & Diagnostics <span class="gravisain-badge">Gravisain v<?php echo esc_html( defined( 'GRAVISAIN_VERSION' ) ? GRAVISAIN_VERSION : '1.0.0' ); ?></span></h1>
-					<p style="color: #646970; font-size: 16px; margin-top: 5px;">Inspect server readiness, WordPress environment, and filesystem permissions.</p>
+					<h1><?php esc_html_e( 'System Status & Diagnostics', 'gravisain' ); ?> <span class="gravisain-badge">Gravisain v<?php echo esc_html( defined( 'GRAVISAIN_VERSION' ) ? GRAVISAIN_VERSION : '1.0.0' ); ?></span></h1>
+					<p style="color: #646970; font-size: 16px; margin-top: 5px;"><?php esc_html_e( 'Inspect server readiness, WordPress environment, and filesystem permissions.', 'gravisain' ); ?></p>
 				</div>
 				<div>
-					<button type="button" id="gravisain-copy-report-btn" class="gravisain-btn">Copy System Report</button>
+					<button type="button" id="gravisain-copy-report-btn" class="gravisain-btn"><?php esc_html_e( 'Copy System Report', 'gravisain' ); ?></button>
 					<span id="gravisain-copy-status" style="margin-left: 10px; font-size: 13px; font-weight: 600;"></span>
 				</div>
 			</div>
@@ -123,10 +133,10 @@ class SystemStatus {
 									<th><?php echo esc_html( $label ); ?></th>
 									<td>
 										<?php
-										if ( in_array( $value, [ 'Enabled', 'Yes' ], true ) ) {
-											echo '<span class="gravisain-status-ok">✓ ' . esc_html( $value ) . '</span>';
+										if ( in_array( $value, [ __( 'Enabled', 'gravisain' ), __( 'Yes', 'gravisain' ) ], true ) ) {
+											echo '<span class="gravisain-status-ok">✓ ' . esc_html( (string) $value ) . '</span>';
 										} else {
-											echo esc_html( $value );
+											echo esc_html( (string) $value );
 										}
 										?>
 									</td>
@@ -153,11 +163,11 @@ class SystemStatus {
 							document.execCommand('copy');
 						}
 						copyStatus.style.color = '#16a34a';
-						copyStatus.textContent = '✓ Copied to clipboard!';
+						copyStatus.textContent = '<?php echo esc_js( '✓ ' . __( 'Copied to clipboard!', 'gravisain' ) ); ?>';
 						setTimeout(() => { copyStatus.textContent = ''; }, 3000);
 					} catch (e) {
 						copyStatus.style.color = '#dc2626';
-						copyStatus.textContent = 'Failed to copy';
+						copyStatus.textContent = '<?php echo esc_js( __( 'Failed to copy', 'gravisain' ) ); ?>';
 					}
 				});
 			}

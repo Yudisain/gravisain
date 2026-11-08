@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Options;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class PerformanceOptions {
 
 	/**
@@ -31,8 +35,8 @@ class PerformanceOptions {
 		] );
 
 		$wp_customize->add_control( 'gravisain_local_google_fonts', [
-			'label'       => __( 'Load Google Fonts Locally (GDPR Compliant)', 'gravisain' ),
-			'description' => __( 'Automatically download Google Fonts to local server to eliminate third-party requests and comply with GDPR.', 'gravisain' ),
+			'label'       => __( 'Host Selected Google Fonts Locally (GDPR Compliant)', 'gravisain' ),
+			'description' => __( 'When a Google Font is explicitly chosen in Typography settings, download .woff2 files to your local server (`wp-content/uploads/gravisain/fonts/`). Remote Google Fonts CDN links are never loaded for site visitors.', 'gravisain' ),
 			'section'     => 'gravisain_performance',
 			'type'        => 'checkbox',
 		] );

@@ -108,13 +108,13 @@ class GeneralCSS extends AbstractGenerator {
 	 * @return void
 	 */
 	private function generate_global_typography( Builder $builder ): void {
-		$this->build_typography_css( $builder, 'gravisain_typography_base', 'body', '{"family":"Inter","style":"400","size":"16","spacing":"0"}', true, 'base' );
-		$this->build_typography_css( $builder, 'gravisain_typography_h1', 'h1, .h1', '{"family":"Inter","style":"700","size":"40","spacing":"-1"}', true, 'h1' );
-		$this->build_typography_css( $builder, 'gravisain_typography_h2', 'h2, .h2', '{"family":"Inter","style":"700","size":"32","spacing":"-0.5"}', true, 'h2' );
-		$this->build_typography_css( $builder, 'gravisain_typography_h3', 'h3, .h3', '{"family":"Inter","style":"700","size":"28","spacing":"0"}', true, 'h3' );
-		$this->build_typography_css( $builder, 'gravisain_typography_h4', 'h4, .h4', '{"family":"Inter","style":"600","size":"24","spacing":"0"}', true, 'h4' );
-		$this->build_typography_css( $builder, 'gravisain_typography_h5', 'h5, .h5', '{"family":"Inter","style":"600","size":"20","spacing":"0"}', true, 'h5' );
-		$this->build_typography_css( $builder, 'gravisain_typography_h6', 'h6, .h6', '{"family":"Inter","style":"600","size":"16","spacing":"0"}', true, 'h6' );
+		$this->build_typography_css( $builder, 'gravisain_typography_base', 'body', '{"family":"system-stack","style":"400","size":"16","spacing":"0"}', true, 'base' );
+		$this->build_typography_css( $builder, 'gravisain_typography_h1', 'h1, .h1', '{"family":"system-stack","style":"700","size":"40","spacing":"-1"}', true, 'h1' );
+		$this->build_typography_css( $builder, 'gravisain_typography_h2', 'h2, .h2', '{"family":"system-stack","style":"700","size":"32","spacing":"-0.5"}', true, 'h2' );
+		$this->build_typography_css( $builder, 'gravisain_typography_h3', 'h3, .h3', '{"family":"system-stack","style":"700","size":"28","spacing":"0"}', true, 'h3' );
+		$this->build_typography_css( $builder, 'gravisain_typography_h4', 'h4, .h4', '{"family":"system-stack","style":"600","size":"24","spacing":"0"}', true, 'h4' );
+		$this->build_typography_css( $builder, 'gravisain_typography_h5', 'h5, .h5', '{"family":"system-stack","style":"600","size":"20","spacing":"0"}', true, 'h5' );
+		$this->build_typography_css( $builder, 'gravisain_typography_h6', 'h6, .h6', '{"family":"system-stack","style":"600","size":"16","spacing":"0"}', true, 'h6' );
 	}
 
 	/**

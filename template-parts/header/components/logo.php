@@ -5,6 +5,10 @@
  * @package Gravisain\Components
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $show_title   = get_theme_mod( 'gravisain_show_site_title', true );
 $title_vis    = get_theme_mod( 'gravisain_site_title_visibility', 'desktop,tablet,mobile' );
 $show_tagline = get_theme_mod( 'gravisain_show_site_tagline', true );
@@ -80,9 +84,15 @@ if ( $has_sticky_logo ) {
 		?>
 		<div class="site-title-wrapper">
 			<?php if ( $show_title || is_customize_preview() ) : ?>
-				<h1 class="site-title <?php echo esc_attr( implode( ' ', $title_classes ) ); ?>" <?php if ( ! $show_title ) { echo 'style="display:none;"'; } ?>>
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
-				</h1>
+				<?php if ( is_front_page() && is_home() ) : ?>
+					<h1 class="site-title <?php echo esc_attr( implode( ' ', $title_classes ) ); ?>" <?php if ( ! $show_title ) { echo 'style="display:none;"'; } ?>>
+						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
+					</h1>
+				<?php else : ?>
+					<p class="site-title <?php echo esc_attr( implode( ' ', $title_classes ) ); ?>" <?php if ( ! $show_title ) { echo 'style="display:none;"'; } ?>>
+						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
+					</p>
+				<?php endif; ?>
 			<?php endif; ?>
 
 			<?php

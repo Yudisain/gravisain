@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Options;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class PageHeaderOptions {
 
 	/**
@@ -24,7 +28,7 @@ class PageHeaderOptions {
 		// Layout Setting
 		$wp_customize->add_setting( 'gravisain_page_header_layout', [
 			'default'           => 'above_content',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -42,7 +46,7 @@ class PageHeaderOptions {
 		// Text Alignment
 		$wp_customize->add_setting( 'gravisain_page_header_alignment', [
 			'default'           => 'center',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -60,7 +64,7 @@ class PageHeaderOptions {
 		// Background Style
 		$wp_customize->add_setting( 'gravisain_page_header_bg_type', [
 			'default'           => 'gradient',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -78,7 +82,7 @@ class PageHeaderOptions {
 		// Breadcrumbs Position
 		$wp_customize->add_setting( 'gravisain_page_header_breadcrumbs', [
 			'default'           => 'below_title',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 

@@ -7,6 +7,10 @@
  * @package Gravisain
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $meta_setting = get_theme_mod( 'gravisain_blog_archive_meta', 'author,date,category,comments' );
 $meta_elements = is_string( $meta_setting ) ? array_map( 'trim', explode( ',', $meta_setting ) ) : (array) $meta_setting;
 $read_more_text = get_theme_mod( 'gravisain_blog_archive_read_more', __( 'Read More &rarr;', 'gravisain' ) );
@@ -15,7 +19,7 @@ $excerpt_length = absint( get_theme_mod( 'gravisain_blog_archive_excerpt_length'
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( is_singular() ? 'single-post-article' : 'post-card' ); ?>>
 	<?php if ( has_post_thumbnail() && ! post_password_required() ) : ?>
-		<div class="<?php echo is_singular() ? 'single-post-thumbnail' : 'post-card-thumbnail'; ?>">
+		<div class="<?php echo esc_attr( is_singular() ? 'single-post-thumbnail' : 'post-card-thumbnail' ); ?>">
 			<?php if ( ! is_singular() ) : ?>
 				<a href="<?php echo esc_url( get_permalink() ); ?>" aria-hidden="true" tabindex="-1">
 					<?php the_post_thumbnail( 'large' ); ?>
@@ -26,8 +30,8 @@ $excerpt_length = absint( get_theme_mod( 'gravisain_blog_archive_excerpt_length'
 		</div>
 	<?php endif; ?>
 
-	<div class="<?php echo is_singular() ? 'single-post-body' : 'post-card-content'; ?>">
-		<header class="<?php echo is_singular() ? 'single-post-header' : 'post-card-header'; ?>">
+	<div class="<?php echo esc_attr( is_singular() ? 'single-post-body' : 'post-card-content' ); ?>">
+		<header class="<?php echo esc_attr( is_singular() ? 'single-post-header' : 'post-card-header' ); ?>">
 			<?php
 			if ( is_singular() ) :
 				the_title( '<h1 class="single-post-title">', '</h1>' );
@@ -36,44 +40,41 @@ $excerpt_length = absint( get_theme_mod( 'gravisain_blog_archive_excerpt_length'
 			endif;
 			?>
 
-			<div class="<?php echo is_singular() ? 'single-post-meta' : 'post-card-meta'; ?>">
+			<div class="<?php echo esc_attr( is_singular() ? 'single-post-meta' : 'post-card-meta' ); ?>">
 				<?php if ( in_array( 'author', $meta_elements, true ) ) : ?>
 					<span class="meta-author">
-						<?php echo \Gravisain\Helpers\SVG::icon( 'user' ); ?>
+						<?php echo wp_kses( \Gravisain\Helpers\SVG::icon( 'user' ), \Gravisain\Helpers\SVG::allowed_svg_html() ); ?>
 						<?php
-						printf(
-							/* translators: %s: Author name */
-							esc_html__( 'By %s', 'gravisain' ),
-							'<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a>'
-						);
+						echo '<span class="byline-prefix">' . esc_html__( 'By', 'gravisain' ) . ' </span>';
+						echo '<a href="' . esc_url( get_author_posts_url( (int) get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a>';
 						?>
 					</span>
 				<?php endif; ?>
 
 				<?php if ( in_array( 'date', $meta_elements, true ) ) : ?>
 					<span class="meta-date">
-						<?php echo \Gravisain\Helpers\SVG::icon( 'calendar' ); ?>
+						<?php echo wp_kses( \Gravisain\Helpers\SVG::icon( 'calendar' ), \Gravisain\Helpers\SVG::allowed_svg_html() ); ?>
 						<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date() ); ?></time>
 					</span>
 				<?php endif; ?>
 
 				<?php if ( in_array( 'category', $meta_elements, true ) && has_category() ) : ?>
 					<span class="meta-category">
-						<?php echo \Gravisain\Helpers\SVG::icon( 'tag' ); ?>
+						<?php echo wp_kses( \Gravisain\Helpers\SVG::icon( 'tag' ), \Gravisain\Helpers\SVG::allowed_svg_html() ); ?>
 						<?php the_category( ', ' ); ?>
 					</span>
 				<?php endif; ?>
 
 				<?php if ( in_array( 'comments', $meta_elements, true ) && ! post_password_required() && ( comments_open() || get_comments_number() ) ) : ?>
 					<span class="meta-comments">
-						<?php echo \Gravisain\Helpers\SVG::icon( 'comments' ); ?>
+						<?php echo wp_kses( \Gravisain\Helpers\SVG::icon( 'comments' ), \Gravisain\Helpers\SVG::allowed_svg_html() ); ?>
 						<?php comments_popup_link( esc_html__( '0 Comments', 'gravisain' ), esc_html__( '1 Comment', 'gravisain' ), esc_html__( '% Comments', 'gravisain' ) ); ?>
 					</span>
 				<?php endif; ?>
 			</div><!-- .post-meta -->
 		</header>
 
-		<div class="<?php echo is_singular() ? 'single-post-content' : 'post-card-excerpt'; ?>">
+		<div class="<?php echo esc_attr( is_singular() ? 'single-post-content' : 'post-card-excerpt' ); ?>">
 			<?php
 			if ( is_singular() ) :
 				the_content();
@@ -96,6 +97,7 @@ $excerpt_length = absint( get_theme_mod( 'gravisain_blog_archive_excerpt_length'
 			<footer class="post-card-footer">
 				<a href="<?php echo esc_url( get_permalink() ); ?>" class="read-more-link">
 					<?php echo wp_kses_post( $read_more_text ); ?>
+					<span class="screen-reader-text"> <?php echo esc_html( get_the_title() ); ?></span>
 				</a>
 			</footer>
 		<?php endif; ?>

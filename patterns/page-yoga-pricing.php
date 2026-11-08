@@ -4,6 +4,10 @@
  * Slug: gravisain/page-yoga-pricing
  * Categories: gravisain, pages
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <!-- wp:gravisain/row-layout {"align":"full","backgroundColor":"#f7f5f0","padding":{"top":"5rem","right":"5%","bottom":"4rem","left":"5%"}} -->
 <div class="wp-block-gravisain-row-layout alignfull gravisain-row-layout is-display-flex has-1-columns is-stacked-on-mobile is-inner-width-theme" style="--gravisain-grid-template:1fr;--gravisain-row-gap:30px;--gravisain-gap-compensation:0px;background-color:#f7f5f0;--gravisain-bg-color:#f7f5f0;--gravisain-padding-top:5rem;--gravisain-padding-right:5%;--gravisain-padding-bottom:4rem;--gravisain-padding-left:5%"><div class="gravisain-row-layout-inner"><!-- wp:gravisain/column -->

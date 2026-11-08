@@ -5,6 +5,10 @@
  * @package Gravisain\Components
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $direction = get_theme_mod( 'gravisain_offcanvas_direction', 'right' );
 ?>
 <div id="gravisain-off-canvas" class="gravisain-off-canvas slide-from-<?php echo esc_attr( $direction ); ?>" aria-hidden="true">
@@ -32,7 +36,7 @@ $direction = get_theme_mod( 'gravisain_offcanvas_direction', 'right' );
 							'menu_class'     => 'off-canvas-menu-list',
 							'fallback_cb'    => false,
 						] );
-					} else {
+					} elseif ( current_user_can( 'edit_theme_options' ) ) {
 						echo '<p class="off-canvas-empty-notice">' . esc_html__( 'Please assign a menu to Off-Canvas Mobile Navigation location.', 'gravisain' ) . '</p>';
 					}
 				} elseif ( 'secondary' === $target ) {
@@ -43,7 +47,7 @@ $direction = get_theme_mod( 'gravisain_offcanvas_direction', 'right' );
 							'menu_class'     => 'off-canvas-menu-list',
 							'fallback_cb'    => false,
 						] );
-					} else {
+					} elseif ( current_user_can( 'edit_theme_options' ) ) {
 						echo '<p class="off-canvas-empty-notice">' . esc_html__( 'Please assign a menu to Secondary Navigation location.', 'gravisain' ) . '</p>';
 					}
 				} elseif ( 'both' === $target ) {
@@ -65,34 +69,24 @@ $direction = get_theme_mod( 'gravisain_offcanvas_direction', 'right' );
 							'fallback_cb'    => false,
 						] );
 					}
-					if ( ! has_nav_menu( 'primary' ) && ! has_nav_menu( 'secondary' ) ) {
+					if ( ! has_nav_menu( 'primary' ) && ! has_nav_menu( 'secondary' ) && current_user_can( 'edit_theme_options' ) ) {
 						echo '<p class="off-canvas-empty-notice">' . esc_html__( 'Please assign a menu to Primary or Secondary Navigation locations.', 'gravisain' ) . '</p>';
 					}
 				} else {
 					// Default to Primary
-					if ( has_nav_menu( 'primary' ) ) {
-						wp_nav_menu( [
-							'theme_location' => 'primary',
-							'menu_id'        => 'off-canvas-primary-menu',
-							'menu_class'     => 'off-canvas-menu-list',
-							'fallback_cb'    => false,
-						] );
-					} else {
-						echo '<p class="off-canvas-empty-notice">' . esc_html__( 'Please assign a menu to Primary Navigation location.', 'gravisain' ) . '</p>';
-					}
+					wp_nav_menu( [
+						'theme_location' => 'primary',
+						'menu_id'        => 'off-canvas-primary-menu',
+						'menu_class'     => 'off-canvas-menu-list',
+						'fallback_cb'    => 'wp_page_menu',
+					] );
 				}
 				?>
 			</nav>
 		</div>
 
 		<div class="off-canvas-footer">
-			<?php
-			// Render social icons in off-canvas footer if configured
-			$template = locate_template( 'template-parts/header/components/social.php' );
-			if ( $template ) {
-				load_template( $template, false );
-			}
-			?>
+			<?php get_template_part( 'template-parts/header/components/social' ); ?>
 		</div>
 	</div>
 </div>

@@ -5,6 +5,10 @@
  * @package Gravisain\Components
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $phone      = get_theme_mod( 'gravisain_header_contact_phone', '' );
 $email      = get_theme_mod( 'gravisain_header_contact_email', '' );
 $hours      = get_theme_mod( 'gravisain_header_contact_hours', '' );
@@ -31,7 +35,7 @@ if ( ! empty( $visibility ) ) {
 <div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
 	<ul class="ghb-contact-list">
 		<?php if ( ! empty( $phone ) || is_customize_preview() ) : ?>
-			<li class="ghb-contact-item ghb-contact-phone <?php echo empty( $phone ) ? 'is-empty-preview' : ''; ?>">
+			<li class="ghb-contact-item ghb-contact-phone <?php echo esc_attr( empty( $phone ) ? 'is-empty-preview' : '' ); ?>">
 				<a href="<?php echo esc_url( 'tel:' . preg_replace( '/[^0-9\+\-\.]/', '', $phone ) ); ?>">
 					<span class="ghb-contact-icon" aria-hidden="true">
 						<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -44,7 +48,7 @@ if ( ! empty( $visibility ) ) {
 		<?php endif; ?>
 
 		<?php if ( ! empty( $email ) || is_customize_preview() ) : ?>
-			<li class="ghb-contact-item ghb-contact-email <?php echo empty( $email ) ? 'is-empty-preview' : ''; ?>">
+			<li class="ghb-contact-item ghb-contact-email <?php echo esc_attr( empty( $email ) ? 'is-empty-preview' : '' ); ?>">
 				<a href="<?php echo esc_url( 'mailto:' . $email ); ?>">
 					<span class="ghb-contact-icon" aria-hidden="true">
 						<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -58,7 +62,7 @@ if ( ! empty( $visibility ) ) {
 		<?php endif; ?>
 
 		<?php if ( ! empty( $hours ) || is_customize_preview() ) : ?>
-			<li class="ghb-contact-item ghb-contact-hours <?php echo empty( $hours ) ? 'is-empty-preview' : ''; ?>">
+			<li class="ghb-contact-item ghb-contact-hours <?php echo esc_attr( empty( $hours ) ? 'is-empty-preview' : '' ); ?>">
 				<span class="ghb-contact-icon" aria-hidden="true">
 					<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 						<circle cx="12" cy="12" r="10"></circle>

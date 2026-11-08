@@ -4,6 +4,10 @@
  * Slug: gravisain/page-yoga-contact
  * Categories: gravisain, pages
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <!-- wp:gravisain/row-layout {"align":"full","innerContentWidth":"theme","columns":1,"alignItems":"center","backgroundColor":"#EDE8DD","padding":{"top":"5rem","right":"5%","bottom":"4.5rem","left":"5%"}} -->
 <div class="wp-block-gravisain-row-layout alignfull gravisain-row-layout is-display-flex has-1-columns is-stacked-on-mobile is-inner-width-theme align-items-center" style="--gravisain-grid-template:1fr;--gravisain-row-gap:30px;--gravisain-row-gap-tablet:30px;--gravisain-row-gap-mobile:30px;--gravisain-gap-compensation:0px;background-color:#EDE8DD;--gravisain-bg-color:#EDE8DD;--gravisain-bg-color-tablet:;--gravisain-bg-color-mobile:;--gravisain-bg-position:center center;--gravisain-bg-size:cover;--gravisain-bg-attachment:scroll;--gravisain-bg-overlay-opacity:0.5;--gravisain-bg-overlay-opacity-tablet:0.5;--gravisain-bg-overlay-opacity-mobile:0.5;--gravisain-padding-top:5rem;--gravisain-padding-right:5%;--gravisain-padding-bottom:4.5rem;--gravisain-padding-left:5%"><div class="gravisain-row-layout-inner" style="max-width:760px;margin:0 auto;text-align:center"><!-- wp:gravisain/column {"width":"100%"} -->

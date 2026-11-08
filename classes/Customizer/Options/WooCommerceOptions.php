@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Options;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Gravisain\Customizer\Controls\SliderControl;
 
 /**
@@ -28,7 +32,7 @@ class WooCommerceOptions {
 
 		// 1. Panel
 		$wp_customize->add_panel( 'gravisain_woocommerce_panel', [
-			'title'       => __( 'WooCommerce (Gravisain Pro)', 'gravisain' ),
+			'title'       => __( 'WooCommerce', 'gravisain' ),
 			'description' => __( 'Configure shop catalog layout, single product features, and checkout experience.', 'gravisain' ),
 			'priority'    => 55,
 		] );
@@ -80,7 +84,7 @@ class WooCommerceOptions {
 		// Product Card Alignment
 		$wp_customize->add_setting( 'gravisain_woo_card_align', [
 			'default'           => 'left',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -98,7 +102,7 @@ class WooCommerceOptions {
 		// Sale Badge Style
 		$wp_customize->add_setting( 'gravisain_woo_sale_badge_style', [
 			'default'           => 'rounded',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 

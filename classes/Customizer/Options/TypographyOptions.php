@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Options;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Gravisain\Customizer\Controls\TypographyControl;
 
 class TypographyOptions {
@@ -21,8 +25,8 @@ class TypographyOptions {
 
 		// Base Font
 		$wp_customize->add_setting( 'gravisain_typography_base', [
-			'default'           => '{"family":"Inter","style":"400","size":"16","spacing":"0"}',
-			'sanitize_callback' => 'sanitize_text_field', // Validated via JSON later
+			'default'           => '{"family":"system-stack","style":"400","size":"16","spacing":"0"}',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'typography_json' ], // Validated via JSON later
 			'transport'         => 'refresh',
 		] );
 
@@ -35,8 +39,8 @@ class TypographyOptions {
 
 		// H1 Font
 		$wp_customize->add_setting( 'gravisain_typography_h1', [
-			'default'           => '{"family":"Inter","style":"700","size":"40","spacing":"-1"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'default'           => '{"family":"system-stack","style":"700","size":"40","spacing":"-1"}',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'typography_json' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -48,8 +52,8 @@ class TypographyOptions {
 
 		// H2 Font
 		$wp_customize->add_setting( 'gravisain_typography_h2', [
-			'default'           => '{"family":"Inter","style":"700","size":"32","spacing":"-0.5"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'default'           => '{"family":"system-stack","style":"700","size":"32","spacing":"-0.5"}',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'typography_json' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -61,8 +65,8 @@ class TypographyOptions {
 
 		// H3 Font
 		$wp_customize->add_setting( 'gravisain_typography_h3', [
-			'default'           => '{"family":"Inter","style":"700","size":"28","spacing":"0"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'default'           => '{"family":"system-stack","style":"700","size":"28","spacing":"0"}',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'typography_json' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -74,8 +78,8 @@ class TypographyOptions {
 
 		// H4 Font
 		$wp_customize->add_setting( 'gravisain_typography_h4', [
-			'default'           => '{"family":"Inter","style":"600","size":"24","spacing":"0"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'default'           => '{"family":"system-stack","style":"600","size":"24","spacing":"0"}',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'typography_json' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -87,8 +91,8 @@ class TypographyOptions {
 
 		// H5 Font
 		$wp_customize->add_setting( 'gravisain_typography_h5', [
-			'default'           => '{"family":"Inter","style":"600","size":"20","spacing":"0"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'default'           => '{"family":"system-stack","style":"600","size":"20","spacing":"0"}',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'typography_json' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -100,8 +104,8 @@ class TypographyOptions {
 
 		// H6 Font
 		$wp_customize->add_setting( 'gravisain_typography_h6', [
-			'default'           => '{"family":"Inter","style":"600","size":"16","spacing":"0"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'default'           => '{"family":"system-stack","style":"600","size":"16","spacing":"0"}',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'typography_json' ],
 			'transport'         => 'refresh',
 		] );
 

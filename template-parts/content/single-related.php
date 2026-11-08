@@ -5,6 +5,10 @@
  * @package Gravisain
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Gravisain\Components\RelatedPosts;
 
 if ( ! RelatedPosts::should_render() ) {

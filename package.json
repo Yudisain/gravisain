@@ -1,13 +1,24 @@
 {
   "name": "gravisain-theme",
   "version": "1.0.1",
+  "undagitalVersion": "0.5.1",
   "description": "Gravisain Premium WordPress Theme",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "vite",
     "build:meta": "wp-scripts build src/meta/index.js --output-path=assets/meta",
     "build": "vite build && npm run build:meta",
-    "theme:zip": "npm run build && powershell -ExecutionPolicy Bypass -File scripts/zip-theme.ps1"
+    "theme:zip": "powershell -ExecutionPolicy Bypass -File scripts/zip-theme.ps1 -Channel both",
+    "zip:wporg": "powershell -ExecutionPolicy Bypass -File scripts/zip-theme.ps1 -Channel wporg",
+    "zip:undagital": "powershell -ExecutionPolicy Bypass -File scripts/zip-theme.ps1 -Channel undagital",
+    "blocks:zip": "powershell -ExecutionPolicy Bypass -File ../gravisain-blocks/scripts/zip-plugin.ps1 -Channel both",
+    "studio:zip": "powershell -ExecutionPolicy Bypass -File ../gravisain-studio/scripts/zip-plugin.ps1",
+    "news:zip": "powershell -ExecutionPolicy Bypass -File ../gravinews/scripts/zip-plugin.ps1",
+    "all:zip": "npm run theme:zip && npm run blocks:zip && npm run studio:zip && npm run news:zip",
+    "set-version": "node scripts/set-version.js",
+    "set-version:undagital": "node scripts/set-version.js --undagital",
+    "bump": "node scripts/set-version.js"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",

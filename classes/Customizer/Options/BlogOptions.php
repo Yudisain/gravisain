@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Options;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class BlogOptions {
 	public function register( $wp_customize ): void {
 		// 1. Blog / Archive Section
@@ -20,7 +24,7 @@ class BlogOptions {
 		// Archive Layout (Grid, List, Standard)
 		$wp_customize->add_setting( 'gravisain_blog_archive_layout', [
 			'default'           => 'grid',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -55,7 +59,7 @@ class BlogOptions {
 		// Sidebar Position
 		$wp_customize->add_setting( 'gravisain_blog_archive_sidebar', [
 			'default'           => 'right',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -113,7 +117,7 @@ class BlogOptions {
 		// Single Post Sidebar Position
 		$wp_customize->add_setting( 'gravisain_single_post_sidebar', [
 			'default'           => 'right',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 

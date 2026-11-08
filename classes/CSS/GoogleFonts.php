@@ -12,6 +12,10 @@
 
 namespace Gravisain\CSS;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Gravisain\Helpers\GoogleFontsHelper;
 
 /**
@@ -156,13 +160,13 @@ class GoogleFonts {
 		 * to the Customizer — no other code needs to change.
 		 */
 		$typography_mods = [
-			'gravisain_typography_base'           => '{"family":"Inter","style":"400","size":"16","spacing":"0"}',
-			'gravisain_typography_h1'             => '{"family":"Inter","style":"700","size":"40","spacing":"-1"}',
-			'gravisain_typography_h2'             => '{"family":"Inter","style":"700","size":"32","spacing":"-0.5"}',
-			'gravisain_typography_h3'             => '{"family":"Inter","style":"700","size":"28","spacing":"0"}',
-			'gravisain_typography_h4'             => '{"family":"Inter","style":"600","size":"24","spacing":"0"}',
-			'gravisain_typography_h5'             => '{"family":"Inter","style":"600","size":"20","spacing":"0"}',
-			'gravisain_typography_h6'             => '{"family":"Inter","style":"600","size":"16","spacing":"0"}',
+			'gravisain_typography_base'           => '{"family":"system-stack","style":"400","size":"16","spacing":"0"}',
+			'gravisain_typography_h1'             => '{"family":"system-stack","style":"700","size":"40","spacing":"-1"}',
+			'gravisain_typography_h2'             => '{"family":"system-stack","style":"700","size":"32","spacing":"-0.5"}',
+			'gravisain_typography_h3'             => '{"family":"system-stack","style":"700","size":"28","spacing":"0"}',
+			'gravisain_typography_h4'             => '{"family":"system-stack","style":"600","size":"24","spacing":"0"}',
+			'gravisain_typography_h5'             => '{"family":"system-stack","style":"600","size":"20","spacing":"0"}',
+			'gravisain_typography_h6'             => '{"family":"system-stack","style":"600","size":"16","spacing":"0"}',
 			'gravisain_header_primary_nav_font'   => '{"family":"inherit","style":"normal","size":"16"}',
 			'gravisain_header_secondary_nav_font' => '{"family":"inherit","style":"normal","size":"16"}',
 			'gravisain_header_button_font'        => '{"family":"inherit","style":"600","size":""}',
@@ -278,6 +282,10 @@ class GoogleFonts {
 
 		// Download fonts locally for GDPR compliance and optimal Core Web Vitals.
 		$final_url = \Gravisain\CSS\LocalFontDownloader::get_local_url( $url );
+
+		if ( empty( $final_url ) ) {
+			return;
+		}
 
 		wp_enqueue_style(
 			'gravisain-google-fonts',

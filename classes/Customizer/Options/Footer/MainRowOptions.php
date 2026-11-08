@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Options\Footer;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Gravisain\Customizer\Controls\SectionTabsControl;
 use Gravisain\Customizer\Controls\VisibilityControl;
 
@@ -21,7 +25,7 @@ class MainRowOptions {
 		// 1. Section Tabs (Layout vs Style)
 		$wp_customize->add_setting( 'gravisain_footer_main_tabs', [
 			'default'           => 'layout',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_key',
 			'transport'         => 'postMessage',
 		] );
 
@@ -56,7 +60,7 @@ class MainRowOptions {
 		// Row Layout (Dropdown)
 		$wp_customize->add_setting( 'gravisain_footer_main_layout', [
 			'default'           => 'full-contained',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -76,7 +80,7 @@ class MainRowOptions {
 		// Device Visibility
 		$wp_customize->add_setting( 'gravisain_footer_main_visibility', [
 			'default'           => 'desktop,tablet,mobile',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'visibility' ],
 			'transport'         => 'postMessage',
 		] );
 

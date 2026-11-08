@@ -5,6 +5,10 @@
  * @package Gravisain\Components
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $style      = get_theme_mod( 'gravisain_header_account_style', 'icon_label' );
 $custom_url = get_theme_mod( 'gravisain_header_account_url', '' );
 $visibility = get_theme_mod( 'gravisain_header_account_visibility', 'desktop,tablet,mobile' );
@@ -40,7 +44,7 @@ $label_text   = $is_logged_in ? $current_user->display_name : __( 'Sign In', 'gr
 	<a href="<?php echo esc_url( $account_url ); ?>" class="ghb-account-link" aria-label="<?php echo esc_attr( $label_text ); ?>">
 		<?php if ( 'avatar' === $style && $is_logged_in ) : ?>
 			<span class="ghb-account-avatar">
-				<?php echo get_avatar( $current_user->ID, 26 ); ?>
+				<?php echo wp_kses_post( get_avatar( $current_user->ID, 26 ) ); ?>
 			</span>
 		<?php else : ?>
 			<span class="ghb-account-icon" aria-hidden="true">

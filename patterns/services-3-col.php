@@ -6,6 +6,10 @@
  * Description: A responsive 3-column features grid for services or highlights.
  * Keywords: services, features, grid
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <!-- wp:group {"layout":{"type":"constrained"}} -->
 <div class="wp-block-group">

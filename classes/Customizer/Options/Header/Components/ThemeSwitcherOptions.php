@@ -40,7 +40,7 @@ class ThemeSwitcherOptions implements ComponentOptionInterface {
 		// Switcher Style: Dropdown (Light/Dark/System) vs Simple Toggle (Light/Dark)
 		$wp_customize->add_setting( 'gravisain_header_theme_switcher_style', [
 			'default'           => 'dropdown',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -59,7 +59,7 @@ class ThemeSwitcherOptions implements ComponentOptionInterface {
 		// Default Theme Mode
 		$wp_customize->add_setting( 'gravisain_header_theme_switcher_default', [
 			'default'           => 'system',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -94,7 +94,7 @@ class ThemeSwitcherOptions implements ComponentOptionInterface {
 		// Background / Track Color
 		$wp_customize->add_setting( 'gravisain_header_theme_switcher_bg_color', [
 			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -107,7 +107,7 @@ class ThemeSwitcherOptions implements ComponentOptionInterface {
 		// Background Hover Color
 		$wp_customize->add_setting( 'gravisain_header_theme_switcher_bg_color_hover', [
 			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -144,7 +144,7 @@ class ThemeSwitcherOptions implements ComponentOptionInterface {
 		// Border Color
 		$wp_customize->add_setting( 'gravisain_header_theme_switcher_border_color', [
 			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -157,7 +157,7 @@ class ThemeSwitcherOptions implements ComponentOptionInterface {
 		// Sliding Switch Knob / Thumb Color
 		$wp_customize->add_setting( 'gravisain_header_theme_switcher_thumb_color', [
 			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -170,7 +170,7 @@ class ThemeSwitcherOptions implements ComponentOptionInterface {
 		// Visibility Control
 		$wp_customize->add_setting( 'gravisain_header_theme_switcher_visibility', [
 			'default'           => 'desktop,tablet,mobile',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'visibility' ],
 			'transport'         => 'postMessage',
 		] );
 

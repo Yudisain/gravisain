@@ -5,6 +5,10 @@
  * @package Gravisain
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 get_header();
 
 $layout      = get_theme_mod( 'gravisain_blog_archive_layout', 'grid' );

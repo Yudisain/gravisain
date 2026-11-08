@@ -133,12 +133,12 @@ const SegmentedButtons = ( { label, value, options, onChange } ) => {
 
 const PageLayoutGrid = ( { value, onChange, sidebarChoice, onChangeChoice } ) => {
 	const layouts = [
-		{ value: 'default', label: 'DEFAULT', icon: LayoutIcons.default },
-		{ value: 'normal', label: 'NORMAL', icon: LayoutIcons.normal },
-		{ value: 'narrow', label: 'NARROW', icon: LayoutIcons.narrow },
-		{ value: 'no-sidebar', label: 'FULLWIDTH', icon: LayoutIcons.fullwidth },
-		{ value: 'left-sidebar', label: 'LEFT SIDEBAR', icon: LayoutIcons.leftSidebar },
-		{ value: 'right-sidebar', label: 'RIGHT SIDEBAR', icon: LayoutIcons.rightSidebar },
+		{ value: 'default', label: __( 'Default', 'gravisain' ), icon: LayoutIcons.default },
+		{ value: 'normal', label: __( 'Normal', 'gravisain' ), icon: LayoutIcons.normal },
+		{ value: 'narrow', label: __( 'Narrow', 'gravisain' ), icon: LayoutIcons.narrow },
+		{ value: 'no-sidebar', label: __( 'Fullwidth', 'gravisain' ), icon: LayoutIcons.fullwidth },
+		{ value: 'left-sidebar', label: __( 'Left Sidebar', 'gravisain' ), icon: LayoutIcons.leftSidebar },
+		{ value: 'right-sidebar', label: __( 'Right Sidebar', 'gravisain' ), icon: LayoutIcons.rightSidebar },
 	];
 
 	return (

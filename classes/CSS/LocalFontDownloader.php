@@ -44,23 +44,28 @@ class LocalFontDownloader {
 			return '';
 		}
 
-		// Use remote URL during Customizer live preview or if setting is disabled.
-		if ( is_customize_preview() || ! get_theme_mod( 'gravisain_local_google_fonts', true ) ) {
+		// Allow live font preview inside the admin Customizer iframe only.
+		if ( is_customize_preview() ) {
 			return $remote_url;
+		}
+
+		// Never load Google Fonts from external CDN on the public frontend (GDPR compliance).
+		if ( ! get_theme_mod( 'gravisain_local_google_fonts', true ) ) {
+			return '';
 		}
 
 		$upload_dir = wp_upload_dir();
 		if ( ! empty( $upload_dir['error'] ) ) {
-			return $remote_url;
+			return '';
 		}
 
-		$scheme = ( is_ssl() || ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $_SERVER['HTTP_X_FORWARDED_PROTO'] ) || ( isset( $_SERVER['HTTPS'] ) && 'off' !== $_SERVER['HTTPS'] ) ) ? 'https' : null;
+		$scheme    = ( is_ssl() || ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $_SERVER['HTTP_X_FORWARDED_PROTO'] ) || ( isset( $_SERVER['HTTPS'] ) && 'off' !== $_SERVER['HTTPS'] ) ) ? 'https' : null;
 		$fonts_dir = trailingslashit( $upload_dir['basedir'] ) . 'gravisain/fonts';
 		$fonts_url = set_url_scheme( trailingslashit( $upload_dir['baseurl'] ) . 'gravisain/fonts', $scheme );
 
-		$hash      = md5( $remote_url );
-		$css_file  = $fonts_dir . '/google-fonts-' . $hash . '.css';
-		$css_url   = $fonts_url . '/google-fonts-' . $hash . '.css';
+		$hash     = md5( $remote_url );
+		$css_file = $fonts_dir . '/google-fonts-' . $hash . '.css';
+		$css_url  = $fonts_url . '/google-fonts-' . $hash . '.css';
 
 		// If cached CSS file already exists, return its URL.
 		if ( file_exists( $css_file ) && filesize( $css_file ) > 0 ) {
@@ -79,12 +84,12 @@ class LocalFontDownloader {
 		] );
 
 		if ( is_wp_error( $response ) || 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
-			return $remote_url;
+			return '';
 		}
 
 		$css_content = wp_remote_retrieve_body( $response );
 		if ( empty( $css_content ) ) {
-			return $remote_url;
+			return '';
 		}
 
 		// Extract all font URLs (e.g. https://fonts.gstatic.com/s/...)
@@ -94,7 +99,8 @@ class LocalFontDownloader {
 			$unique_urls = array_unique( $matches[1] );
 
 			foreach ( $unique_urls as $font_remote_url ) {
-				$font_filename = basename( parse_url( $font_remote_url, PHP_URL_PATH ) );
+				$url_path      = wp_parse_url( $font_remote_url, PHP_URL_PATH );
+				$font_filename = $url_path ? basename( (string) $url_path ) : '';
 
 				// Validate strictly against allowed font file extensions
 				$ext = strtolower( pathinfo( $font_filename, PATHINFO_EXTENSION ) );
@@ -102,11 +108,10 @@ class LocalFontDownloader {
 					continue;
 				}
 
-				// Append hash to avoid name collisions across different font versions
 				$local_font_file = $fonts_dir . '/' . $font_filename;
 				$local_font_url  = $fonts_url . '/' . $font_filename;
 
-				if ( ! file_exists( $local_font_file ) || filesize( $local_font_file ) === 0 ) {
+				if ( ! file_exists( $local_font_file ) || 0 === filesize( $local_font_file ) ) {
 					$font_response = wp_remote_get( $font_remote_url, [
 						'timeout'  => 15,
 						'stream'   => true,
@@ -116,15 +121,20 @@ class LocalFontDownloader {
 					if ( is_wp_error( $font_response ) || 200 !== (int) wp_remote_retrieve_response_code( $font_response ) ) {
 						// Clean up partial file if download failed
 						if ( file_exists( $local_font_file ) ) {
-							@unlink( $local_font_file );
+							wp_delete_file( $local_font_file );
 						}
-						continue;
+						return '';
 					}
 				}
 
 				// Replace remote font URL with local font URL in the CSS content
 				$css_content = str_replace( $font_remote_url, esc_url_raw( $local_font_url ), $css_content );
 			}
+		}
+
+		// Ensure no external Google Font URLs remain in the generated stylesheet.
+		if ( false !== strpos( $css_content, 'fonts.gstatic.com' ) || false !== strpos( $css_content, 'fonts.googleapis.com' ) ) {
+			return '';
 		}
 
 		// Save processed CSS to cache file
@@ -138,9 +148,7 @@ class LocalFontDownloader {
 			return $css_url;
 		}
 
-		// Removed file_put_contents fallback to comply with Theme Check rules.
-
-		return $remote_url;
+		return '';
 	}
 
 	/**
@@ -163,7 +171,7 @@ class LocalFontDownloader {
 		if ( is_array( $files ) ) {
 			foreach ( $files as $file ) {
 				if ( is_file( $file ) ) {
-					@unlink( $file );
+					wp_delete_file( $file );
 				}
 			}
 		}

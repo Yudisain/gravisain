@@ -5,6 +5,10 @@
  * Categories: footer
  * Block Types: core/template-part/footer
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <!-- wp:gravisain/row-layout {"align":"full","columns":1,"layoutPreset":"100","alignItems":"center","justifyContent":"center","padding":{"top":"3rem","right":"var:preset|spacing|40","bottom":"1.5rem","left":"var:preset|spacing|40"},"backgroundColor":"#000000","textColor":"#ffffff"} -->
 <div class="wp-block-gravisain-row-layout alignfull gravisain-row-layout is-display-flex has-1-columns is-stacked-on-mobile is-inner-width-theme align-items-center justify-content-center" style="--gravisain-row-gap:30px;--gravisain-row-gap-tablet:30px;--gravisain-row-gap-mobile:30px;--gravisain-gap-compensation:0px;--gravisain-bg-color:#000000;--gravisain-text-color:#ffffff;--gravisain-padding-top:3rem;--gravisain-padding-right:var(--wp--preset--spacing--40);--gravisain-padding-bottom:1.5rem;--gravisain-padding-left:var(--wp--preset--spacing--40)"><div class="gravisain-row-layout-inner has-1-columns" style="align-items:center;justify-content:center">

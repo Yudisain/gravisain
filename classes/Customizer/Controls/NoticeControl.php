@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Controls;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! class_exists( 'WP_Customize_Control' ) ) {
 	return;
 }
@@ -55,12 +59,7 @@ class NoticeControl extends \WP_Customize_Control {
 		$id    = 'customize-control-' . str_replace( array( '[', ']' ), array( '-', '' ), $this->id );
 		$class = 'customize-control customize-control-' . $this->type;
 
-		printf(
-			'<li id="%s" class="%s"%s>',
-			esc_attr( $id ),
-			esc_attr( $class ),
-			$tab ? ' data-tab="' . esc_attr( $tab ) . '"' : ''
-		);
+		echo '<li id="' . esc_attr( $id ) . '" class="' . esc_attr( $class ) . '"' . ( $tab ? ' data-tab="' . esc_attr( $tab ) . '"' : '' ) . '>';
 		$this->render_content();
 		echo '</li>';
 	}

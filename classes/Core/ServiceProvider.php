@@ -7,6 +7,10 @@
 
 namespace Gravisain\Core;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Service Provider Class
  * 
@@ -23,8 +27,8 @@ class ServiceProvider {
 		Hooks::class,
 		Assets::class,
 		Sidebars::class,
-		\Gravisain\Core\ElementsEngine::class,
-		\Gravisain\Meta\ElementMetaBox::class,
+		'Gravisain\\Core\\ElementsEngine',
+		'Gravisain\\Meta\\ElementMetaBox',
 		\Gravisain\CSS\GoogleFonts::class,
 		\Gravisain\CSS\LocalFontDownloader::class,
 		\Gravisain\CSS\CSSFileCache::class,
@@ -35,12 +39,12 @@ class ServiceProvider {
 		\Gravisain\Components\RelatedPosts::class,
 		\Gravisain\Components\MenuEnhancements::class,
 		\Gravisain\Dashboard\Welcome::class,
-		\Gravisain\Dashboard\ImportExport::class,
+		'Gravisain\\Dashboard\\ImportExport',
 		\Gravisain\Customizer\Customizer::class,
 		\Gravisain\Customizer\StarterContent::class,
-		\Gravisain\Rest\DemoDataEndpoint::class,
+		'Gravisain\\Rest\\DemoDataEndpoint',
 		\Gravisain\Integrations\WooCommerce::class,
-		\Gravisain\Integrations\CompanionNotice::class,
+		'Gravisain\\Integrations\\CompanionNotice',
 	];
 
 	/**
@@ -52,8 +56,8 @@ class ServiceProvider {
 		$services = $this->services;
 
 		if ( defined( 'GRAVISAIN_ENABLE_THEME_LICENSE' ) && GRAVISAIN_ENABLE_THEME_LICENSE ) {
-			$services[] = \Gravisain\License\LicenseManager::class;
-			$services[] = \Gravisain\License\ThemeUpdater::class;
+			$services[] = 'Gravisain\\License\\LicenseManager';
+			$services[] = 'Gravisain\\License\\ThemeUpdater';
 		}
 
 		foreach ( $services as $service_class ) {
@@ -65,8 +69,12 @@ class ServiceProvider {
 				if ( is_admin() ) {
 					add_action( 'admin_notices', function () use ( $service_class, $e ) {
 						printf(
-							'<div class="notice notice-warning is-dismissible"><p><strong>Gravisain Module (%1$s):</strong> %2$s in <code>%3$s:%4$d</code></p></div>',
-							esc_html( $service_class ),
+							'<div class="notice notice-warning is-dismissible"><p><strong>%1$s:</strong> %2$s in <code>%3$s:%4$d</code></p></div>',
+							sprintf(
+								/* translators: %s: Module class name */
+								esc_html__( 'Gravisain Module (%s)', 'gravisain' ),
+								esc_html( $service_class )
+							),
 							esc_html( $e->getMessage() ),
 							esc_html( $e->getFile() ),
 							(int) $e->getLine()

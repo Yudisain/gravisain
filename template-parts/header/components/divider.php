@@ -5,6 +5,10 @@
  * @package Gravisain\Components
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $visibility = get_theme_mod( 'gravisain_header_divider_visibility', 'desktop,tablet' );
 $classes    = [ 'ghb-component', 'ghb-divider' ];
 

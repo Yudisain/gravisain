@@ -5,6 +5,10 @@
  * @package Gravisain
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! apply_filters( 'gravisain_show_footer', true ) || \Gravisain\Meta\PageSettings::is_footer_hidden() ) {
 	return;
 }

@@ -5,6 +5,10 @@
  * @package Gravisain
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( \Gravisain\Components\HeaderBuilder::is_row_empty( 'main' ) ) {
 	return;
 }

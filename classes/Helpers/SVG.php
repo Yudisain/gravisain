@@ -7,6 +7,10 @@
 
 namespace Gravisain\Helpers;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * SVG Helper Class
  *
@@ -73,5 +77,142 @@ class SVG {
 		}
 
 		return $svg;
+	}
+
+	/**
+	 * Return allowed SVG tags and attributes for wp_kses().
+	 *
+	 * @return array<string, array<string, bool>>
+	 */
+	public static function allowed_svg_html(): array {
+		$common_attrs = [
+			'id'                => true,
+			'class'             => true,
+			'style'             => true,
+			'fill'              => true,
+			'fill-opacity'      => true,
+			'fill-rule'         => true,
+			'clip-path'         => true,
+			'clip-rule'         => true,
+			'stroke'            => true,
+			'stroke-width'      => true,
+			'stroke-linecap'    => true,
+			'stroke-linejoin'   => true,
+			'stroke-dasharray'  => true,
+			'stroke-dashoffset' => true,
+			'stroke-miterlimit' => true,
+			'stroke-opacity'    => true,
+			'opacity'           => true,
+			'transform'         => true,
+		];
+
+		return [
+			'svg'            => array_merge(
+				$common_attrs,
+				[
+					'xmlns'       => true,
+					'viewbox'     => true,
+					'viewBox'     => true,
+					'width'       => true,
+					'height'      => true,
+					'role'        => true,
+					'aria-hidden' => true,
+					'aria-label'  => true,
+					'focusable'   => true,
+				]
+			),
+			'g'              => $common_attrs,
+			'defs'           => [],
+			'title'          => [],
+			'desc'           => [],
+			'clippath'       => [ 'id' => true ],
+			'clipPath'       => [ 'id' => true ],
+			'lineargradient' => [
+				'id'            => true,
+				'x1'            => true,
+				'y1'            => true,
+				'x2'            => true,
+				'y2'            => true,
+				'gradientunits' => true,
+				'gradientUnits' => true,
+			],
+			'linearGradient' => [
+				'id'            => true,
+				'x1'            => true,
+				'y1'            => true,
+				'x2'            => true,
+				'y2'            => true,
+				'gradientunits' => true,
+				'gradientUnits' => true,
+			],
+			'stop'           => [
+				'offset'       => true,
+				'stop-color'   => true,
+				'stop-opacity' => true,
+			],
+			'path'           => array_merge( $common_attrs, [ 'd' => true ] ),
+			'circle'         => array_merge(
+				$common_attrs,
+				[
+					'cx' => true,
+					'cy' => true,
+					'r'  => true,
+				]
+			),
+			'ellipse'        => array_merge(
+				$common_attrs,
+				[
+					'cx' => true,
+					'cy' => true,
+					'rx' => true,
+					'ry' => true,
+				]
+			),
+			'rect'           => array_merge(
+				$common_attrs,
+				[
+					'x'      => true,
+					'y'      => true,
+					'width'  => true,
+					'height' => true,
+					'rx'     => true,
+					'ry'     => true,
+				]
+			),
+			'line'           => array_merge(
+				$common_attrs,
+				[
+					'x1' => true,
+					'y1' => true,
+					'x2' => true,
+					'y2' => true,
+				]
+			),
+			'polyline'       => array_merge( $common_attrs, [ 'points' => true ] ),
+			'polygon'        => array_merge( $common_attrs, [ 'points' => true ] ),
+			'img'            => [
+				'src'     => true,
+				'alt'     => true,
+				'class'   => true,
+				'style'   => true,
+				'width'   => true,
+				'height'  => true,
+				'loading' => true,
+			],
+		];
+	}
+
+	/**
+	 * Sanitize inline SVG or icon HTML markup safely against XSS.
+	 *
+	 * @param string $svg Raw SVG or icon HTML string.
+	 * @return string Sanitized SVG/icon markup.
+	 */
+	public static function kses_svg( string $svg ): string {
+		if ( '' === $svg ) {
+			return '';
+		}
+
+		return wp_kses( $svg, self::allowed_svg_html() );
 	}
 }

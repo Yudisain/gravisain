@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Options\Footer;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Gravisain\Customizer\Controls\SectionTabsControl;
 use Gravisain\Customizer\Controls\SocialIconsControl;
 use Gravisain\Customizer\Controls\SliderControl;
@@ -45,7 +49,7 @@ class ComponentOptions {
 		// Section Tabs (Layout vs Style)
 		$wp_customize->add_setting( 'gravisain_footer_nav_tabs', [
 			'default'           => 'layout',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_key',
 			'transport'         => 'postMessage',
 		] );
 
@@ -61,7 +65,7 @@ class ComponentOptions {
 		// Select Menu Control (Layout Tab)
 		$wp_customize->add_setting( 'gravisain_footer_nav_menu', [
 			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -83,7 +87,7 @@ class ComponentOptions {
 		// Item Spacing Control (Layout Tab)
 		$wp_customize->add_setting( 'gravisain_footer_nav_spacing', [
 			'default'           => '{"desktop":"20","tablet":"16","mobile":"12"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -100,7 +104,7 @@ class ComponentOptions {
 		// Navigation Colors (Style Tab)
 		$wp_customize->add_setting( 'gravisain_footer_nav_colors', [
 			'default'           => '{"initial":"","hover":""}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color_group_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -118,7 +122,7 @@ class ComponentOptions {
 		// Navigation Font (Style Tab)
 		$wp_customize->add_setting( 'gravisain_footer_nav_font', [
 			'default'           => '{"family":"inherit","style":"normal","size":"14"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'typography_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -139,7 +143,7 @@ class ComponentOptions {
 		// Section Tabs (Design vs Style)
 		$wp_customize->add_setting( 'gravisain_footer_social_tabs', [
 			'default'           => 'design',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_key',
 			'transport'         => 'postMessage',
 		] );
 
@@ -155,7 +159,7 @@ class ComponentOptions {
 		// Repeater Control for Footer Social Items (Design Tab)
 		$wp_customize->add_setting( 'gravisain_footer_social_items', [
 			'default'           => '',
-			'sanitize_callback' => 'wp_kses_post_deep',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'social_items_json' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -171,7 +175,7 @@ class ComponentOptions {
 		// Item Spacing Control (Style Tab)
 		$wp_customize->add_setting( 'gravisain_footer_social_spacing', [
 			'default'           => '{"desktop":"14","tablet":"12","mobile":"10"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -188,7 +192,7 @@ class ComponentOptions {
 		// Icon Size Control (Style Tab)
 		$wp_customize->add_setting( 'gravisain_footer_social_icon_size', [
 			'default'           => '{"desktop":"18","tablet":"16","mobile":"16"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -205,7 +209,7 @@ class ComponentOptions {
 		// Brand Colors Control (Style Tab)
 		$wp_customize->add_setting( 'gravisain_footer_social_brand_colors', [
 			'default'           => 'no',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -225,7 +229,7 @@ class ComponentOptions {
 
 		// 4. Custom HTML Section
 		$wp_customize->add_section( 'gravisain_footer_html', [
-			'title'    => __( 'Custom HTML / Shortcode', 'gravisain' ),
+			'title'    => __( 'Custom HTML', 'gravisain' ),
 			'panel'    => 'gravisain_footer_panel',
 			'priority' => 60,
 		] );
@@ -237,8 +241,8 @@ class ComponentOptions {
 		] );
 
 		$wp_customize->add_control( 'gravisain_footer_html_content', [
-			'label'       => __( 'Custom HTML / Shortcode Content', 'gravisain' ),
-			'description' => __( 'Add any custom HTML tags, shortcodes, or badge links.', 'gravisain' ),
+			'label'       => __( 'Custom HTML Content', 'gravisain' ),
+			'description' => __( 'Add any custom HTML tags or badge links.', 'gravisain' ),
 			'section'     => 'gravisain_footer_html',
 			'type'        => 'textarea',
 		] );

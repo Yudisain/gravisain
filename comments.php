@@ -10,6 +10,10 @@
  * @package Gravisain
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( post_password_required() ) {
 	return;
 }
@@ -21,17 +25,21 @@ if ( post_password_required() ) {
 			<?php
 			$gravisain_comment_count = get_comments_number();
 			if ( '1' === $gravisain_comment_count ) {
-				printf(
-					/* translators: 1: title. */
-					esc_html__( 'One thought on "%1$s"', 'gravisain' ),
-					'<span>' . wp_kses_post( get_the_title() ) . '</span>'
+				echo wp_kses_post(
+					sprintf(
+						/* translators: 1: title. */
+						__( 'One thought on "%1$s"', 'gravisain' ),
+						'<span>' . esc_html( get_the_title() ) . '</span>'
+					)
 				);
 			} else {
-				printf( 
-					/* translators: 1: comment count number, 2: title. */
-					esc_html( _nx( '%1$s thought on "%2$s"', '%1$s thoughts on "%2$s"', $gravisain_comment_count, 'comments title', 'gravisain' ) ),
-					number_format_i18n( $gravisain_comment_count ),
-					'<span>' . wp_kses_post( get_the_title() ) . '</span>'
+				echo wp_kses_post(
+					sprintf(
+						/* translators: 1: comment count number, 2: title. */
+						_nx( '%1$s thought on "%2$s"', '%1$s thoughts on "%2$s"', $gravisain_comment_count, 'comments title', 'gravisain' ),
+						esc_html( number_format_i18n( $gravisain_comment_count ) ),
+						'<span>' . esc_html( get_the_title() ) . '</span>'
+					)
 				);
 			}
 			?>

@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Controls;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class SectionTabsControl extends \WP_Customize_Control {
 	/**
 	 * Control type.
@@ -20,10 +24,22 @@ class SectionTabsControl extends \WP_Customize_Control {
 	 *
 	 * @var array
 	 */
-	public $tabs = [
-		'layout' => 'Layout',
-		'style'  => 'Style',
-	];
+	public $tabs = [];
+
+	/**
+	 * Constructor.
+	 *
+	 * @param \WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param string                $id      Control ID.
+	 * @param array                 $args    Optional. Arguments to override class property defaults.
+	 */
+	public function __construct( $manager, $id, $args = [] ) {
+		$this->tabs = [
+			'layout' => __( 'Layout', 'gravisain' ),
+			'style'  => __( 'Style', 'gravisain' ),
+		];
+		parent::__construct( $manager, $id, $args );
+	}
 
 	/**
 	 * Export data to JS.

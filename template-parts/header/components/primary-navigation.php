@@ -5,6 +5,10 @@
  * @package Gravisain\Components
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $visibility = get_theme_mod( 'gravisain_header_primary_visibility', 'desktop,tablet,mobile' );
 $classes = [ 'main-navigation', 'ghb-component' ];
 if ( ! empty( $visibility ) ) {
@@ -19,7 +23,7 @@ if ( ! empty( $visibility ) ) {
 	}
 }
 ?>
-<nav id="site-navigation" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
+<nav id="site-navigation" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" aria-label="<?php esc_attr_e( 'Primary Navigation', 'gravisain' ); ?>">
 	<?php
 	wp_nav_menu( [
 		'theme_location' => 'primary',

@@ -5,12 +5,14 @@
         return;
     }
 
+    var __ = (wp && wp.i18n && wp.i18n.__) ? function(text) { return wp.i18n.__(text, 'gravisain'); } : function(text) { return text; };
+
     $(document).ready(function() {
         // Build the HTML for the Builder UI
         var builderHTML = `
             <div id="gravisain-header-builder" class="gravisain-header-builder">
                 <div class="ghb-header-bar">
-                    <button type="button" class="ghb-hide-btn"><span class="dashicons dashicons-no-alt"></span> Hide</button>
+                    <button type="button" class="ghb-hide-btn"><span class="dashicons dashicons-no-alt"></span> ${__('Hide')}</button>
                 </div>
                 <div class="ghb-body">
                     <!-- Top Row -->
@@ -54,27 +56,27 @@
                 </div>
             </div>
             <button type="button" id="gravisain-header-builder-toggle" class="gravisain-header-builder-toggle">
-                <span class="dashicons dashicons-admin-generic"></span> Header Builder
+                <span class="dashicons dashicons-admin-generic"></span> ${__('Header Builder')}
             </button>
         `;
 
         var pickerHTML = `
             <div id="ghb-component-picker" class="ghb-component-picker">
-                <div class="ghb-picker-header">Available Components <span class="dashicons dashicons-no ghb-picker-close"></span></div>
+                <div class="ghb-picker-header">${__('Available Components')} <span class="dashicons dashicons-no ghb-picker-close"></span></div>
                 <div class="ghb-picker-body">
-                    <div class="ghb-picker-item" data-type="logo" data-label="Logo"><span class="dashicons dashicons-menu"></span> Logo</div>
-                    <div class="ghb-picker-item" data-type="primary-navigation" data-label="Primary Navigation"><span class="dashicons dashicons-menu"></span> Primary Navigation</div>
-                    <div class="ghb-picker-item" data-type="secondary-navigation" data-label="Secondary Navigation"><span class="dashicons dashicons-menu"></span> Secondary Navigation</div>
-                    <div class="ghb-picker-item" data-type="action-button" data-label="Action Button"><span class="dashicons dashicons-menu"></span> Action Button</div>
-                    <div class="ghb-picker-item" data-type="social" data-label="Social"><span class="dashicons dashicons-share"></span> Social</div>
-                    <div class="ghb-picker-item" data-type="html" data-label="HTML"><span class="dashicons dashicons-editor-code"></span> HTML</div>
-                    <div class="ghb-picker-item" data-type="search" data-label="Search"><span class="dashicons dashicons-search"></span> Search</div>
-                    <div class="ghb-picker-item" data-type="menu-trigger" data-label="Menu Trigger"><span class="dashicons dashicons-menu-alt"></span> Menu Trigger</div>
-                    <div class="ghb-picker-item" data-type="account" data-label="Account"><span class="dashicons dashicons-admin-users"></span> Account</div>
-                    <div class="ghb-picker-item" data-type="divider" data-label="Divider"><span class="dashicons dashicons-minus"></span> Divider</div>
-                    <div class="ghb-picker-item" data-type="contact" data-label="Contact Info"><span class="dashicons dashicons-phone"></span> Contact Info</div>
-                    <div class="ghb-picker-item" data-type="cart" data-label="Cart"><span class="dashicons dashicons-cart"></span> Cart</div>
-                    <div class="ghb-picker-item" data-type="theme-switcher" data-label="Theme Switcher"><span class="dashicons dashicons-admin-appearance"></span> Theme Switcher</div>
+                    <div class="ghb-picker-item" data-type="logo" data-label="Logo"><span class="dashicons dashicons-menu"></span> ${__('Logo')}</div>
+                    <div class="ghb-picker-item" data-type="primary-navigation" data-label="Primary Navigation"><span class="dashicons dashicons-menu"></span> ${__('Primary Navigation')}</div>
+                    <div class="ghb-picker-item" data-type="secondary-navigation" data-label="Secondary Navigation"><span class="dashicons dashicons-menu"></span> ${__('Secondary Navigation')}</div>
+                    <div class="ghb-picker-item" data-type="action-button" data-label="Action Button"><span class="dashicons dashicons-menu"></span> ${__('Action Button')}</div>
+                    <div class="ghb-picker-item" data-type="social" data-label="Social"><span class="dashicons dashicons-share"></span> ${__('Social')}</div>
+                    <div class="ghb-picker-item" data-type="html" data-label="HTML"><span class="dashicons dashicons-editor-code"></span> ${__('HTML')}</div>
+                    <div class="ghb-picker-item" data-type="search" data-label="Search"><span class="dashicons dashicons-search"></span> ${__('Search')}</div>
+                    <div class="ghb-picker-item" data-type="menu-trigger" data-label="Menu Trigger"><span class="dashicons dashicons-menu-alt"></span> ${__('Menu Trigger')}</div>
+                    <div class="ghb-picker-item" data-type="account" data-label="Account"><span class="dashicons dashicons-admin-users"></span> ${__('Account')}</div>
+                    <div class="ghb-picker-item" data-type="divider" data-label="Divider"><span class="dashicons dashicons-minus"></span> ${__('Divider')}</div>
+                    <div class="ghb-picker-item" data-type="contact" data-label="Contact Info"><span class="dashicons dashicons-phone"></span> ${__('Contact Info')}</div>
+                    <div class="ghb-picker-item" data-type="cart" data-label="Cart"><span class="dashicons dashicons-cart"></span> ${__('Cart')}</div>
+                    <div class="ghb-picker-item" data-type="theme-switcher" data-label="Theme Switcher"><span class="dashicons dashicons-admin-appearance"></span> ${__('Theme Switcher')}</div>
                 </div>
             </div>
         `;
@@ -89,7 +91,7 @@
         var $picker = $('#ghb-component-picker');
         
         // Append add buttons to all columns
-        $builder.find('.ghb-col').append('<div class="ghb-add-item" title="Add Component"><span class="dashicons dashicons-plus"></span></div>');
+        $builder.find('.ghb-col').append('<div class="ghb-add-item" title="' + __('Add Component') + '"><span class="dashicons dashicons-plus"></span></div>');
         
         var uniqueComponentTypes = ['logo', 'primary-navigation', 'secondary-navigation', 'action-button', 'social', 'html', 'search', 'menu-trigger', 'account', 'divider', 'contact', 'cart', 'theme-switcher'];
 
@@ -104,7 +106,7 @@
                 if (uniqueComponentTypes.indexOf(type) !== -1 && usedTypes.indexOf(type) !== -1) {
                     $(this).addClass('is-disabled');
                     if (!$(this).find('.ghb-item-badge').length) {
-                        $(this).append('<span class="ghb-item-badge" style="margin-left:auto; font-size:10px; background:#e2e8f0; color:#64748b; padding:1px 6px; border-radius:10px;">Used</span>');
+                        $(this).append('<span class="ghb-item-badge" style="margin-left:auto; font-size:10px; background:#e2e8f0; color:#64748b; padding:1px 6px; border-radius:10px;">' + __('Used') + '</span>');
                     }
                 } else {
                     $(this).removeClass('is-disabled');
@@ -331,8 +333,8 @@
                     <div class="ghb-dropped-item" data-type="${type}">
                         <span class="${icon}"></span>
                         <span class="ghb-item-label">${label}</span>
-                        <span class="dashicons dashicons-admin-generic ghb-item-settings" title="Settings"></span>
-                        <span class="dashicons dashicons-no ghb-item-remove" title="Remove"></span>
+                        <span class="dashicons dashicons-admin-generic ghb-item-settings" title="${__('Settings')}"></span>
+                        <span class="dashicons dashicons-no ghb-item-remove" title="${__('Remove')}"></span>
                     </div>
                 `;
                 
@@ -401,8 +403,8 @@
                                 <div class="ghb-dropped-item" data-type="${type}" data-section="${meta.section || ''}">
                                     <span class="${meta.icon}"></span>
                                     <span class="ghb-item-label">${meta.label}</span>
-                                    <span class="dashicons dashicons-admin-generic ghb-item-settings" title="Settings"></span>
-                                    <span class="dashicons dashicons-no ghb-item-remove" title="Remove"></span>
+                                    <span class="dashicons dashicons-admin-generic ghb-item-settings" title="${__('Settings')}"></span>
+                                    <span class="dashicons dashicons-no ghb-item-remove" title="${__('Remove')}"></span>
                                 </div>
                             `;
                             $(componentHTML).insertBefore($colEl.find('.ghb-add-item'));
@@ -450,8 +452,8 @@
         var footerBuilderHTML = `
             <div id="gravisain-footer-builder" class="gravisain-header-builder gravisain-footer-builder">
                 <div class="ghb-header-bar">
-                    <span style="font-weight:600; font-size:13px; margin-right:auto; color:#1d2327;">Footer Builder</span>
-                    <button type="button" class="ghb-hide-btn gfb-hide-btn"><span class="dashicons dashicons-no-alt"></span> Hide</button>
+                    <span style="font-weight:600; font-size:13px; margin-right:auto; color:#1d2327;">${__('Footer Builder')}</span>
+                    <button type="button" class="ghb-hide-btn gfb-hide-btn"><span class="dashicons dashicons-no-alt"></span> ${__('Hide')}</button>
                 </div>
                 <div class="ghb-body">
                     <div class="ghb-row-wrapper" data-row="top">
@@ -493,22 +495,22 @@
                 </div>
             </div>
             <button type="button" id="gravisain-footer-builder-toggle" class="gravisain-header-builder-toggle gravisain-footer-builder-toggle">
-                <span class="dashicons dashicons-admin-generic"></span> Footer Builder
+                <span class="dashicons dashicons-admin-generic"></span> ${__('Footer Builder')}
             </button>
         `;
 
         var footerPickerHTML = `
             <div id="gfb-component-picker" class="ghb-component-picker">
-                <div class="ghb-picker-header">Footer Components <span class="dashicons dashicons-no gfb-picker-close"></span></div>
+                <div class="ghb-picker-header">${__('Footer Components')} <span class="dashicons dashicons-no gfb-picker-close"></span></div>
                 <div class="ghb-picker-body">
-                    <div class="ghb-picker-item" data-type="copyright" data-label="Copyright"><span class="dashicons dashicons-editor-code"></span> Copyright</div>
-                    <div class="ghb-picker-item" data-type="footer-navigation" data-label="Footer Nav"><span class="dashicons dashicons-menu"></span> Footer Nav</div>
-                    <div class="ghb-picker-item" data-type="social" data-label="Social"><span class="dashicons dashicons-share"></span> Social</div>
-                    <div class="ghb-picker-item" data-type="widget-1" data-label="Widget Area 1"><span class="dashicons dashicons-welcome-widgets-menus"></span> Widget 1</div>
-                    <div class="ghb-picker-item" data-type="widget-2" data-label="Widget Area 2"><span class="dashicons dashicons-welcome-widgets-menus"></span> Widget 2</div>
-                    <div class="ghb-picker-item" data-type="widget-3" data-label="Widget Area 3"><span class="dashicons dashicons-welcome-widgets-menus"></span> Widget 3</div>
-                    <div class="ghb-picker-item" data-type="widget-4" data-label="Widget Area 4"><span class="dashicons dashicons-welcome-widgets-menus"></span> Widget 4</div>
-                    <div class="ghb-picker-item" data-type="html" data-label="Custom HTML"><span class="dashicons dashicons-editor-code"></span> HTML</div>
+                    <div class="ghb-picker-item" data-type="copyright" data-label="Copyright"><span class="dashicons dashicons-editor-code"></span> ${__('Copyright')}</div>
+                    <div class="ghb-picker-item" data-type="footer-navigation" data-label="Footer Nav"><span class="dashicons dashicons-menu"></span> ${__('Footer Nav')}</div>
+                    <div class="ghb-picker-item" data-type="social" data-label="Social"><span class="dashicons dashicons-share"></span> ${__('Social')}</div>
+                    <div class="ghb-picker-item" data-type="widget-1" data-label="Widget Area 1"><span class="dashicons dashicons-welcome-widgets-menus"></span> ${__('Widget 1')}</div>
+                    <div class="ghb-picker-item" data-type="widget-2" data-label="Widget Area 2"><span class="dashicons dashicons-welcome-widgets-menus"></span> ${__('Widget 2')}</div>
+                    <div class="ghb-picker-item" data-type="widget-3" data-label="Widget Area 3"><span class="dashicons dashicons-welcome-widgets-menus"></span> ${__('Widget 3')}</div>
+                    <div class="ghb-picker-item" data-type="widget-4" data-label="Widget Area 4"><span class="dashicons dashicons-welcome-widgets-menus"></span> ${__('Widget 4')}</div>
+                    <div class="ghb-picker-item" data-type="html" data-label="Custom HTML"><span class="dashicons dashicons-editor-code"></span> ${__('HTML')}</div>
                 </div>
             </div>
         `;
@@ -520,7 +522,7 @@
         var $fToggleBtn = $('#gravisain-footer-builder-toggle');
         var $fPicker = $('#gfb-component-picker');
 
-        $fBuilder.find('.ghb-col').append('<div class="ghb-add-item" title="Add Component"><span class="dashicons dashicons-plus"></span></div>');
+        $fBuilder.find('.ghb-col').append('<div class="ghb-add-item" title="' + __('Add Component') + '"><span class="dashicons dashicons-plus"></span></div>');
 
         var footerUniqueTypes = ['copyright', 'footer-navigation', 'social', 'widget-1', 'widget-2', 'widget-3', 'widget-4', 'html'];
 
@@ -535,7 +537,7 @@
                 if (footerUniqueTypes.indexOf(type) !== -1 && usedTypes.indexOf(type) !== -1) {
                     $(this).addClass('is-disabled');
                     if (!$(this).find('.ghb-item-badge').length) {
-                        $(this).append('<span class="ghb-item-badge" style="margin-left:auto; font-size:10px; background:#e2e8f0; color:#64748b; padding:1px 6px; border-radius:10px;">Used</span>');
+                        $(this).append('<span class="ghb-item-badge" style="margin-left:auto; font-size:10px; background:#e2e8f0; color:#64748b; padding:1px 6px; border-radius:10px;">' + __('Used') + '</span>');
                     }
                 } else {
                     $(this).removeClass('is-disabled');
@@ -608,8 +610,8 @@
                             var itemHTML = `
                                 <div class="ghb-dropped-item" data-type="${type}">
                                     <span class="ghb-item-label">${label}</span>
-                                    <span class="dashicons dashicons-admin-generic ghb-item-settings" title="Settings"></span>
-                                    <span class="dashicons dashicons-no-alt ghb-item-remove" title="Remove"></span>
+                                    <span class="dashicons dashicons-admin-generic ghb-item-settings" title="${__('Settings')}"></span>
+                                    <span class="dashicons dashicons-no-alt ghb-item-remove" title="${__('Remove')}"></span>
                                 </div>
                             `;
                             $(itemHTML).insertBefore($colEl.find('.ghb-add-item'));
@@ -733,8 +735,8 @@
             var itemHTML = `
                 <div class="ghb-dropped-item" data-type="${type}">
                     <span class="ghb-item-label">${label}</span>
-                    <span class="dashicons dashicons-admin-generic ghb-item-settings" title="Settings"></span>
-                    <span class="dashicons dashicons-no-alt ghb-item-remove" title="Remove"></span>
+                    <span class="dashicons dashicons-admin-generic ghb-item-settings" title="${__('Settings')}"></span>
+                    <span class="dashicons dashicons-no-alt ghb-item-remove" title="${__('Remove')}"></span>
                 </div>
             `;
             $(itemHTML).insertBefore($activeFooterCol.find('.ghb-add-item'));

@@ -4,6 +4,10 @@
  * Slug: gravisain/header-yoga
  * Categories: header, gravisain
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <!-- wp:gravisain/row-layout {"align":"full","columns":2,"layoutPreset":"30-70","gridTemplate":"1fr 1fr","alignItems":"center","backgroundColor":"#faf9f5","padding":{"top":"1.25rem","right":"5%","bottom":"1.25rem","left":"5%"}} -->
 <div class="wp-block-gravisain-row-layout alignfull gravisain-row-layout is-display-flex has-2-columns is-stacked-on-mobile is-inner-width-theme align-items-center" style="--gravisain-grid-template:1fr 1fr;--gravisain-row-gap:30px;--gravisain-row-gap-tablet:30px;--gravisain-row-gap-mobile:30px;--gravisain-gap-compensation:calc(30px * 1 / 2);--gravisain-gap-compensation-tablet:calc(30px * 1 / 2);--gravisain-gap-compensation-mobile:calc(30px * 1 / 2);background-color:#faf9f5;--gravisain-bg-color:#faf9f5;--gravisain-bg-color-tablet:;--gravisain-bg-color-mobile:;--gravisain-bg-position:center center;--gravisain-bg-size:cover;--gravisain-bg-attachment:scroll;--gravisain-bg-overlay-opacity:0.5;--gravisain-bg-overlay-opacity-tablet:0.5;--gravisain-bg-overlay-opacity-mobile:0.5;--gravisain-padding-top:1.25rem;--gravisain-padding-right:5%;--gravisain-padding-bottom:1.25rem;--gravisain-padding-left:5%"><div class="gravisain-row-layout-inner"><!-- wp:gravisain/column {"width":"25%"} -->

@@ -9,6 +9,10 @@
 
 namespace Gravisain\Meta;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class PageSettings {
 
 	/**
@@ -45,8 +49,9 @@ class PageSettings {
 		register_rest_route( 'gravisain/v1', '/preview-meta/(?P<id>\d+)', [
 			'methods'             => 'POST',
 			'callback'            => [ $this, 'save_preview_meta' ],
-			'permission_callback' => function () {
-				return current_user_can( 'edit_posts' );
+			'permission_callback' => function ( \WP_REST_Request $request ) {
+				$post_id = (int) $request->get_param( 'id' );
+				return $post_id > 0 && current_user_can( 'edit_post', $post_id );
 			},
 		] );
 	}
@@ -61,8 +66,35 @@ class PageSettings {
 		if ( $post_id && ! empty( $meta ) && is_array( $meta ) ) {
 			$user_id = get_current_user_id();
 			if ( $user_id ) {
+				$allowed_bool = [
+					'_gravisain_hide_title',
+					'_gravisain_hide_header',
+					'_gravisain_hide_footer',
+				];
+				$allowed_str = [
+					'_gravisain_sidebar_layout',
+					'_gravisain_sidebar_choice',
+					'_gravisain_title_mode',
+					'_gravisain_transparent_header',
+					'_gravisain_content_style',
+					'_gravisain_vertical_spacing',
+					'_gravisain_show_featured_image',
+					'_gravisain_body_class',
+				];
+				$clean_meta = [];
+				foreach ( $meta as $k => $v ) {
+					$key = sanitize_key( (string) $k );
+					if ( in_array( $key, $allowed_bool, true ) ) {
+						$clean_meta[ $key ] = rest_sanitize_boolean( $v );
+					} elseif ( '_gravisain_body_class' === $key ) {
+						$clean_meta[ $key ] = sanitize_text_field( (string) $v );
+					} elseif ( in_array( $key, $allowed_str, true ) ) {
+						$clean_meta[ $key ] = sanitize_key( (string) $v );
+					}
+				}
+
 				$transient_key = 'gravisain_preview_meta_' . $post_id . '_' . $user_id;
-				set_transient( $transient_key, $meta, HOUR_IN_SECONDS );
+				set_transient( $transient_key, $clean_meta, HOUR_IN_SECONDS );
 				return rest_ensure_response( [ 'success' => true ] );
 			}
 		}
@@ -86,8 +118,9 @@ class PageSettings {
 				'type'              => $type,
 				'default'           => false,
 				'revisions_enabled' => true,
-				'auth_callback'     => function() {
-					return current_user_can( 'edit_posts' );
+				'sanitize_callback' => 'rest_sanitize_boolean',
+				'auth_callback'     => function( $allowed, $meta_key, $post_id ) {
+					return $post_id ? current_user_can( 'edit_post', $post_id ) : current_user_can( 'edit_posts' );
 				},
 			] );
 		}
@@ -104,14 +137,16 @@ class PageSettings {
 		];
 
 		foreach ( $string_keys as $key => $default_val ) {
+			$sanitizer = ( '_gravisain_body_class' === $key ) ? 'sanitize_text_field' : 'sanitize_key';
 			register_post_meta( '', $key, [
 				'show_in_rest'      => true,
 				'single'            => true,
 				'type'              => 'string',
 				'default'           => $default_val,
 				'revisions_enabled' => true,
-				'auth_callback'     => function() {
-					return current_user_can( 'edit_posts' );
+				'sanitize_callback' => $sanitizer,
+				'auth_callback'     => function( $allowed, $meta_key, $post_id ) {
+					return $post_id ? current_user_can( 'edit_post', $post_id ) : current_user_can( 'edit_posts' );
 				},
 			] );
 		}

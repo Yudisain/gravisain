@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Options;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Gravisain\Customizer\Controls\ColorGroupControl;
 use Gravisain\Customizer\Controls\HeadingControl;
 use Gravisain\Customizer\Controls\SectionTabsControl;
@@ -32,7 +36,7 @@ class SiteIdentityOptions {
 		// Section Tabs (Layout vs Style)
 		$wp_customize->add_setting( 'gravisain_site_identity_tabs', [
 			'default'           => 'layout',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_key',
 			'transport'         => 'postMessage',
 		] );
 
@@ -67,7 +71,7 @@ class SiteIdentityOptions {
 		// --- LOGO WIDTH (Moved to Priority 6, directly under custom_logo) ---
 		$wp_customize->add_setting( 'gravisain_logo_width', [
 			'default'           => '{"desktop":"220px","tablet":"180px","mobile":"140px"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -92,7 +96,7 @@ class SiteIdentityOptions {
 		// --- LOGO MARGIN (Priority 42, Style Tab) ---
 		$wp_customize->add_setting( 'gravisain_logo_margin', [
 			'default'           => '{"top":"","right":"","bottom":"","left":"","unit":"px","linked":true}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'spacing_json' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -107,7 +111,7 @@ class SiteIdentityOptions {
 		// --- GROUP 1: SITE TITLE (LAYOUT TAB) ---
 		$wp_customize->add_setting( 'gravisain_site_title_layout_heading', [
 			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_key',
 		] );
 
 		$wp_customize->add_control( new HeadingControl( $wp_customize, 'gravisain_site_title_layout_heading', [
@@ -135,7 +139,7 @@ class SiteIdentityOptions {
 
 		$wp_customize->add_setting( 'gravisain_site_title_visibility', [
 			'default'           => 'desktop,tablet,mobile',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'visibility' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -150,7 +154,7 @@ class SiteIdentityOptions {
 		// --- GROUP 2: SITE TAGLINE (LAYOUT TAB) ---
 		$wp_customize->add_setting( 'gravisain_site_tagline_layout_heading', [
 			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_key',
 		] );
 
 		$wp_customize->add_control( new HeadingControl( $wp_customize, 'gravisain_site_tagline_layout_heading', [
@@ -178,7 +182,7 @@ class SiteIdentityOptions {
 
 		$wp_customize->add_setting( 'gravisain_site_tagline_visibility', [
 			'default'           => 'desktop,tablet,mobile',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'visibility' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -193,7 +197,7 @@ class SiteIdentityOptions {
 		// --- GROUP 3: SITE ICON (LAYOUT TAB) ---
 		$wp_customize->add_setting( 'gravisain_site_icon_heading', [
 			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_key',
 		] );
 
 		$wp_customize->add_control( new HeadingControl( $wp_customize, 'gravisain_site_icon_heading', [
@@ -209,7 +213,7 @@ class SiteIdentityOptions {
 		// --- GROUP 4: SITE TITLE STYLING (STYLE TAB) ---
 		$wp_customize->add_setting( 'gravisain_site_title_style_heading', [
 			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_key',
 		] );
 
 		$wp_customize->add_control( new HeadingControl( $wp_customize, 'gravisain_site_title_style_heading', [
@@ -222,7 +226,7 @@ class SiteIdentityOptions {
 
 		$wp_customize->add_setting( 'gravisain_site_title_typography', [
 			'default'           => '{"family":"inherit","style":"700","size":"24","line_height":"1.3","spacing":"0"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'typography_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -238,7 +242,7 @@ class SiteIdentityOptions {
 
 		$wp_customize->add_setting( 'gravisain_site_title_colors', [
 			'default'           => '{"initial":"","hover":"","active":""}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color_group_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -257,7 +261,7 @@ class SiteIdentityOptions {
 
 		$wp_customize->add_setting( 'gravisain_site_title_margin', [
 			'default'           => '{"top":"","right":"","bottom":"","left":"","unit":"px","linked":true}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'spacing_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -271,7 +275,7 @@ class SiteIdentityOptions {
 
 		$wp_customize->add_setting( 'gravisain_site_title_padding', [
 			'default'           => '{"top":"","right":"","bottom":"","left":"","unit":"px","linked":true}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'spacing_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -286,7 +290,7 @@ class SiteIdentityOptions {
 		// --- GROUP 5: SITE TAGLINE STYLING (STYLE TAB) ---
 		$wp_customize->add_setting( 'gravisain_site_tagline_style_heading', [
 			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_key',
 		] );
 
 		$wp_customize->add_control( new HeadingControl( $wp_customize, 'gravisain_site_tagline_style_heading', [
@@ -299,7 +303,7 @@ class SiteIdentityOptions {
 
 		$wp_customize->add_setting( 'gravisain_site_tagline_typography', [
 			'default'           => '{"family":"inherit","style":"400","size":"14","line_height":"1.5","spacing":"0"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'typography_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -315,7 +319,7 @@ class SiteIdentityOptions {
 
 		$wp_customize->add_setting( 'gravisain_site_tagline_colors', [
 			'default'           => '{"initial":""}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color_group_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -332,7 +336,7 @@ class SiteIdentityOptions {
 
 		$wp_customize->add_setting( 'gravisain_site_tagline_margin', [
 			'default'           => '{"top":"","right":"","bottom":"","left":"","unit":"px","linked":true}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'spacing_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -346,7 +350,7 @@ class SiteIdentityOptions {
 
 		$wp_customize->add_setting( 'gravisain_site_tagline_padding', [
 			'default'           => '{"top":"","right":"","bottom":"","left":"","unit":"px","linked":true}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'spacing_json' ],
 			'transport'         => 'postMessage',
 		] );
 

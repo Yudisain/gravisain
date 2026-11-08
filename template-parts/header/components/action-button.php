@@ -5,16 +5,24 @@
  * @package Gravisain\Components
  */
 
-$text   = get_theme_mod( 'gravisain_header_button_text', __( 'Get Started', 'gravisain' ) );
-$url    = get_theme_mod( 'gravisain_header_button_url', '#' );
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+$text   = get_theme_mod( 'gravisain_header_button_text', '' );
+$url    = trim( (string) get_theme_mod( 'gravisain_header_button_url', '' ) );
 $target = get_theme_mod( 'gravisain_header_button_target', false ) ? '_blank' : '_self';
 $style = get_theme_mod( 'gravisain_header_button_style', 'fill' );
 $size  = get_theme_mod( 'gravisain_header_button_size', 'md' );
 
 $visibility = get_theme_mod( 'gravisain_header_button_visibility', 'desktop,tablet,mobile' );
 
-if ( empty( $text ) && ! is_customize_preview() ) {
+if ( ( empty( $text ) || empty( $url ) || '#' === $url ) && ! is_customize_preview() ) {
 	return;
+}
+
+if ( empty( $url ) && is_customize_preview() ) {
+	$url = '#';
 }
 
 $classes = [ 'ghb-component', 'ghb-action-button-wrapper' ];

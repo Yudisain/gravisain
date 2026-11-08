@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Options;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class BreadcrumbOptions {
 
 	/**
@@ -17,8 +21,8 @@ class BreadcrumbOptions {
 	 */
 	public function register( $wp_customize ): void {
 		$wp_customize->add_section( 'gravisain_breadcrumbs_section', [
-			'title'       => __( 'Breadcrumbs & SEO Schema', 'gravisain' ),
-			'description' => __( 'Configure rich navigation breadcrumbs and Schema.org JSON-LD structured data output.', 'gravisain' ),
+			'title'       => __( 'Breadcrumbs', 'gravisain' ),
+			'description' => __( 'Configure breadcrumb navigation trail display and style.', 'gravisain' ),
 			'priority'    => 56,
 		] );
 
@@ -30,7 +34,7 @@ class BreadcrumbOptions {
 		] );
 
 		$wp_customize->add_control(
-			new \Gravisain\Customizer\Controls\VisibilityControl(
+			new \Gravisain\Customizer\Controls\ToggleControl(
 				$wp_customize,
 				'gravisain_breadcrumb_enable',
 				[
@@ -44,7 +48,7 @@ class BreadcrumbOptions {
 		// 2. Breadcrumb Display Position
 		$wp_customize->add_setting( 'gravisain_breadcrumb_position', [
 			'default'           => 'in_page_header',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -56,14 +60,14 @@ class BreadcrumbOptions {
 			'choices'     => [
 				'in_page_header' => __( 'Inside Page Header Hero Area', 'gravisain' ),
 				'above_content'  => __( 'Above Main Content Container', 'gravisain' ),
-				'none'           => __( 'Hidden (Visual Only Hidden, Schema Still Active)', 'gravisain' ),
+				'none'           => __( 'Hidden', 'gravisain' ),
 			],
 		] );
 
 		// 3. Separator Style
 		$wp_customize->add_setting( 'gravisain_breadcrumb_separator', [
 			'default'           => 'chevron',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -87,7 +91,7 @@ class BreadcrumbOptions {
 		] );
 
 		$wp_customize->add_control(
-			new \Gravisain\Customizer\Controls\VisibilityControl(
+			new \Gravisain\Customizer\Controls\ToggleControl(
 				$wp_customize,
 				'gravisain_breadcrumb_show_home',
 				[
@@ -109,24 +113,5 @@ class BreadcrumbOptions {
 			'section'     => 'gravisain_breadcrumbs_section',
 			'type'        => 'text',
 		] );
-
-		// 6. Schema.org JSON-LD Output
-		$wp_customize->add_setting( 'gravisain_breadcrumb_schema_jsonld', [
-			'default'           => true,
-			'sanitize_callback' => 'rest_sanitize_boolean',
-			'transport'         => 'refresh',
-		] );
-
-		$wp_customize->add_control(
-			new \Gravisain\Customizer\Controls\VisibilityControl(
-				$wp_customize,
-				'gravisain_breadcrumb_schema_jsonld',
-				[
-					'label'       => __( 'Output Schema.org JSON-LD (<head>)', 'gravisain' ),
-					'description' => __( 'Generates structured BreadcrumbList JSON-LD for Google SEO Rich Snippets. Automatically disables if Yoast SEO or Rank Math handles breadcrumbs.', 'gravisain' ),
-					'section'     => 'gravisain_breadcrumbs_section',
-				]
-			)
-		);
 	}
 }

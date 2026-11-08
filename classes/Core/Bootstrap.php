@@ -7,6 +7,10 @@
 
 namespace Gravisain\Core;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Bootstrap Class
  * 

@@ -37,7 +37,7 @@ class SearchOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_search_style', [
 			'default'           => 'icon',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 

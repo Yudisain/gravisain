@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Options;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Gravisain\Customizer\Controls\SliderControl;
 
 class LayoutOptions {
@@ -49,7 +53,7 @@ class LayoutOptions {
 		// 2. Content Top and Bottom Spacing
 		$wp_customize->add_setting( 'gravisain_content_spacing_y', [
 			'default'           => '{"desktop":"56","tablet":"40","mobile":"32"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -70,7 +74,7 @@ class LayoutOptions {
 		// 3. Content Left/Right Edge Spacing
 		$wp_customize->add_setting( 'gravisain_content_spacing_x', [
 			'default'           => '{"desktop":"24","tablet":"20","mobile":"16"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -112,7 +116,7 @@ class LayoutOptions {
 		// Page Sidebar Position (Default for Pages)
 		$wp_customize->add_setting( 'gravisain_page_sidebar', [
 			'default'           => 'none',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 

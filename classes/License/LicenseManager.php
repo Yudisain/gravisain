@@ -23,6 +23,7 @@ class LicenseManager {
 		$instance = new self();
 		add_action( 'wp_ajax_gravisain_activate_license', [ $instance, 'ajax_activate_license' ] );
 		add_action( 'wp_ajax_gravisain_deactivate_license', [ $instance, 'ajax_deactivate_license' ] );
+		add_action( 'gravisain_dashboard_main_top', [ $instance, 'render_dashboard_card' ] );
 
 		// Hook for daily license verification
 		add_action( 'gravisain_daily_license_verification', [ $instance, 'cron_verify_license' ] );
@@ -216,5 +217,119 @@ class LicenseManager {
 		delete_option( 'gravisain_license_status' );
 
 		wp_send_json_success( [ 'message' => __( 'License deactivated successfully.', 'gravisain' ) ] );
+	}
+
+	/**
+	 * Render License Activation Card on Theme Dashboard.
+	 */
+	public function render_dashboard_card(): void {
+		$is_active   = self::is_active();
+		$license_key = self::get_license_key();
+		?>
+		<div class="gravisain-card" style="margin-bottom: 20px;">
+			<h2><?php esc_html_e( 'License Activation', 'gravisain' ); ?></h2>
+			<p style="color: #50575e; margin-bottom: 15px;"><?php esc_html_e( 'Activate your license key to receive automatic updates and premium support.', 'gravisain' ); ?></p>
+
+			<div id="gravisain-license-status" style="margin-bottom: 15px; font-weight: bold; <?php echo $is_active ? 'color: #16a34a;' : 'display: none;'; ?>">
+				✓ <?php esc_html_e( 'License is Active', 'gravisain' ); ?>
+			</div>
+
+			<form id="gravisain-license-form" method="post" action="">
+				<input type="password" id="gravisain-license-key" class="gravisain-input" placeholder="<?php esc_attr_e( 'Enter your license key here...', 'gravisain' ); ?>" value="<?php echo esc_attr( $is_active ? '****************' : $license_key ); ?>" <?php echo $is_active ? 'disabled' : ''; ?>>
+
+				<?php if ( $is_active ) : ?>
+					<button type="button" id="gravisain-deactivate-btn" class="gravisain-btn" style="background: #dc2626;"><?php esc_html_e( 'Deactivate License', 'gravisain' ); ?></button>
+				<?php else : ?>
+					<button type="button" id="gravisain-activate-btn" class="gravisain-btn"><?php esc_html_e( 'Activate License', 'gravisain' ); ?></button>
+				<?php endif; ?>
+
+				<span id="gravisain-license-msg" style="display: block; margin-top: 10px; font-size: 13px;"></span>
+			</form>
+		</div>
+		<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const activateBtn = document.getElementById('gravisain-activate-btn');
+			const deactivateBtn = document.getElementById('gravisain-deactivate-btn');
+			const licenseMsg = document.getElementById('gravisain-license-msg');
+			const licenseInput = document.getElementById('gravisain-license-key');
+
+			if (activateBtn) {
+				activateBtn.addEventListener('click', function() {
+					const key = licenseInput.value.trim();
+					if (!key) {
+						licenseMsg.style.color = '#dc2626';
+						licenseMsg.textContent = '✕ <?php echo esc_js( __( 'Please enter a license key.', 'gravisain' ) ); ?>';
+						return;
+					}
+
+					activateBtn.disabled = true;
+					activateBtn.textContent = '<?php echo esc_js( __( 'Activating...', 'gravisain' ) ); ?>';
+					licenseMsg.textContent = '';
+
+					const formData = new FormData();
+					formData.append('action', 'gravisain_activate_license');
+					formData.append('license_key', key);
+					formData.append('nonce', '<?php echo esc_js( wp_create_nonce( 'gravisain_license_nonce' ) ); ?>');
+
+					fetch(ajaxurl, { method: 'POST', body: formData })
+					.then(response => response.json())
+					.then(data => {
+						if (data.success) {
+							licenseMsg.style.color = '#16a34a';
+							licenseMsg.textContent = '✓ ' + data.data.message;
+							setTimeout(() => location.reload(), 1500);
+						} else {
+							activateBtn.disabled = false;
+							activateBtn.textContent = '<?php echo esc_js( __( 'Activate License', 'gravisain' ) ); ?>';
+							licenseMsg.style.color = '#dc2626';
+							licenseMsg.textContent = '✕ ' + (data.data.message || '<?php echo esc_js( __( 'Activation failed.', 'gravisain' ) ); ?>');
+						}
+					})
+					.catch(() => {
+						activateBtn.disabled = false;
+						activateBtn.textContent = '<?php echo esc_js( __( 'Activate License', 'gravisain' ) ); ?>';
+						licenseMsg.style.color = '#dc2626';
+						licenseMsg.textContent = '✕ <?php echo esc_js( __( 'Network error.', 'gravisain' ) ); ?>';
+					});
+				});
+			}
+
+			if (deactivateBtn) {
+				deactivateBtn.addEventListener('click', function() {
+					if (!confirm('<?php echo esc_js( __( 'Are you sure you want to deactivate this license?', 'gravisain' ) ); ?>')) return;
+
+					deactivateBtn.disabled = true;
+					deactivateBtn.textContent = '<?php echo esc_js( __( 'Deactivating...', 'gravisain' ) ); ?>';
+					licenseMsg.textContent = '';
+
+					const formData = new FormData();
+					formData.append('action', 'gravisain_deactivate_license');
+					formData.append('nonce', '<?php echo esc_js( wp_create_nonce( 'gravisain_license_nonce' ) ); ?>');
+
+					fetch(ajaxurl, { method: 'POST', body: formData })
+					.then(response => response.json())
+					.then(data => {
+						if (data.success) {
+							licenseMsg.style.color = '#16a34a';
+							licenseMsg.textContent = '✓ ' + data.data.message;
+							setTimeout(() => location.reload(), 1500);
+						} else {
+							deactivateBtn.disabled = false;
+							deactivateBtn.textContent = '<?php echo esc_js( __( 'Deactivate License', 'gravisain' ) ); ?>';
+							licenseMsg.style.color = '#dc2626';
+							licenseMsg.textContent = '✕ ' + (data.data.message || '<?php echo esc_js( __( 'Deactivation failed.', 'gravisain' ) ); ?>');
+						}
+					})
+					.catch(() => {
+						deactivateBtn.disabled = false;
+						deactivateBtn.textContent = '<?php echo esc_js( __( 'Deactivate License', 'gravisain' ) ); ?>';
+						licenseMsg.style.color = '#dc2626';
+						licenseMsg.textContent = '✕ <?php echo esc_js( __( 'Network error.', 'gravisain' ) ); ?>';
+					});
+				});
+			}
+		});
+		</script>
+		<?php
 	}
 }

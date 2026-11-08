@@ -12,6 +12,10 @@
  * @package Gravisain
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 get_header();
 
 $sidebar_pos   = get_theme_mod( 'gravisain_page_sidebar', 'none' );

@@ -10,6 +10,10 @@
 
 namespace Gravisain\Components;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class RelatedPosts {
 
 	/**
@@ -52,8 +56,19 @@ class RelatedPosts {
 		$cache_key = 'gravisain_related_' . (int) $post_id . '_' . (int) $limit;
 		$cached    = get_transient( $cache_key );
 
-		if ( false !== $cached && $cached instanceof \WP_Query ) {
-			return $cached;
+		if ( is_array( $cached ) ) {
+			if ( empty( $cached ) ) {
+				return new \WP_Query( [ 'post__in' => [ 0 ], 'no_found_rows' => true ] );
+			}
+			return new \WP_Query( [
+				'post_type'           => 'post',
+				'post_status'         => 'publish',
+				'post__in'            => array_map( 'absint', $cached ),
+				'orderby'             => 'post__in',
+				'posts_per_page'      => $limit,
+				'ignore_sticky_posts' => true,
+				'no_found_rows'       => true,
+			] );
 		}
 
 		$categories = get_the_category( $post_id );
@@ -78,10 +93,11 @@ class RelatedPosts {
 			$args['category__in'] = $cat_ids;
 		}
 
-		$query = new \WP_Query( $args );
+		$query    = new \WP_Query( $args );
+		$post_ids = wp_list_pluck( $query->posts, 'ID' );
 
-		// Cache for 24 hours
-		set_transient( $cache_key, $query, DAY_IN_SECONDS );
+		// Cache lightweight post ID array for 24 hours (never serialize WP_Query objects)
+		set_transient( $cache_key, array_map( 'absint', $post_ids ), DAY_IN_SECONDS );
 
 		return $query;
 	}

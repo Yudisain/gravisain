@@ -5,6 +5,10 @@
  * @package Gravisain
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! apply_filters( 'gravisain_show_header', true ) || \Gravisain\Meta\PageSettings::is_header_hidden() ) {
 	return;
 }

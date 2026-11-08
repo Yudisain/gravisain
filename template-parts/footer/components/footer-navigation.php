@@ -5,9 +5,13 @@
  * @package Gravisain\Components
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $selected_menu = get_theme_mod( 'gravisain_footer_nav_menu', '' );
 ?>
-<div class="gfb-component gfb-footer-navigation" aria-label="<?php esc_attr_e( 'Footer Navigation', 'gravisain' ); ?>">
+<nav class="gfb-component gfb-footer-navigation" aria-label="<?php esc_attr_e( 'Footer Navigation', 'gravisain' ); ?>">
 	<?php
 	if ( ! empty( $selected_menu ) ) {
 		wp_nav_menu( array(
@@ -32,4 +36,4 @@ $selected_menu = get_theme_mod( 'gravisain_footer_nav_menu', '' );
 		echo '<p class="gfb-notice">' . esc_html__( 'Please select a menu in Footer Navigation settings or assign a menu to Footer location.', 'gravisain' ) . '</p>';
 	}
 	?>
-</div>
+</nav>

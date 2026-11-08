@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Controls;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! class_exists( 'WP_Customize_Control' ) ) {
 	return;
 }
@@ -61,12 +65,7 @@ class ShortcutControl extends \WP_Customize_Control {
 		$id    = 'customize-control-' . str_replace( array( '[', ']' ), array( '-', '' ), $this->id );
 		$class = 'customize-control customize-control-' . $this->type;
 
-		printf(
-			'<li id="%s" class="%s"%s>',
-			esc_attr( $id ),
-			esc_attr( $class ),
-			$tab ? ' data-tab="' . esc_attr( $tab ) . '"' : ''
-		);
+		echo '<li id="' . esc_attr( $id ) . '" class="' . esc_attr( $class ) . '"' . ( $tab ? ' data-tab="' . esc_attr( $tab ) . '"' : '' ) . '>';
 		$this->render_content();
 		echo '</li>';
 	}
@@ -86,7 +85,7 @@ class ShortcutControl extends \WP_Customize_Control {
 			<?php if ( ! empty( $this->description ) ) : ?>
 				<span class="description customize-control-description" style="display: block; margin-bottom: 10px; font-size: 12px; line-height: 1.4; color: #646970;"><?php echo wp_kses_post( $this->description ); ?></span>
 			<?php endif; ?>
-			<button type="button" class="button button-secondary gravisain-focus-section-btn" data-target-section="<?php echo $target; ?>" style="width: 100%; display: flex; align-items: center; justify-content: space-between; font-weight: 600; padding: 6px 12px; height: auto; cursor: pointer;">
+			<button type="button" class="button button-secondary gravisain-focus-section-btn" data-target-section="<?php echo esc_attr( $target ); ?>" style="width: 100%; display: flex; align-items: center; justify-content: space-between; font-weight: 600; padding: 6px 12px; height: auto; cursor: pointer;">
 				<span><?php echo esc_html( $btn_text ); ?></span>
 				<span class="dashicons dashicons-arrow-right-alt2" style="font-size: 18px; width: 18px; height: 18px; line-height: 1; display: inline-flex; align-items: center;"></span>
 			</button>

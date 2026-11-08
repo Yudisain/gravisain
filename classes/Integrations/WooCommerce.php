@@ -7,6 +7,10 @@
 
 namespace Gravisain\Integrations;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * WooCommerce Class
  *
@@ -176,7 +180,7 @@ class WooCommerce {
 		<div class="gravisain-sticky-add-to-cart">
 			<div class="gravisain-sticky-cart-container">
 				<div class="gravisain-sticky-cart-product-info">
-					<?php echo $product->get_image( [ 48, 48 ] ); ?>
+					<?php echo wp_kses_post( $product->get_image( [ 48, 48 ] ) ); ?>
 					<div class="gravisain-sticky-cart-title-price">
 						<span class="gravisain-sticky-cart-title"><?php echo esc_html( $product->get_name() ); ?></span>
 						<span class="gravisain-sticky-cart-price"><?php echo wp_kses_post( $product->get_price_html() ); ?></span>

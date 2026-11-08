@@ -44,7 +44,7 @@ class SecondaryNavOptions implements ComponentOptionInterface {
 		// Section Tabs (Layout vs Style).
 		$wp_customize->add_setting( 'gravisain_header_secondary_nav_tabs', [
 			'default'           => 'layout',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_key',
 			'transport'         => 'postMessage',
 		] );
 
@@ -60,7 +60,7 @@ class SecondaryNavOptions implements ComponentOptionInterface {
 		// Select Menu Control (Layout Tab).
 		$wp_customize->add_setting( 'gravisain_header_secondary_nav_menu', [
 			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -83,7 +83,7 @@ class SecondaryNavOptions implements ComponentOptionInterface {
 		// Items Spacing Control (Layout Tab).
 		$wp_customize->add_setting( 'gravisain_header_secondary_nav_spacing', [
 			'default'           => '{"desktop":"20","tablet":"15","mobile":"10"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -139,7 +139,7 @@ class SecondaryNavOptions implements ComponentOptionInterface {
 		// 1. Navigation Colors.
 		$wp_customize->add_setting( 'gravisain_header_secondary_nav_colors', [
 			'default'           => '{"initial":"","hover":"","active":""}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color_group_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -159,7 +159,7 @@ class SecondaryNavOptions implements ComponentOptionInterface {
 		// 2. Navigation Background.
 		$wp_customize->add_setting( 'gravisain_header_secondary_nav_background', [
 			'default'           => '{"initial":"","hover":"","active":""}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color_group_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -179,7 +179,7 @@ class SecondaryNavOptions implements ComponentOptionInterface {
 		// 3. Navigation Font.
 		$wp_customize->add_setting( 'gravisain_header_secondary_nav_font', [
 			'default'           => '{"family":"inherit","style":"normal","size":"16"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'typography_json' ],
 			'transport'         => 'postMessage',
 		] );
 

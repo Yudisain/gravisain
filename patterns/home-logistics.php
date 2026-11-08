@@ -4,6 +4,10 @@
  * Slug: gravisain/home-logistics
  * Categories: featured, gravisain
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <!-- =================== HERO SECTION =================== -->
 <!-- wp:cover {"overlayColor":"gravisain-navy","customOverlayColor":"#0f172a","dimRatio":80,"minHeight":80,"minHeightUnit":"vh","align":"full","style":{"spacing":{"padding":{"top":"8rem","bottom":"8rem","left":"2rem","right":"2rem"}}}} -->

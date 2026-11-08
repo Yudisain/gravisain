@@ -4,6 +4,10 @@
  *
  * @package Gravisain\Components
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <nav id="secondary-navigation" class="secondary-navigation ghb-component" aria-label="<?php esc_attr_e( 'Secondary Navigation', 'gravisain' ); ?>">
 	<?php

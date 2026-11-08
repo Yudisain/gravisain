@@ -45,7 +45,7 @@ class ActionButtonOptions implements ComponentOptionInterface {
 		// Section Tabs (Layout vs Style).
 		$wp_customize->add_setting( 'gravisain_header_action_button_tabs', [
 			'default'           => 'layout',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_key',
 			'transport'         => 'postMessage',
 		] );
 
@@ -103,7 +103,7 @@ class ActionButtonOptions implements ComponentOptionInterface {
 		// Device Visibility.
 		$wp_customize->add_setting( 'gravisain_header_button_visibility', [
 			'default'           => 'desktop,tablet,mobile',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'visibility' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -116,7 +116,7 @@ class ActionButtonOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_button_style', [
 			'default'           => 'fill',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -134,7 +134,7 @@ class ActionButtonOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_button_size', [
 			'default'           => 'md',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -153,7 +153,7 @@ class ActionButtonOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_button_custom_padding', [
 			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'spacing_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -167,7 +167,7 @@ class ActionButtonOptions implements ComponentOptionInterface {
 		// Action Button Typography.
 		$wp_customize->add_setting( 'gravisain_header_button_font', [
 			'default'           => '{"family":"inherit","style":"600","size":""}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'typography_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -182,7 +182,7 @@ class ActionButtonOptions implements ComponentOptionInterface {
 		// Button Colors.
 		$wp_customize->add_setting( 'gravisain_header_button_font_colors', [
 			'default'           => '{"initial":"","hover":""}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color_group_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -199,7 +199,7 @@ class ActionButtonOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_button_bg_colors', [
 			'default'           => '{"initial":"","hover":""}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color_group_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -216,7 +216,7 @@ class ActionButtonOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_button_border_colors', [
 			'default'           => '{"initial":"","hover":""}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color_group_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -233,7 +233,7 @@ class ActionButtonOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_button_border_style', [
 			'default'           => 'none',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -253,7 +253,7 @@ class ActionButtonOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_button_border_width', [
 			'default'           => '2px', // The SliderControl returns value+unit.
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 

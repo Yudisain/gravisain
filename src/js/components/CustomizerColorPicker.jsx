@@ -139,7 +139,7 @@ const CustomizerColorPicker = ({ initialColor, onChange, onClear, presetColors =
                             className="button"
                             onClick={handleClear}
                         >
-                            Clear
+                            { ( window.wp && window.wp.i18n && window.wp.i18n.__ ) ? window.wp.i18n.__( 'Clear', 'gravisain' ) : 'Clear' }
                         </button>
                     </div>
                 </div>,

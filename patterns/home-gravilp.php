@@ -4,6 +4,10 @@
  * Slug: gravisain/home-gravilp
  * Categories: featured, gravisain
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <!-- wp:gravisain/container {"backgroundColor":"#fdfbf7","padding":{"top":"6rem","bottom":"6rem","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}} -->
 <section class="wp-block-gravisain-container gravisain-block-container has-background" style="background-color:#fdfbf7;padding-top:6rem;padding-right:var(--wp--preset--spacing--40);padding-bottom:6rem;padding-left:var(--wp--preset--spacing--40);--container-max-width:1200px;--container-min-height:auto;--container-align:flex-start;--container-overflow:visible">

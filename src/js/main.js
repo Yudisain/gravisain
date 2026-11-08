@@ -6,12 +6,14 @@
 document.addEventListener('DOMContentLoaded', () => {
 	initThemeSwitcher();
 	initOffCanvasDrawer();
+	initSearchModal();
 	initStickyHeader();
 	initAccessibleDropdownNavigation();
 	initSkipLinkFocus();
 	initScrollToTop();
 	initReadingProgressBar();
 	initSmoothScroll();
+	initShareCopyButton();
 });
 
 /**
@@ -211,23 +213,36 @@ function initAccessibleDropdownNavigation() {
 	if (!navMenus.length) return;
 
 	navMenus.forEach(nav => {
-		const parentItems = nav.querySelectorAll('.menu-item-has-children');
+		const parentItems = nav.querySelectorAll('.menu-item-has-children, .page_item_has_children');
 
 		parentItems.forEach(item => {
-			const link = item.querySelector('a');
-			const subMenu = item.querySelector('.sub-menu');
+			const link = item.querySelector(':scope > a') || item.querySelector('a');
+			const subMenu = item.querySelector('.sub-menu, .children');
 			if (!link || !subMenu) return;
 
 			// Ensure ARIA attributes are set
 			link.setAttribute('aria-haspopup', 'true');
 			link.setAttribute('aria-expanded', 'false');
 
+			let suppressFocusOpen = false;
+
+			// Open submenu on keyboard focus so Tab navigation reaches submenu links
+			item.addEventListener('focusin', () => {
+				if (suppressFocusOpen) return;
+				item.classList.add('focus');
+				link.setAttribute('aria-expanded', 'true');
+			});
+
 			// Keyboard Arrow Navigation & ESC to close
 			item.addEventListener('keydown', (e) => {
 				if (e.key === 'Escape') {
+					suppressFocusOpen = true;
 					item.classList.remove('focus');
 					link.setAttribute('aria-expanded', 'false');
 					link.focus();
+					setTimeout(() => {
+						suppressFocusOpen = false;
+					}, 100);
 					e.stopPropagation();
 				} else if (e.key === 'ArrowDown' && document.activeElement === link) {
 					e.preventDefault();
@@ -239,7 +254,7 @@ function initAccessibleDropdownNavigation() {
 			});
 
 			// Close submenu when focus leaves the parent item
-			item.addEventListener('focusout', (e) => {
+			item.addEventListener('focusout', () => {
 				setTimeout(() => {
 					if (!item.contains(document.activeElement)) {
 						item.classList.remove('focus');
@@ -388,15 +403,14 @@ function initThemeSwitcher() {
 			switcher.setAttribute('data-active-theme', themeMode);
 			const btn = switcher.querySelector('.ghb-theme-btn');
 			if (btn) {
-				const capitalized = themeMode.charAt(0).toUpperCase() + themeMode.slice(1);
-				btn.setAttribute('title', `Theme: ${capitalized}`);
-				btn.setAttribute('aria-label', `Theme: ${capitalized}`);
+				const localizedTitle = btn.getAttribute(`data-title-${themeMode}`) || btn.getAttribute('data-title-default') || btn.getAttribute('title') || 'Theme Switcher';
+				btn.setAttribute('title', localizedTitle);
+				btn.setAttribute('aria-label', localizedTitle);
 			}
 
 			const slider = switcher.querySelector('.ghb-theme-switch-slider');
 			if (slider) {
 				slider.setAttribute('aria-checked', shouldBeDark ? 'true' : 'false');
-				slider.setAttribute('title', `Theme: ${shouldBeDark ? 'Dark' : 'Light'} (Click to toggle)`);
 			}
 
 			// Dropdown active states
@@ -404,10 +418,10 @@ function initThemeSwitcher() {
 				const itemMode = item.getAttribute('data-mode');
 				if (itemMode === themeMode) {
 					item.classList.add('is-active');
-					item.setAttribute('aria-selected', 'true');
+					item.setAttribute('aria-checked', 'true');
 				} else {
 					item.classList.remove('is-active');
-					item.removeAttribute('aria-selected');
+					item.setAttribute('aria-checked', 'false');
 				}
 			});
 		});
@@ -480,6 +494,29 @@ function initThemeSwitcher() {
 		});
 
 		if (dropdown) {
+			switcher.addEventListener('focusout', () => {
+				setTimeout(() => {
+					if (!switcher.contains(document.activeElement) && dropdown.classList.contains('is-open')) {
+						dropdown.classList.remove('is-open');
+						btn.setAttribute('aria-expanded', 'false');
+					}
+				}, 50);
+			});
+
+			dropdown.addEventListener('keydown', (e) => {
+				const items = Array.from(dropdown.querySelectorAll('.ghb-theme-item'));
+				const currentIndex = items.indexOf(document.activeElement);
+				if (e.key === 'ArrowDown') {
+					e.preventDefault();
+					const nextIndex = (currentIndex + 1) % items.length;
+					items[nextIndex].focus();
+				} else if (e.key === 'ArrowUp') {
+					e.preventDefault();
+					const prevIndex = (currentIndex - 1 + items.length) % items.length;
+					items[prevIndex].focus();
+				}
+			});
+
 			dropdown.querySelectorAll('.ghb-theme-item').forEach((item) => {
 				item.addEventListener('click', (e) => {
 					e.stopPropagation();
@@ -488,6 +525,7 @@ function initThemeSwitcher() {
 						setTheme(mode);
 						dropdown.classList.remove('is-open');
 						btn.setAttribute('aria-expanded', 'false');
+						btn.focus();
 					}
 				});
 			});
@@ -598,5 +636,117 @@ function initSmoothScroll() {
 		} catch (err) {}
 	});
 }
+
+/**
+ * Initialize Accessible Header Search Modal
+ */
+function initSearchModal() {
+	const modal = document.getElementById('gravisain-search-modal');
+	if (!modal) return;
+
+	const container = modal.querySelector('.search-modal-container');
+	let activeTrigger = null;
+
+	const openModal = (triggerBtn) => {
+		activeTrigger = triggerBtn;
+		modal.classList.add('is-open');
+		modal.setAttribute('aria-hidden', 'false');
+		document.body.style.overflow = 'hidden';
+
+		if (triggerBtn && typeof triggerBtn.setAttribute === 'function') {
+			triggerBtn.setAttribute('aria-expanded', 'true');
+		}
+
+		setTimeout(() => {
+			const searchInput = modal.querySelector('input[type="search"], .search-field, input[type="text"]');
+			if (searchInput) {
+				searchInput.focus();
+			} else if (container) {
+				container.focus();
+			}
+		}, 50);
+	};
+
+	const closeModal = () => {
+		if (!modal.classList.contains('is-open')) return;
+
+		modal.classList.remove('is-open');
+		modal.setAttribute('aria-hidden', 'true');
+		document.body.style.overflow = '';
+
+		if (activeTrigger && typeof activeTrigger.setAttribute === 'function') {
+			activeTrigger.setAttribute('aria-expanded', 'false');
+			if (typeof activeTrigger.focus === 'function') {
+				activeTrigger.focus({ preventScroll: true });
+			}
+		}
+	};
+
+	document.addEventListener('click', (e) => {
+		const triggerBtn = e.target.closest('[data-toggle="search-modal"]');
+		if (triggerBtn) {
+			e.preventDefault();
+			openModal(triggerBtn);
+			return;
+		}
+
+		const closeBtn = e.target.closest('[data-close="search-modal"]');
+		if (closeBtn && modal.contains(closeBtn)) {
+			e.preventDefault();
+			closeModal();
+		}
+	});
+
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+			closeModal();
+		}
+	});
+
+	modal.addEventListener('keydown', (e) => {
+		if (e.key !== 'Tab' || !modal.classList.contains('is-open') || !container) return;
+
+		const focusables = container.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+		if (focusables.length === 0) return;
+
+		const firstElement = focusables[0];
+		const lastElement = focusables[focusables.length - 1];
+
+		if (e.shiftKey && document.activeElement === firstElement) {
+			lastElement.focus();
+			e.preventDefault();
+		} else if (!e.shiftKey && document.activeElement === lastElement) {
+			firstElement.focus();
+			e.preventDefault();
+		}
+	});
+}
+
+/**
+ * Initialize Single Post Share Copy Link Button
+ */
+function initShareCopyButton() {
+	document.addEventListener('click', (e) => {
+		const btn = e.target.closest('.share-btn-copy[data-copy-url]');
+		if (!btn) return;
+
+		e.preventDefault();
+		const url = btn.getAttribute('data-copy-url');
+		if (!url || !navigator.clipboard || typeof navigator.clipboard.writeText !== 'function') {
+			return;
+		}
+
+		const copiedLabel = btn.getAttribute('data-copied-label') || 'Copied!';
+		const originalHtml = btn.innerHTML;
+
+		navigator.clipboard.writeText(url).then(() => {
+			btn.textContent = copiedLabel;
+			setTimeout(() => {
+				btn.innerHTML = originalHtml;
+			}, 2000);
+		}).catch(() => {});
+	});
+}
+
 
 

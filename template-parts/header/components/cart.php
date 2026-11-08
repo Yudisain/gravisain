@@ -5,6 +5,10 @@
  * @package Gravisain\Components
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $style      = get_theme_mod( 'gravisain_header_cart_style', 'icon_badge' );
 $visibility = get_theme_mod( 'gravisain_header_cart_visibility', 'desktop,tablet,mobile' );
 
@@ -41,7 +45,7 @@ if ( class_exists( 'WooCommerce' ) && function_exists( 'WC' ) && WC()->cart ) {
 				<path d="M16 10a4 4 0 0 1-8 0"></path>
 			</svg>
 			<?php if ( 'icon_badge' === $style || 'icon_price' === $style ) : ?>
-				<span class="ghb-cart-badge <?php echo $cart_count === 0 ? 'is-empty' : ''; ?>">
+				<span class="ghb-cart-badge <?php echo esc_attr( $cart_count === 0 ? 'is-empty' : '' ); ?>">
 					<?php echo esc_html( $cart_count ); ?>
 				</span>
 			<?php endif; ?>

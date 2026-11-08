@@ -5,6 +5,10 @@
  * @package Gravisain
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Gravisain\Components\PageHeader;
 use Gravisain\Components\Breadcrumbs;
 
@@ -28,7 +32,7 @@ if ( 'featured' === $bg_type && has_post_thumbnail() && ( is_single() || is_page
 	}
 }
 ?>
-<header class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" <?php echo ! empty( $bg_style ) ? 'style="' . esc_attr( $bg_style ) . '"' : ''; ?>>
+<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" role="region" aria-label="<?php esc_attr_e( 'Page Header', 'gravisain' ); ?>" <?php echo ! empty( $bg_style ) ? 'style="' . esc_attr( $bg_style ) . '"' : ''; ?>>
 	<div class="gravisain-hero-container">
 		<?php if ( 'above_title' === $breadcrumbs ) : ?>
 			<div class="hero-breadcrumbs-wrapper above-title">
@@ -44,4 +48,4 @@ if ( 'featured' === $bg_type && has_post_thumbnail() && ( is_single() || is_page
 			</div>
 		<?php endif; ?>
 	</div>
-</header>
+</div>

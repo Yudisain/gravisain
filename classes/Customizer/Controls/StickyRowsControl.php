@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Controls;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class StickyRowsControl extends \WP_Customize_Control {
 	/**
 	 * Control type.
@@ -66,59 +70,6 @@ class StickyRowsControl extends \WP_Customize_Control {
 
 			<input type="hidden" class="gravisain-sticky-rows-hidden" <?php $this->link(); ?> value="<?php echo esc_attr( $current_value ); ?>" />
 		</div>
-
-		<script>
-		jQuery(document).ready(function($) {
-			var $wrapper = $('#<?php echo esc_js( $ctrl_id ); ?>');
-			if (!$wrapper.length) return;
-
-			var $hidden = $wrapper.find('.gravisain-sticky-rows-hidden');
-			var $cbs = $wrapper.find('.gravisain-sticky-row-cb');
-
-			$cbs.on('change', function() {
-				var item = $(this).attr('data-item');
-
-				if (item === 'none' && this.checked) {
-					$cbs.not(this).prop('checked', false);
-					updateVal('none');
-					return;
-				}
-
-				if (item === 'entire_header' && this.checked) {
-					$cbs.not(this).prop('checked', false);
-					updateVal('entire_header');
-					return;
-				}
-
-				// Individual row clicked (top_row, main_row, bottom_row)
-				$wrapper.find('[data-item="none"]').prop('checked', false);
-				$wrapper.find('[data-item="entire_header"]').prop('checked', false);
-
-				var active = [];
-				$cbs.each(function() {
-					var k = $(this).attr('data-item');
-					if ((k === 'top_row' || k === 'main_row' || k === 'bottom_row') && this.checked) {
-						active.push(k);
-					}
-				});
-
-				if (active.length === 3) {
-					$cbs.prop('checked', false);
-					$wrapper.find('[data-item="entire_header"]').prop('checked', true);
-					updateVal('entire_header');
-				} else if (active.length === 0) {
-					$wrapper.find('[data-item="none"]').prop('checked', true);
-					updateVal('none');
-				} else {
-					updateVal(active.join(','));
-				}
-			});
-
-			function updateVal(val) {
-				$hidden.val(val).trigger('change');
-			}
-		});
-		</script>
 		<?php
 	}
 }

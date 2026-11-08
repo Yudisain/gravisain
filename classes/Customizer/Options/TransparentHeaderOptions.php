@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Options;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class TransparentHeaderOptions {
 	public function register( $wp_customize ): void {
 		$wp_customize->add_section( 'gravisain_header_transparent', [
@@ -73,7 +77,7 @@ class TransparentHeaderOptions {
 		// Background Overlay
 		$wp_customize->add_setting( 'gravisain_transparent_header_bg_color', [
 			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -86,7 +90,7 @@ class TransparentHeaderOptions {
 		// Border Bottom Width
 		$wp_customize->add_setting( 'gravisain_transparent_header_border_width', [
 			'default'           => '0',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -105,7 +109,7 @@ class TransparentHeaderOptions {
 		// Border Bottom Color
 		$wp_customize->add_setting( 'gravisain_transparent_header_border_color', [
 			'default'           => '#ffffff',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color' ],
 			'transport'         => 'refresh',
 		] );
 

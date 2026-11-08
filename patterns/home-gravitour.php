@@ -4,6 +4,10 @@
  * Slug: gravisain/home-gravitour
  * Categories: featured, gravisain
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <!-- wp:gravisain/row-layout {"align":"full","columns":2,"layoutPreset":"50-50","alignItems":"center","padding":{"top":"10rem","right":"5%","bottom":"10rem","left":"5%"},"backgroundColor":"#000000","backgroundImage":{"url":"https://s.w.org/images/core/5.8/sea.jpg?v=hero"},"backgroundAttachment":"fixed","backgroundOverlay":"#000000","backgroundOverlayOpacity":20,"stackOn":"tablet"} -->
 <div class="wp-block-gravisain-row-layout alignfull gravisain-row-layout is-display-flex has-2-columns is-stacked-on-tablet is-inner-width-theme align-items-center has-background-overlay" style="--gravisain-row-gap:30px;--gravisain-row-gap-tablet:30px;--gravisain-row-gap-mobile:30px;--gravisain-gap-compensation:calc(30px * 1 / 2);--gravisain-gap-compensation-tablet:calc(30px * 1 / 2);--gravisain-gap-compensation-mobile:calc(30px * 1 / 2);--gravisain-bg-color:#000000;--gravisain-bg-image:url(https://s.w.org/images/core/5.8/sea.jpg?v=hero);--gravisain-bg-position:center center;--gravisain-bg-size:cover;--gravisain-bg-attachment:fixed;--gravisain-bg-overlay:#000000;--gravisain-bg-overlay-opacity:0.2;--gravisain-padding-top:10rem;--gravisain-padding-right:5%;--gravisain-padding-bottom:10rem;--gravisain-padding-left:5%"><div class="gravisain-row-layout-bg" style="background-image:url('https://s.w.org/images/core/5.8/sea.jpg?v=hero');background-size:cover;background-position:center center;background-attachment:fixed"></div><div class="gravisain-row-layout-overlay" style="background-color:#000000;opacity:0.2"></div><div class="gravisain-row-layout-inner has-2-columns" style="align-items:center">

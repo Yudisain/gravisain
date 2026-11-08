@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Options;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class StickyHeaderOptions {
 	public function register( $wp_customize ): void {
 		$wp_customize->add_section( 'gravisain_header_sticky', [
@@ -104,7 +108,7 @@ class StickyHeaderOptions {
 		// Shrink Row Height
 		$wp_customize->add_setting( 'gravisain_sticky_header_shrink_height', [
 			'default'           => '54px',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -121,7 +125,7 @@ class StickyHeaderOptions {
 		// Shrink Logo Height
 		$wp_customize->add_setting( 'gravisain_sticky_header_shrink_logo_height', [
 			'default'           => '40px',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -138,7 +142,7 @@ class StickyHeaderOptions {
 		// Sticky Background Color
 		$wp_customize->add_setting( 'gravisain_sticky_header_bg_color', [
 			'default'           => '#ffffff',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color' ],
 			'transport'         => 'refresh',
 		] );
 

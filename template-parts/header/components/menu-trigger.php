@@ -5,6 +5,10 @@
  * @package Gravisain\Components
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $style      = get_theme_mod( 'gravisain_header_trigger_style', '3-lines' );
 $label      = get_theme_mod( 'gravisain_header_trigger_label', '' );
 $visibility = get_theme_mod( 'gravisain_header_trigger_visibility', 'desktop,tablet,mobile' );

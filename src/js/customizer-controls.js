@@ -8,6 +8,12 @@
         return;
     }
 
+    var __ = (wp && wp.i18n && wp.i18n.__) ? function(text) { return wp.i18n.__(text, 'gravisain'); } : function(text) { return text; };
+    function escAttr(str) {
+        if (str === null || str === undefined) return '';
+        return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
     /**
      * Gravisain Visibility Control
      */
@@ -407,56 +413,56 @@
                                         (function() {
                                             var opts = '';
                                             $.each(defaultIcons, function(k, d) {
-                                                opts += '<option value="' + k + '" ' + (k === item.id ? 'selected' : '') + '>' + (d.label || k) + '</option>';
+                                                opts += '<option value="' + escAttr(k) + '" ' + (k === item.id ? 'selected' : '') + '>' + escAttr(d.label || k) + '</option>';
                                             });
                                             return opts;
                                         })() +
                                     '</select>' +
                                 '</div>' +
                                 '<div class="social-field-group">' +
-                                    '<label class="social-control-label">ITEM LABEL</label>' +
-                                    '<input type="text" class="social-input social-label-input" value="' + (item.label || '') + '" />' +
+                                    '<label class="social-control-label">' + __('Item Label') + '</label>' +
+                                    '<input type="text" class="social-input social-label-input" value="' + escAttr(item.label || '') + '" />' +
                                 '</div>' +
                                 '<div class="social-field-group social-switch-group">' +
-                                    '<label class="social-control-label">SHOW ICON LABEL</label>' +
+                                    '<label class="social-control-label">' + __('Show Icon Label') + '</label>' +
                                     '<label class="gravisain-switch">' +
                                         '<input type="checkbox" class="social-checkbox social-showlabel-checkbox" ' + (item.show_label ? 'checked' : '') + ' />' +
                                         '<span class="gravisain-switch-slider"></span>' +
                                     '</label>' +
                                 '</div>' +
                                 '<div class="social-field-group">' +
-                                    '<label class="social-control-label">URL</label>' +
-                                    '<input type="url" class="social-input social-url-input" placeholder="https://..." value="' + (item.url || '') + '" />' +
+                                    '<label class="social-control-label">' + __('URL') + '</label>' +
+                                    '<input type="url" class="social-input social-url-input" placeholder="https://..." value="' + escAttr(item.url || '') + '" />' +
                                 '</div>' +
                             '</div>' +
 
                             '<!-- SVG SUBTAB -->' +
                             '<div class="subtab-content subtab-svg" ' + (item.source_type !== 'svg' ? 'style="display:none;"' : '') + '>' +
                                 '<div class="social-field-group">' +
-                                    '<label class="social-control-label">SVG HTML</label>' +
-                                    '<textarea class="social-textarea social-svg-input" rows="3" placeholder="&lt;svg...&gt;...&lt;/svg&gt;">' + (item.custom_svg || '') + '</textarea>' +
+                                    '<label class="social-control-label">' + __('SVG HTML') + '</label>' +
+                                    '<textarea class="social-textarea social-svg-input" rows="3" placeholder="&lt;svg...&gt;...&lt;/svg&gt;">' + escAttr(item.custom_svg || '') + '</textarea>' +
                                 '</div>' +
                                 '<div class="social-field-group">' +
-                                    '<label class="social-control-label">MAX WIDTH (PX)</label>' +
+                                    '<label class="social-control-label">' + __('Max Width (px)') + '</label>' +
                                     '<div class="slider-wrapper">' +
                                         '<input type="range" class="social-slider social-maxwidth-slider" min="10" max="100" value="' + (item.max_width || '24') + '" />' +
                                         '<input type="number" class="social-number social-maxwidth-number" min="10" max="100" value="' + (item.max_width || '24') + '" />' +
                                     '</div>' +
                                 '</div>' +
                                 '<div class="social-field-group">' +
-                                    '<label class="social-control-label">ITEM LABEL</label>' +
-                                    '<input type="text" class="social-input social-label-input" value="' + (item.label || '') + '" />' +
+                                    '<label class="social-control-label">' + __('Item Label') + '</label>' +
+                                    '<input type="text" class="social-input social-label-input" value="' + escAttr(item.label || '') + '" />' +
                                 '</div>' +
                                 '<div class="social-field-group social-switch-group">' +
-                                    '<label class="social-control-label">SHOW ICON LABEL</label>' +
+                                    '<label class="social-control-label">' + __('Show Icon Label') + '</label>' +
                                     '<label class="gravisain-switch">' +
                                         '<input type="checkbox" class="social-checkbox social-showlabel-checkbox" ' + (item.show_label ? 'checked' : '') + ' />' +
                                         '<span class="gravisain-switch-slider"></span>' +
                                     '</label>' +
                                 '</div>' +
                                 '<div class="social-field-group">' +
-                                    '<label class="social-control-label">URL</label>' +
-                                    '<input type="url" class="social-input social-url-input" placeholder="https://..." value="' + (item.url || '') + '" />' +
+                                    '<label class="social-control-label">' + __('URL') + '</label>' +
+                                    '<input type="url" class="social-input social-url-input" placeholder="https://..." value="' + escAttr(item.url || '') + '" />' +
                                 '</div>' +
                             '</div>' +
 
@@ -464,39 +470,39 @@
                             '<div class="subtab-content subtab-image" ' + (item.source_type !== 'image' ? 'style="display:none;"' : '') + '>' +
                                 '<div class="social-field-group">' +
                                     '<div class="image-upload-wrapper">' +
-                                        '<button type="button" class="social-add-image-btn" ' + (item.custom_image ? 'style="display:none;"' : '') + '>Add Image</button>' +
+                                        '<button type="button" class="social-add-image-btn" ' + (item.custom_image ? 'style="display:none;"' : '') + '>' + __('Add Image') + '</button>' +
                                         '<div class="image-preview-box" ' + (!item.custom_image ? 'style="display:none;"' : '') + '>' +
-                                            '<img src="' + (item.custom_image || '') + '" class="social-image-preview" />' +
-                                            '<button type="button" class="social-remove-image-btn">Remove</button>' +
+                                            '<img src="' + escAttr(item.custom_image || '') + '" class="social-image-preview" />' +
+                                            '<button type="button" class="social-remove-image-btn">' + __('Remove') + '</button>' +
                                         '</div>' +
                                     '</div>' +
                                 '</div>' +
                                 '<div class="social-field-group">' +
-                                    '<label class="social-control-label">MAX WIDTH (PX)</label>' +
+                                    '<label class="social-control-label">' + __('Max Width (px)') + '</label>' +
                                     '<div class="slider-wrapper">' +
                                         '<input type="range" class="social-slider social-maxwidth-slider" min="10" max="100" value="' + (item.max_width || '24') + '" />' +
                                         '<input type="number" class="social-number social-maxwidth-number" min="10" max="100" value="' + (item.max_width || '24') + '" />' +
                                     '</div>' +
                                 '</div>' +
                                 '<div class="social-field-group">' +
-                                    '<label class="social-control-label">ITEM LABEL</label>' +
-                                    '<input type="text" class="social-input social-label-input" value="' + (item.label || '') + '" />' +
+                                    '<label class="social-control-label">' + __('Item Label') + '</label>' +
+                                    '<input type="text" class="social-input social-label-input" value="' + escAttr(item.label || '') + '" />' +
                                 '</div>' +
                                 '<div class="social-field-group social-switch-group">' +
-                                    '<label class="social-control-label">SHOW ICON LABEL</label>' +
+                                    '<label class="social-control-label">' + __('Show Icon Label') + '</label>' +
                                     '<label class="gravisain-switch">' +
                                         '<input type="checkbox" class="social-checkbox social-showlabel-checkbox" ' + (item.show_label ? 'checked' : '') + ' />' +
                                         '<span class="gravisain-switch-slider"></span>' +
                                     '</label>' +
                                 '</div>' +
                                 '<div class="social-field-group">' +
-                                    '<label class="social-control-label">URL</label>' +
-                                    '<input type="url" class="social-input social-url-input" placeholder="https://..." value="' + (item.url || '') + '" />' +
+                                    '<label class="social-control-label">' + __('URL') + '</label>' +
+                                    '<input type="url" class="social-input social-url-input" placeholder="https://..." value="' + escAttr(item.url || '') + '" />' +
                                 '</div>' +
                             '</div>' +
 
                             '<div class="social-item-footer">' +
-                                '<button type="button" class="social-item-remove-btn">Remove Item <span class="dashicons dashicons-no-alt"></span></button>' +
+                                '<button type="button" class="social-item-remove-btn">' + __('Remove Item') + ' <span class="dashicons dashicons-no-alt"></span></button>' +
                             '</div>' +
 
                         '</div>' +
@@ -1952,6 +1958,53 @@
             }, 180);
         } else {
             targetSection.focus();
+        }
+    });
+
+    // Sticky Rows Checklist Control Handler
+    $(document).on('change', '.gravisain-sticky-rows-control .gravisain-sticky-row-cb', function() {
+        var $cb = $(this);
+        var $wrapper = $cb.closest('.gravisain-sticky-rows-control');
+        var $hidden = $wrapper.find('.gravisain-sticky-rows-hidden');
+        var $cbs = $wrapper.find('.gravisain-sticky-row-cb');
+        var item = $cb.attr('data-item');
+
+        function updateVal(val) {
+            $hidden.val(val).trigger('change');
+        }
+
+        if (item === 'none' && this.checked) {
+            $cbs.not(this).prop('checked', false);
+            updateVal('none');
+            return;
+        }
+
+        if (item === 'entire_header' && this.checked) {
+            $cbs.not(this).prop('checked', false);
+            updateVal('entire_header');
+            return;
+        }
+
+        $wrapper.find('[data-item="none"]').prop('checked', false);
+        $wrapper.find('[data-item="entire_header"]').prop('checked', false);
+
+        var active = [];
+        $cbs.each(function() {
+            var k = $(this).attr('data-item');
+            if ((k === 'top_row' || k === 'main_row' || k === 'bottom_row') && this.checked) {
+                active.push(k);
+            }
+        });
+
+        if (active.length === 3) {
+            $cbs.prop('checked', false);
+            $wrapper.find('[data-item="entire_header"]').prop('checked', true);
+            updateVal('entire_header');
+        } else if (active.length === 0) {
+            $wrapper.find('[data-item="none"]').prop('checked', true);
+            updateVal('none');
+        } else {
+            updateVal(active.join(','));
         }
     });
 

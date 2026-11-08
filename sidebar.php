@@ -7,6 +7,10 @@
  * @package Gravisain
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $sidebar_id = 'sidebar-1';
 if ( class_exists( '\\Gravisain\\Meta\\PageSettings' ) ) {
 	$meta_choice = \Gravisain\Meta\PageSettings::get_sidebar_choice();

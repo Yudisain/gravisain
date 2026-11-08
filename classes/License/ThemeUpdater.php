@@ -7,6 +7,10 @@
 
 namespace Gravisain\License;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class ThemeUpdater {
 
 	const API_URL = 'https://ls.undagital.com/api/v1/update';

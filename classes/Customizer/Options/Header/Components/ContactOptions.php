@@ -61,7 +61,7 @@ class ContactOptions implements ComponentOptionInterface {
 		] );
 
 		$wp_customize->add_setting( 'gravisain_header_contact_hours', [
-			'default'           => 'Mon - Fri: 8am - 5pm',
+			'default'           => __( 'Mon - Fri: 8am - 5pm', 'gravisain' ),
 			'sanitize_callback' => 'sanitize_text_field',
 			'transport'         => 'refresh',
 		] );
@@ -74,7 +74,7 @@ class ContactOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_contact_visibility', [
 			'default'           => 'desktop,tablet',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'visibility' ],
 			'transport'         => 'postMessage',
 		] );
 

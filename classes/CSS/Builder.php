@@ -7,6 +7,10 @@
 
 namespace Gravisain\CSS;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Utility class for constructing minified CSS from arrays.
  */
@@ -35,8 +39,8 @@ class Builder {
 
 		// Sanitize selector, property, and value against CSS injection / style tag breakout
 		$selector = $this->sanitize_css_string( $selector );
-		$property = $this->sanitize_css_string( $property );
-		$value    = $this->sanitize_css_string( $value );
+		$property = preg_replace( '/[^a-zA-Z0-9_-]/', '', $property );
+		$value    = $this->sanitize_css_value( $value );
 
 		if ( empty( $selector ) || empty( $property ) || empty( $value ) ) {
 			return $this;
@@ -107,7 +111,21 @@ class Builder {
 		// Remove potentially dangerous expression() or javascript: patterns
 		$string = preg_replace( '/expression\s*\(/i', '', $string );
 		$string = preg_replace( '/javascript\s*:/i', '', $string );
+		$string = preg_replace( '/@import\b/i', '', $string );
 
 		return $string;
+	}
+
+	/**
+	 * Sanitize a CSS property value so it cannot break out of a declaration or rule block.
+	 *
+	 * @param string $value Raw CSS property value.
+	 * @return string Sanitized CSS property value.
+	 */
+	private function sanitize_css_value( string $value ): string {
+		$value = $this->sanitize_css_string( $value );
+		// Strip characters that can terminate a declaration or inject arbitrary rules
+		$value = str_replace( [ '{', '}', ';', '<', '>' ], '', $value );
+		return trim( $value );
 	}
 }

@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Controls;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class SpacingControl extends \WP_Customize_Control {
 	/**
 	 * Control type.

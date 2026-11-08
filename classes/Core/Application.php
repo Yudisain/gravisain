@@ -7,6 +7,10 @@
 
 namespace Gravisain\Core;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Application Class
  * 
@@ -68,6 +72,23 @@ class Application {
 	private function setup_hooks(): void {
 		// Theme setup hook
 		add_action( 'after_setup_theme', [ $this, 'theme_setup' ] );
+		add_action( 'init', [ $this, 'register_pattern_categories' ] );
+	}
+
+	/**
+	 * Register custom block pattern categories.
+	 *
+	 * @return void
+	 */
+	public function register_pattern_categories(): void {
+		if ( function_exists( 'register_block_pattern_category' ) ) {
+			register_block_pattern_category(
+				'gravisain',
+				[
+					'label' => __( 'Gravisain', 'gravisain' ),
+				]
+			);
+		}
 	}
 
 	/**
@@ -112,11 +133,18 @@ class Application {
 		add_theme_support( 'align-wide' );
 
 		// Recommended Customizer Features
-		add_theme_support( 'custom-header' );
 		add_theme_support( 'custom-background' );
 
-		// Editor styling
-		add_editor_style( 'assets/css/main.css' );
+		// Editor styling (resolved dynamically from Vite manifest)
+		$manifest_path = get_template_directory() . '/assets/manifest.json';
+		if ( file_exists( $manifest_path ) ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+			$manifest_json = file_get_contents( $manifest_path );
+			$manifest      = $manifest_json ? json_decode( $manifest_json, true ) : null;
+			if ( is_array( $manifest ) && ! empty( $manifest['src/css/main.css']['file'] ) ) {
+				add_editor_style( 'assets/' . ltrim( (string) $manifest['src/css/main.css']['file'], '/' ) );
+			}
+		}
 
 		// Register a block style to pass Theme Check recommendation
 		register_block_style( 'core/button', array(

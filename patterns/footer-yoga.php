@@ -4,6 +4,10 @@
  * Slug: gravisain/footer-yoga
  * Categories: footer, gravisain
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <!-- wp:gravisain/row-layout {"align":"full","columns":4,"layoutPreset":"35-20-25-20","backgroundColor":"#232a25","padding":{"top":"5rem","right":"5%","bottom":"3rem","left":"5%"}} -->
 <div class="wp-block-gravisain-row-layout alignfull gravisain-row-layout is-display-flex has-4-columns is-stacked-on-mobile is-inner-width-theme" style="--gravisain-grid-template:1fr;--gravisain-row-gap:30px;--gravisain-row-gap-tablet:30px;--gravisain-row-gap-mobile:30px;--gravisain-gap-compensation:calc(30px * 3 / 4);--gravisain-gap-compensation-tablet:calc(30px * 3 / 4);--gravisain-gap-compensation-mobile:calc(30px * 3 / 4);background-color:#232a25;--gravisain-bg-color:#232a25;--gravisain-bg-color-tablet:;--gravisain-bg-color-mobile:;--gravisain-bg-position:center center;--gravisain-bg-size:cover;--gravisain-bg-attachment:scroll;--gravisain-bg-overlay-opacity:0.5;--gravisain-bg-overlay-opacity-tablet:0.5;--gravisain-bg-overlay-opacity-mobile:0.5;--gravisain-padding-top:5rem;--gravisain-padding-right:5%;--gravisain-padding-bottom:3rem;--gravisain-padding-left:5%"><div class="gravisain-row-layout-inner"><!-- wp:gravisain/column {"width":"35%"} -->

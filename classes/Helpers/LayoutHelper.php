@@ -7,6 +7,10 @@
 
 namespace Gravisain\Helpers;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * LayoutHelper Class
  * 

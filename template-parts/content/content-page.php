@@ -7,6 +7,10 @@
  * @package Gravisain
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'single-page-article' ); ?>>

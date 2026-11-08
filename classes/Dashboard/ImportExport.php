@@ -7,12 +7,28 @@
 
 namespace Gravisain\Dashboard;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class ImportExport {
 
 	public static function init(): void {
 		$instance = new self();
+		add_action( 'admin_menu', [ $instance, 'register_menu' ], 20 );
 		add_action( 'admin_init', [ $instance, 'handle_export' ] );
 		add_action( 'admin_init', [ $instance, 'handle_import' ] );
+	}
+
+	public function register_menu(): void {
+		add_submenu_page(
+			'themes.php',
+			__( 'Gravisain Import / Export', 'gravisain' ),
+			__( 'Gravisain Import/Export', 'gravisain' ),
+			'manage_options',
+			'gravisain-import-export',
+			[ self::class, 'render_page' ]
+		);
 	}
 
 	public function handle_export(): void {
@@ -40,7 +56,7 @@ class ImportExport {
 		unset( $theme_mods['custom_css_post_id'] );
 
 		$json_data = wp_json_encode( $theme_mods, JSON_PRETTY_PRINT );
-		$filename  = 'gravisain-settings-' . date( 'Y-m-d-H-i-s' ) . '.json';
+		$filename  = 'gravisain-settings-' . gmdate( 'Y-m-d-H-i-s' ) . '.json';
 
 		// Clean output buffer to ensure valid JSON download
 		if ( ob_get_length() ) {
@@ -79,16 +95,49 @@ class ImportExport {
 			return;
 		}
 
-		$file_content = file_get_contents( $_FILES['import_file']['tmp_name'] );
-		$theme_mods   = json_decode( $file_content, true );
+		$tmp_name = sanitize_text_field( wp_unslash( $_FILES['import_file']['tmp_name'] ) );
+		if ( ! is_uploaded_file( $tmp_name ) ) {
+			add_settings_error( 'gravisain_import', 'invalid_upload', __( 'Invalid uploaded file.', 'gravisain' ), 'error' );
+			return;
+		}
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		$file_content = file_get_contents( $tmp_name );
+		$theme_mods   = json_decode( (string) $file_content, true );
 
 		if ( json_last_error() !== JSON_ERROR_NONE || ! is_array( $theme_mods ) ) {
 			add_settings_error( 'gravisain_import', 'invalid_file', __( 'Invalid JSON file format.', 'gravisain' ), 'error' );
 			return;
 		}
 
+		$allowed_html_keys = [
+			'gravisain_header_html_content',
+			'gravisain_footer_html_content',
+			'gravisain_footer_copyright_text',
+		];
+		$allowed_social_keys = [
+			'gravisain_header_social_items',
+			'gravisain_footer_social_items',
+		];
+
 		foreach ( $theme_mods as $key => $value ) {
-			set_theme_mod( $key, $value );
+			$clean_key = sanitize_key( (string) $key );
+			if ( 0 !== strpos( $clean_key, 'gravisain_' ) && 'custom_logo' !== $clean_key ) {
+				continue;
+			}
+
+			if ( 'custom_logo' === $clean_key ) {
+				set_theme_mod( $clean_key, absint( $value ) );
+			} elseif ( in_array( $clean_key, $allowed_html_keys, true ) ) {
+				set_theme_mod( $clean_key, wp_kses_post( (string) $value ) );
+			} elseif ( in_array( $clean_key, $allowed_social_keys, true ) ) {
+				set_theme_mod( $clean_key, \Gravisain\Customizer\Sanitize::social_items_json( $value ) );
+			} elseif ( is_bool( $value ) || is_int( $value ) || is_float( $value ) ) {
+				set_theme_mod( $clean_key, $value );
+			} elseif ( is_string( $value ) ) {
+				$clean_val = preg_replace( '/<\/?(?:script|style)[^>]*>/i', '', $value );
+				set_theme_mod( $clean_key, sanitize_text_field( (string) $clean_val ) );
+			}
 		}
 
 		// Trigger hook to clear CSS cache if needed.

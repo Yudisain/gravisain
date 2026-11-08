@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Controls;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! class_exists( 'WP_Customize_Control' ) ) {
 	return;
 }
@@ -94,12 +98,12 @@ class SliderControl extends \WP_Customize_Control {
 				<div class="gravisain-slider-actions">
 					<# if ( data.responsive ) { #>
 						<ul class="gravisain-responsive-devices">
-							<li class="desktop active"><button type="button" class="preview-desktop" data-device="desktop" title="Desktop"><span class="dashicons dashicons-desktop"></span></button></li>
-							<li class="tablet"><button type="button" class="preview-tablet" data-device="tablet" title="Tablet"><span class="dashicons dashicons-tablet"></span></button></li>
-							<li class="mobile"><button type="button" class="preview-mobile" data-device="mobile" title="Mobile"><span class="dashicons dashicons-smartphone"></span></button></li>
+							<li class="desktop active"><button type="button" class="preview-desktop" data-device="desktop" title="<?php esc_attr_e( 'Desktop', 'gravisain' ); ?>"><span class="dashicons dashicons-desktop"></span></button></li>
+							<li class="tablet"><button type="button" class="preview-tablet" data-device="tablet" title="<?php esc_attr_e( 'Tablet', 'gravisain' ); ?>"><span class="dashicons dashicons-tablet"></span></button></li>
+							<li class="mobile"><button type="button" class="preview-mobile" data-device="mobile" title="<?php esc_attr_e( 'Mobile', 'gravisain' ); ?>"><span class="dashicons dashicons-smartphone"></span></button></li>
 						</ul>
 					<# } #>
-					<span class="gravisain-slider-reset dashicons dashicons-image-rotate" title="Reset"></span>
+					<span class="gravisain-slider-reset dashicons dashicons-image-rotate" title="<?php esc_attr_e( 'Reset', 'gravisain' ); ?>"></span>
 				</div>
 			</div>
 

@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Controls;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Gravisain\Helpers\GoogleFontsHelper;
 
 class TypographyControl extends \WP_Customize_Control {
@@ -130,7 +134,7 @@ class TypographyControl extends \WP_Customize_Control {
 			</div>
 			<div class="gravisain-accordion-body" style="display: none;">
 				<div class="gravisain-typography-field-row gravisain-font-family-row">
-					<label class="gravisain-typography-label"><?php _e( 'Font Family', 'gravisain' ); ?></label>
+					<label class="gravisain-typography-label"><?php esc_html_e( 'Font Family', 'gravisain' ); ?></label>
 					<div class="gravisain-font-picker" tabindex="0">
 						<div class="gravisain-font-picker-selected">
 							<span class="gravisain-font-picker-value">{{ data.value.family || 'inherit' }}</span>
@@ -148,7 +152,7 @@ class TypographyControl extends \WP_Customize_Control {
 					<input type="hidden" class="gravisain-typography-input-family" data-field="family" value="{{ data.value.family || 'inherit' }}" />
 				</div>
 				<div class="gravisain-typography-field-row">
-					<label class="gravisain-typography-label"><?php _e( 'Font Style', 'gravisain' ); ?></label>
+					<label class="gravisain-typography-label"><?php esc_html_e( 'Font Style', 'gravisain' ); ?></label>
 					<select class="gravisain-typography-select" data-field="style">
 						<# _.each( data.font_styles, function( label, key ) { #>
 							<option value="{{ key }}" <# if ( (data.value.style || 'normal') === key ) { #>selected<# } #>>{{ label }}</option>
@@ -156,15 +160,15 @@ class TypographyControl extends \WP_Customize_Control {
 					</select>
 				</div>
 				<div class="gravisain-typography-field-row">
-					<label class="gravisain-typography-label"><?php _e( 'Font Size (px)', 'gravisain' ); ?></label>
+					<label class="gravisain-typography-label"><?php esc_html_e( 'Font Size (px)', 'gravisain' ); ?></label>
 					<input type="number" class="gravisain-typography-input" data-field="size" value="{{ data.value.size || '16' }}" min="8" max="100" step="1" />
 				</div>
 				<div class="gravisain-typography-field-row">
-					<label class="gravisain-typography-label"><?php _e( 'Line Height', 'gravisain' ); ?></label>
+					<label class="gravisain-typography-label"><?php esc_html_e( 'Line Height', 'gravisain' ); ?></label>
 					<input type="number" class="gravisain-typography-input" data-field="line_height" value="{{ data.value.line_height !== undefined && data.value.line_height !== '' ? data.value.line_height : '1.5' }}" min="0.5" max="5" step="0.1" />
 				</div>
 				<div class="gravisain-typography-field-row gravisain-typography-slider-row">
-					<label class="gravisain-typography-label"><?php _e( 'Letter Spacing (px)', 'gravisain' ); ?></label>
+					<label class="gravisain-typography-label"><?php esc_html_e( 'Letter Spacing (px)', 'gravisain' ); ?></label>
 					<div class="gravisain-slider-wrapper">
 						<div class="gravisain-slider-range-wrap">
 							<input type="range" class="gravisain-slider-range gravisain-typography-range-slider" min="-5" max="15" step="0.1" value="{{ data.value.spacing || '0' }}" />

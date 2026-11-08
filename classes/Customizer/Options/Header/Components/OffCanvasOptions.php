@@ -40,7 +40,7 @@ class OffCanvasOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_offcanvas_direction', [
 			'default'           => 'right',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -61,7 +61,7 @@ class OffCanvasOptions implements ComponentOptionInterface {
 		// Off-Canvas Width (Responsive Slider: %, px, vw).
 		$wp_customize->add_setting( 'gravisain_offcanvas_width', [
 			'default'           => '{"desktop":"380px","tablet":"380px","mobile":"100%"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -82,7 +82,7 @@ class OffCanvasOptions implements ComponentOptionInterface {
 		// 1. Off-Canvas Colors.
 		$wp_customize->add_setting( 'gravisain_header_offcanvas_colors', [
 			'default'           => '{"initial":"","hover":"","active":""}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color_group_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -100,7 +100,7 @@ class OffCanvasOptions implements ComponentOptionInterface {
 		// 2. Off-Canvas Background.
 		$wp_customize->add_setting( 'gravisain_header_offcanvas_background', [
 			'default'           => '{"initial":"","hover":"","active":""}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color_group_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -116,7 +116,7 @@ class OffCanvasOptions implements ComponentOptionInterface {
 		// 3. Off-Canvas Navigation Font.
 		$wp_customize->add_setting( 'gravisain_header_offcanvas_font', [
 			'default'           => '{"family":"inherit","style":"normal","size":"16"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'typography_json' ],
 			'transport'         => 'postMessage',
 		] );
 

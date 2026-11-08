@@ -10,6 +10,10 @@
 
 namespace Gravisain\Components;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class MenuEnhancements {
 
 	/**

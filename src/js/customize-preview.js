@@ -1330,7 +1330,8 @@
                     }
                 } else {
                     // If no shortcut exists anywhere, create one inside the container
-                    var $btn = $('<button aria-label="Click to edit." title="Click to edit." class="customize-partial-edit-shortcut ' + item.cls + '" data-customize-partial-id="' + item.id + '">' + svgIcon + '</button>');
+                    var editLabel = (wp && wp.i18n && wp.i18n.__) ? wp.i18n.__( 'Click to edit.', 'gravisain' ) : 'Click to edit.';
+                    var $btn = $('<button aria-label="' + editLabel + '" title="' + editLabel + '" class="customize-partial-edit-shortcut ' + item.cls + '" data-customize-partial-id="' + item.id + '">' + svgIcon + '</button>');
                     $container.prepend($btn);
                 }
             }

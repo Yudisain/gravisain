@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * StarterContent Class
  *
@@ -136,20 +140,20 @@ class StarterContent {
 <div class="wp-block-group alignfull gravisain-hero has-background" style="background-color:#0B0B0C;margin-top:calc(-1 * (var(--gravisain-header-offset, 120px) + var(--gravisain-content-padding-top, 56px)));padding-top:160px;padding-right:24px;padding-bottom:120px;padding-left:24px"><!-- wp:columns {"verticalAlignment":"center","style":{"spacing":{"blockGap":{"left":"56px","top":"40px"}}}} -->
 <div class="wp-block-columns are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center","width":"52%"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:52%"><!-- wp:paragraph {"style":{"typography":{"fontSize":"13px","fontWeight":"700","letterSpacing":"1px","textTransform":"uppercase"},"color":{"text":"#EA4317"},"spacing":{"margin":{"bottom":"16px"}}}} -->
-<p class="has-text-color" style="color:#EA4317;margin-bottom:16px;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase">Performance-First WordPress Theme</p>
+<p class="has-text-color" style="color:#EA4317;margin-bottom:16px;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase"><?php esc_html_e( 'Performance-First WordPress Theme', 'gravisain' ); ?></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":1,"textColor":"white","style":{"typography":{"fontSize":"56px","lineHeight":"1.1","fontWeight":"600","letterSpacing":"-1px"}}} -->
-<h1 class="wp-block-heading has-white-color has-text-color" style="font-size:56px;font-weight:600;letter-spacing:-1px;line-height:1.1">Create without limits.<br>Perform without compromise.</h1>
+<h1 class="wp-block-heading has-white-color has-text-color" style="font-size:56px;font-weight:600;letter-spacing:-1px;line-height:1.1"><?php echo wp_kses_post( __( 'Create without limits.<br>Perform without compromise.', 'gravisain' ) ); ?></h1>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"18px","lineHeight":"1.6"},"color":{"text":"#9CA3AF"},"spacing":{"margin":{"top":"24px","bottom":"40px"}}}} -->
-<p class="has-text-color" style="color:#9CA3AF;margin-top:24px;margin-bottom:40px;font-size:18px;line-height:1.6">A flexible hybrid WordPress theme for fast, expressive and modern websites.</p>
+<p class="has-text-color" style="color:#9CA3AF;margin-top:24px;margin-bottom:40px;font-size:18px;line-height:1.6"><?php esc_html_e( 'A flexible hybrid WordPress theme for fast, expressive and modern websites.', 'gravisain' ); ?></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button {"style":{"border":{"radius":"4px"},"spacing":{"padding":{"top":"14px","right":"32px","bottom":"14px","left":"32px"}},"color":{"background":"#EA4317","text":"#FFFFFF"},"typography":{"fontSize":"15px","fontWeight":"700","textTransform":"uppercase"}}} -->
-<div class="wp-block-button has-custom-font-size" style="font-size:15px;font-weight:700;text-transform:uppercase"><a class="wp-block-button__link has-text-color has-background" href="<?php echo esc_url( home_url( '/' ) ); ?>work/" style="border-radius:4px;background-color:#EA4317;color:#FFFFFF;padding-top:14px;padding-right:32px;padding-bottom:14px;padding-left:32px">Explore Gravisain →</a></div>
+<div class="wp-block-button has-custom-font-size" style="font-size:15px;font-weight:700;text-transform:uppercase"><a class="wp-block-button__link has-text-color has-background" href="#services" style="border-radius:4px;background-color:#EA4317;color:#FFFFFF;padding-top:14px;padding-right:32px;padding-bottom:14px;padding-left:32px"><?php esc_html_e( 'Explore Gravisain →', 'gravisain' ); ?></a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:column -->
@@ -163,12 +167,12 @@ class StarterContent {
 <!-- /wp:group -->
 
 <!-- wp:group {"align":"full","backgroundColor":"gravisain-site-bg","style":{"spacing":{"margin":{"top":"0px"},"padding":{"top":"96px","bottom":"96px","left":"24px","right":"24px"}}},"layout":{"type":"constrained","contentSize":"1160px"}} -->
-<div class="wp-block-group alignfull has-gravisain-site-bg-background-color has-background" style="margin-top:0px;padding-top:96px;padding-right:24px;padding-bottom:96px;padding-left:24px"><!-- wp:heading {"textAlign":"center","textColor":"gravisain-text-color","style":{"typography":{"fontSize":"44px","fontWeight":"800","letterSpacing":"-0.5px"}}} -->
-<h2 class="wp-block-heading has-text-align-center has-gravisain-text-color-color has-text-color" style="font-size:44px;font-weight:800;letter-spacing:-0.5px">Build Beyond Ordinary</h2>
+<div id="services" class="wp-block-group alignfull has-gravisain-site-bg-background-color has-background" style="margin-top:0px;padding-top:96px;padding-right:24px;padding-bottom:96px;padding-left:24px"><!-- wp:heading {"textAlign":"center","textColor":"gravisain-text-color","style":{"typography":{"fontSize":"44px","fontWeight":"800","letterSpacing":"-0.5px"}}} -->
+<h2 class="wp-block-heading has-text-align-center has-gravisain-text-color-color has-text-color" style="font-size:44px;font-weight:800;letter-spacing:-0.5px"><?php esc_html_e( 'Build Beyond Ordinary', 'gravisain' ); ?></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center","textColor":"gravisain-secondary","style":{"typography":{"fontSize":"17px"},"spacing":{"margin":{"top":"12px","bottom":"48px"}}}} -->
-<p class="has-text-align-center has-gravisain-secondary-color has-text-color" style="margin-top:12px;margin-bottom:48px;font-size:17px">Build expressive, high-performance websites with a flexible design.</p>
+<p class="has-text-align-center has-gravisain-secondary-color has-text-color" style="margin-top:12px;margin-bottom:48px;font-size:17px"><?php esc_html_e( 'Build expressive, high-performance websites with a flexible design.', 'gravisain' ); ?></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:columns {"style":{"spacing":{"blockGap":{"left":"24px","top":"24px"}}}} -->
@@ -179,15 +183,15 @@ class StarterContent {
 <!-- /wp:html -->
 
 <!-- wp:heading {"level":3,"textColor":"gravisain-text-color","style":{"typography":{"fontSize":"20px","fontWeight":"700"}}} -->
-<h3 class="wp-block-heading has-gravisain-text-color-color has-text-color" style="font-size:20px;font-weight:700">Performance First</h3>
+<h3 class="wp-block-heading has-gravisain-text-color-color has-text-color" style="font-size:20px;font-weight:700"><?php esc_html_e( 'Performance First', 'gravisain' ); ?></h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"textColor":"gravisain-secondary","style":{"typography":{"fontSize":"15px","lineHeight":"1.65"}}} -->
-<p class="has-gravisain-secondary-color has-text-color" style="font-size:15px;line-height:1.65">Modern architecture engineered for exceptional frontend performance. </p>
+<p class="has-gravisain-secondary-color has-text-color" style="font-size:15px;line-height:1.65"><?php esc_html_e( 'Modern architecture engineered for exceptional frontend performance.', 'gravisain' ); ?></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"14px","fontWeight":"600"}}} -->
-<p class="has-link-color" style="font-size:14px;font-weight:600"><a href="<?php echo esc_url( home_url( '/' ) ); ?>services/" style="color:#2563EB">Learn more →</a></p>
+<p class="has-link-color" style="font-size:14px;font-weight:600"><a href="#contact" style="color:#2563EB"><?php esc_html_e( 'Learn more →', 'gravisain' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:column -->
@@ -199,15 +203,15 @@ class StarterContent {
 <!-- /wp:html -->
 
 <!-- wp:heading {"level":3,"textColor":"gravisain-text-color","style":{"typography":{"fontSize":"20px","fontWeight":"700"}}} -->
-<h3 class="wp-block-heading has-gravisain-text-color-color has-text-color" style="font-size:20px;font-weight:700">Modular Builders</h3>
+<h3 class="wp-block-heading has-gravisain-text-color-color has-text-color" style="font-size:20px;font-weight:700"><?php esc_html_e( 'Modular Builders', 'gravisain' ); ?></h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"textColor":"gravisain-secondary","style":{"typography":{"fontSize":"15px","lineHeight":"1.65"}}} -->
-<p class="has-gravisain-secondary-color has-text-color" style="font-size:15px;line-height:1.65">Create flexible headers and footers with visual modular controls.</p>
+<p class="has-gravisain-secondary-color has-text-color" style="font-size:15px;line-height:1.65"><?php esc_html_e( 'Create flexible headers and footers with visual modular controls.', 'gravisain' ); ?></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"14px","fontWeight":"600"}}} -->
-<p class="has-link-color" style="font-size:14px;font-weight:600"><a href="<?php echo esc_url( home_url( '/' ) ); ?>services/" style="color:#2563EB">Learn more →</a></p>
+<p class="has-link-color" style="font-size:14px;font-weight:600"><a href="#contact" style="color:#2563EB"><?php esc_html_e( 'Learn more →', 'gravisain' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:column -->
@@ -219,15 +223,15 @@ class StarterContent {
 <!-- /wp:html -->
 
 <!-- wp:heading {"level":3,"textColor":"gravisain-text-color","style":{"typography":{"fontSize":"20px","fontWeight":"700"}}} -->
-<h3 class="wp-block-heading has-gravisain-text-color-color has-text-color" style="font-size:20px;font-weight:700">Native Guttenberg</h3>
+<h3 class="wp-block-heading has-gravisain-text-color-color has-text-color" style="font-size:20px;font-weight:700"><?php esc_html_e( 'Native Gutenberg', 'gravisain' ); ?></h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"textColor":"gravisain-secondary","style":{"typography":{"fontSize":"15px","lineHeight":"1.65"}}} -->
-<p class="has-gravisain-secondary-color has-text-color" style="font-size:15px;line-height:1.65">Design naturally with WordPress blocks, patterns, and global styles.</p>
+<p class="has-gravisain-secondary-color has-text-color" style="font-size:15px;line-height:1.65"><?php esc_html_e( 'Design naturally with WordPress blocks, patterns, and global styles.', 'gravisain' ); ?></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"14px","fontWeight":"600"}}} -->
-<p class="has-link-color" style="font-size:14px;font-weight:600"><a href="<?php echo esc_url( home_url( '/' ) ); ?>services/" style="color:#2563EB">Learn more →</a></p>
+<p class="has-link-color" style="font-size:14px;font-weight:600"><a href="#contact" style="color:#2563EB"><?php esc_html_e( 'Learn more →', 'gravisain' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:column -->
@@ -239,15 +243,15 @@ class StarterContent {
 <!-- /wp:html -->
 
 <!-- wp:heading {"level":3,"textColor":"gravisain-text-color","style":{"typography":{"fontSize":"20px","fontWeight":"700"}}} -->
-<h3 class="wp-block-heading has-gravisain-text-color-color has-text-color" style="font-size:20px;font-weight:700">Deep Commerce</h3>
+<h3 class="wp-block-heading has-gravisain-text-color-color has-text-color" style="font-size:20px;font-weight:700"><?php esc_html_e( 'Deep Commerce', 'gravisain' ); ?></h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"textColor":"gravisain-secondary","style":{"typography":{"fontSize":"15px","lineHeight":"1.65"}}} -->
-<p class="has-gravisain-secondary-color has-text-color" style="font-size:15px;line-height:1.65">Advanced WooCommerce integration built for modern online stores.</p>
+<p class="has-gravisain-secondary-color has-text-color" style="font-size:15px;line-height:1.65"><?php esc_html_e( 'Advanced WooCommerce integration built for modern online stores.', 'gravisain' ); ?></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"14px","fontWeight":"600"}}} -->
-<p class="has-link-color" style="font-size:14px;font-weight:600"><a href="<?php echo esc_url( home_url( '/' ) ); ?>services/" style="color:#2563EB">Learn more →</a></p>
+<p class="has-link-color" style="font-size:14px;font-weight:600"><a href="#contact" style="color:#2563EB"><?php esc_html_e( 'Learn more →', 'gravisain' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:column --></div>
@@ -255,21 +259,21 @@ class StarterContent {
 <!-- /wp:group -->
 
 <!-- wp:group {"align":"full","backgroundColor":"gravisain-link-color","style":{"spacing":{"padding":{"top":"96px","bottom":"96px","left":"24px","right":"24px"}}},"layout":{"type":"constrained","contentSize":"720px"}} -->
-<div class="wp-block-group alignfull has-gravisain-link-color-background-color has-background" style="padding-top:96px;padding-right:24px;padding-bottom:96px;padding-left:24px"><!-- wp:heading {"textAlign":"center","textColor":"gravisain-text-dark-bg","style":{"typography":{"fontSize":"40px","fontWeight":"800","letterSpacing":"-0.5px"}}} -->
-<h2 class="wp-block-heading has-text-align-center has-gravisain-text-dark-bg-color has-text-color" style="font-size:40px;font-weight:800;letter-spacing:-0.5px">Let’s Build Something Great</h2>
+<div id="contact" class="wp-block-group alignfull has-gravisain-link-color-background-color has-background" style="padding-top:96px;padding-right:24px;padding-bottom:96px;padding-left:24px"><!-- wp:heading {"textAlign":"center","textColor":"gravisain-text-dark-bg","style":{"typography":{"fontSize":"40px","fontWeight":"800","letterSpacing":"-0.5px"}}} -->
+<h2 class="wp-block-heading has-text-align-center has-gravisain-text-dark-bg-color has-text-color" style="font-size:40px;font-weight:800;letter-spacing:-0.5px"><?php esc_html_e( 'Let’s Build Something Great', 'gravisain' ); ?></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center","textColor":"gravisain-text-dark-bg","style":{"typography":{"fontSize":"18px","lineHeight":"1.7"},"spacing":{"margin":{"top":"16px","bottom":"32px"}},"color":{}}} -->
-<p class="has-text-align-center has-gravisain-text-dark-bg-color has-text-color" style="margin-top:16px;margin-bottom:32px;font-size:18px;line-height:1.7">Have an idea in mind? Let’s turn it into a website designed to stand out.</p>
+<p class="has-text-align-center has-gravisain-text-dark-bg-color has-text-color" style="margin-top:16px;margin-bottom:32px;font-size:18px;line-height:1.7"><?php esc_html_e( 'Have an idea in mind? Let’s turn it into a website designed to stand out.', 'gravisain' ); ?></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"},"style":{"spacing":{"blockGap":"14px"}}} -->
 <div class="wp-block-buttons"><!-- wp:button {"style":{"border":{"radius":"4px"},"spacing":{"padding":{"top":"14px","right":"32px","bottom":"14px","left":"32px"}},"color":{"background":"#EA4317","text":"#FFFFFF"},"typography":{"fontSize":"15px","fontWeight":"700","textTransform":"uppercase"}}} -->
-<div class="wp-block-button has-custom-font-size" style="font-size:15px;font-weight:700;text-transform:uppercase"><a class="wp-block-button__link has-text-color has-background" href="<?php echo esc_url( home_url( '/' ) ); ?>contact/" style="border-radius:4px;background-color:#EA4317;color:#FFFFFF;padding-top:14px;padding-right:32px;padding-bottom:14px;padding-left:32px">Start a Project</a></div>
+<div class="wp-block-button has-custom-font-size" style="font-size:15px;font-weight:700;text-transform:uppercase"><a class="wp-block-button__link has-text-color has-background" href="#contact" style="border-radius:4px;background-color:#EA4317;color:#FFFFFF;padding-top:14px;padding-right:32px;padding-bottom:14px;padding-left:32px"><?php esc_html_e( 'Start a Project', 'gravisain' ); ?></a></div>
 <!-- /wp:button -->
 
 <!-- wp:button {"className":"is-style-outline gravisain-btn-outline","style":{"border":{"radius":"4px","color":"#EA4317","width":"1px"},"spacing":{"padding":{"top":"14px","right":"32px","bottom":"14px","left":"32px"}},"color":{"text":"#EA4317"},"typography":{"fontSize":"15px","fontWeight":"700","textTransform":"uppercase"}}} -->
-<div class="wp-block-button has-custom-font-size is-style-outline gravisain-btn-outline" style="font-size:15px;font-weight:700;text-transform:uppercase"><a class="wp-block-button__link has-text-color has-border-color" href="<?php echo esc_url( home_url( '/' ) ); ?>work/" style="border-color:#EA4317;border-width:1px;border-radius:4px;color:#EA4317;padding-top:14px;padding-right:32px;padding-bottom:14px;padding-left:32px">View Our Work</a></div>
+<div class="wp-block-button has-custom-font-size is-style-outline gravisain-btn-outline" style="font-size:15px;font-weight:700;text-transform:uppercase"><a class="wp-block-button__link has-text-color has-border-color" href="#services" style="border-color:#EA4317;border-width:1px;border-radius:4px;color:#EA4317;padding-top:14px;padding-right:32px;padding-bottom:14px;padding-left:32px"><?php esc_html_e( 'View Our Work', 'gravisain' ); ?></a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->

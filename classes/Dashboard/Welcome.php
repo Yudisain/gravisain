@@ -7,6 +7,10 @@
 
 namespace Gravisain\Dashboard;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Welcome {
 	public static function init(): void {
 		$instance = new self();
@@ -59,24 +63,15 @@ class Welcome {
 			'gravisain-system-status',
 			[ '\Gravisain\Dashboard\SystemStatus', 'render_page' ]
 		);
-
-		add_submenu_page(
-			'themes.php',
-			__( 'Gravisain Import / Export', 'gravisain' ),
-			__( 'Gravisain Import/Export', 'gravisain' ),
-			'manage_options',
-			'gravisain-import-export',
-			[ '\Gravisain\Dashboard\ImportExport', 'render_page' ]
-		);
 	}
 
 	private function get_system_status(): array {
 		return [
-			'WP Version'   => get_bloginfo( 'version' ),
-			'PHP Version'  => phpversion(),
-			'Memory Limit' => WP_MEMORY_LIMIT,
-			'Max Exec Time'=> ini_get('max_execution_time') . 's',
-			'Debug Mode'   => defined('WP_DEBUG') && WP_DEBUG ? 'Enabled' : 'Disabled',
+			__( 'WP Version', 'gravisain' )    => get_bloginfo( 'version' ),
+			__( 'PHP Version', 'gravisain' )   => phpversion(),
+			__( 'Memory Limit', 'gravisain' )  => WP_MEMORY_LIMIT,
+			__( 'Max Exec Time', 'gravisain' ) => ini_get( 'max_execution_time' ) . 's',
+			__( 'Debug Mode', 'gravisain' )    => defined( 'WP_DEBUG' ) && WP_DEBUG ? __( 'Enabled', 'gravisain' ) : __( 'Disabled', 'gravisain' ),
 		];
 	}
 
@@ -118,133 +113,71 @@ class Welcome {
 					<p style="color: #646970; font-size: 16px; margin-top: 5px;"><?php echo esc_html( $display_desc ); ?></p>
 				</div>
 				<div>
-					<a href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>" class="gravisain-btn">Open Customizer</a>
+					<a href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>" class="gravisain-btn"><?php esc_html_e( 'Open Customizer', 'gravisain' ); ?></a>
 				</div>
 			</div>
 
 			<div class="gravisain-grid">
 				<div class="gravisain-main">
-					<?php if ( defined( 'GRAVISAIN_ENABLE_THEME_LICENSE' ) && GRAVISAIN_ENABLE_THEME_LICENSE ) : ?>
-						<?php
-						$is_active = \Gravisain\License\LicenseManager::is_active();
-						$license_key = \Gravisain\License\LicenseManager::get_license_key();
-						?>
-						<div class="gravisain-card" style="margin-bottom: 20px;">
-							<h2>License Activation</h2>
-							<p style="color: #50575e; margin-bottom: 15px;">Activate your license key to receive automatic updates and premium support.</p>
-							
-							<div id="gravisain-license-status" style="margin-bottom: 15px; font-weight: bold; <?php echo $is_active ? 'color: #16a34a;' : 'display: none;'; ?>">
-								✓ License is Active
-							</div>
-
-							<form id="gravisain-license-form" method="post" action="">
-								<input type="password" id="gravisain-license-key" class="gravisain-input" placeholder="Enter your license key here..." value="<?php echo esc_attr($is_active ? '****************' : $license_key); ?>" <?php echo $is_active ? 'disabled' : ''; ?>>
-								
-								<?php if ( $is_active ) : ?>
-									<button type="button" id="gravisain-deactivate-btn" class="gravisain-btn" style="background: #dc2626;">Deactivate License</button>
-								<?php else : ?>
-									<button type="button" id="gravisain-activate-btn" class="gravisain-btn">Activate License</button>
-								<?php endif; ?>
-								
-								<span id="gravisain-license-msg" style="display: block; margin-top: 10px; font-size: 13px;"></span>
-							</form>
-						</div>
-					<?php endif; ?>
+					<?php do_action( 'gravisain_dashboard_main_top' ); ?>
 
 					<div class="gravisain-card" style="margin-bottom: 20px;">
 						<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f0f1; padding-bottom: 15px; margin-bottom: 15px;">
-							<h2 style="margin: 0; border: none; padding: 0;">Quick Settings</h2>
-							<a href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>" style="color: #4f46e5; text-decoration: none; font-weight: 600; font-size: 13px;">Go to Customizer ↗</a>
+							<h2 style="margin: 0; border: none; padding: 0;"><?php esc_html_e( 'Quick Settings', 'gravisain' ); ?></h2>
+							<a href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>" style="color: #4f46e5; text-decoration: none; font-weight: 600; font-size: 13px;"><?php esc_html_e( 'Go to Customizer ↗', 'gravisain' ); ?></a>
 						</div>
 						<div class="gravisain-quick-grid">
 							<a href="<?php echo esc_url( admin_url( 'customize.php?autofocus[section]=title_tagline' ) ); ?>" class="gravisain-quick-item">
-								<span class="gravisain-quick-title">Site Identity</span>
-								<span class="gravisain-quick-sub">Customize ↗</span>
+								<span class="gravisain-quick-title"><?php esc_html_e( 'Site Identity', 'gravisain' ); ?></span>
+								<span class="gravisain-quick-sub"><?php esc_html_e( 'Customize ↗', 'gravisain' ); ?></span>
 							</a>
 							<a href="<?php echo esc_url( admin_url( 'customize.php?autofocus[panel]=gravisain_header_panel' ) ); ?>" class="gravisain-quick-item">
-								<span class="gravisain-quick-title">Header Builder</span>
-								<span class="gravisain-quick-sub">Customize ↗</span>
+								<span class="gravisain-quick-title"><?php esc_html_e( 'Header Builder', 'gravisain' ); ?></span>
+								<span class="gravisain-quick-sub"><?php esc_html_e( 'Customize ↗', 'gravisain' ); ?></span>
 							</a>
 							<a href="<?php echo esc_url( admin_url( 'customize.php?autofocus[section]=gravisain_colors' ) ); ?>" class="gravisain-quick-item">
-								<span class="gravisain-quick-title">Color Palette</span>
-								<span class="gravisain-quick-sub">Customize ↗</span>
+								<span class="gravisain-quick-title"><?php esc_html_e( 'Color Palette', 'gravisain' ); ?></span>
+								<span class="gravisain-quick-sub"><?php esc_html_e( 'Customize ↗', 'gravisain' ); ?></span>
 							</a>
 							<a href="<?php echo esc_url( admin_url( 'customize.php?autofocus[section]=gravisain_typography' ) ); ?>" class="gravisain-quick-item">
-								<span class="gravisain-quick-title">Typography</span>
-								<span class="gravisain-quick-sub">Customize ↗</span>
+								<span class="gravisain-quick-title"><?php esc_html_e( 'Typography', 'gravisain' ); ?></span>
+								<span class="gravisain-quick-sub"><?php esc_html_e( 'Customize ↗', 'gravisain' ); ?></span>
 							</a>
 							<a href="<?php echo esc_url( admin_url( 'customize.php?autofocus[section]=gravisain_layout' ) ); ?>" class="gravisain-quick-item">
-								<span class="gravisain-quick-title">Layout & Container</span>
-								<span class="gravisain-quick-sub">Customize ↗</span>
+								<span class="gravisain-quick-title"><?php esc_html_e( 'Layout & Container', 'gravisain' ); ?></span>
+								<span class="gravisain-quick-sub"><?php esc_html_e( 'Customize ↗', 'gravisain' ); ?></span>
 							</a>
 							<a href="<?php echo esc_url( admin_url( 'customize.php?autofocus[section]=gravisain_blog_archive_section' ) ); ?>" class="gravisain-quick-item">
-								<span class="gravisain-quick-title">Blog Options</span>
-								<span class="gravisain-quick-sub">Customize ↗</span>
+								<span class="gravisain-quick-title"><?php esc_html_e( 'Blog Options', 'gravisain' ); ?></span>
+								<span class="gravisain-quick-sub"><?php esc_html_e( 'Customize ↗', 'gravisain' ); ?></span>
 							</a>
-							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=gravisain_element' ) ); ?>" class="gravisain-quick-item">
-								<span class="gravisain-quick-title">Hooked Elements</span>
-								<span class="gravisain-quick-sub">Manage ↗</span>
+							<?php do_action( 'gravisain_dashboard_quick_items' ); ?>
+							<a href="<?php echo esc_url( admin_url( 'customize.php?autofocus[panel]=gravisain_footer_panel' ) ); ?>" class="gravisain-quick-item">
+								<span class="gravisain-quick-title"><?php esc_html_e( 'Footer Builder', 'gravisain' ); ?></span>
+								<span class="gravisain-quick-sub"><?php esc_html_e( 'Customize ↗', 'gravisain' ); ?></span>
 							</a>
 							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=wp_block' ) ); ?>" class="gravisain-quick-item">
-								<span class="gravisain-quick-title"><?php esc_html_e( 'Reusable Blocks', 'gravisain' ); ?></span>
+								<span class="gravisain-quick-title"><?php esc_html_e( 'Synced Patterns', 'gravisain' ); ?></span>
 								<span class="gravisain-quick-sub"><?php esc_html_e( 'Manage ↗', 'gravisain' ); ?></span>
 							</a>
 						</div>
 					</div>
 
-					<div class="gravisain-card" style="margin-bottom: 20px;">
-						<h2>Official Companion Plugins</h2>
-						<p style="color: #50575e; margin-bottom: 15px;">Extend Gravisain with standalone modular extensions for Gutenberg patterns and demo templates.</p>
-						<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-							<?php
-							$blocks_active        = class_exists( '\\Gravisain\\Blocks\\Plugin' );
-							$starter_sites_active = class_exists( '\\Gravisain\\Companion\\Plugin' );
-							?>
-							<div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 16px; border-radius: 6px;">
-								<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-									<strong style="color: #0f172a; font-size: 14px;">Gravisain Blocks</strong>
-									<?php if ( $blocks_active ) : ?>
-										<span style="background: #dcfce7; color: #166534; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 12px;">ACTIVE</span>
-									<?php else : ?>
-										<span style="background: #f1f5f9; color: #64748b; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 12px;">NOT INSTALLED</span>
-									<?php endif; ?>
-								</div>
-								<p style="font-size: 12px; color: #64748b; margin: 0 0 12px 0; line-height: 1.5;">Official Gutenberg Block Patterns (Heroes, Feature Grids, Pricing, CTAs, FAQ) & Block Styles.</p>
-								<a href="<?php echo esc_url( admin_url( 'plugins.php' ) ); ?>" style="font-size: 12px; font-weight: 600; color: #4f46e5; text-decoration: none;">Manage Plugin →</a>
-							</div>
-
-							<div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 16px; border-radius: 6px;">
-								<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-									<strong style="color: #0f172a; font-size: 14px;">Gravisain Starter Sites</strong>
-									<?php if ( $starter_sites_active ) : ?>
-										<span style="background: #dcfce7; color: #166534; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 12px;">ACTIVE</span>
-									<?php else : ?>
-										<span style="background: #f1f5f9; color: #64748b; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 12px;">NOT INSTALLED</span>
-									<?php endif; ?>
-								</div>
-								<p style="font-size: 12px; color: #64748b; margin: 0 0 12px 0; line-height: 1.5;">1-Click Demo Importer with Agency, Logistics, & Gravitour Travel starter sites.</p>
-								<?php if ( $starter_sites_active ) : ?>
-									<a href="<?php echo esc_url( admin_url( 'admin.php?page=gravisain-starter-sites' ) ); ?>" style="font-size: 12px; font-weight: 600; color: #4f46e5; text-decoration: none;">Open Importer →</a>
-								<?php else : ?>
-									<a href="<?php echo esc_url( admin_url( 'plugins.php' ) ); ?>" style="font-size: 12px; font-weight: 600; color: #4f46e5; text-decoration: none;">Manage Plugin →</a>
-								<?php endif; ?>
-							</div>
-						</div>
-					</div>
+					<?php do_action( 'gravisain_dashboard_main_bottom' ); ?>
 
 					<div class="gravisain-card">
-						<h2>Quick Links & Support</h2>
+						<h2><?php esc_html_e( 'Quick Links & Resources', 'gravisain' ); ?></h2>
 						<div class="gravisain-links">
-							<a href="#">📚 Read Documentation</a>
-							<a href="#">💬 Community Forum</a>
-							<a href="#">🐛 Report a Bug</a>
+							<a href="<?php echo esc_url( 'https://undagital.com/' ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Theme Homepage & Documentation ↗', 'gravisain' ); ?></a>
+							<a href="<?php echo esc_url( admin_url( 'customize.php?autofocus[section]=gravisain_performance' ) ); ?>"><?php esc_html_e( 'Performance & GDPR Font Settings ↗', 'gravisain' ); ?></a>
+							<a href="<?php echo esc_url( admin_url( 'themes.php?page=gravisain-system-status' ) ); ?>"><?php esc_html_e( 'System Status & Diagnostics ↗', 'gravisain' ); ?></a>
 						</div>
 					</div>
 				</div>
 
 				<div class="gravisain-sidebar">
 					<div class="gravisain-card">
-						<h2>System Status</h2>
+						<h2><?php esc_html_e( 'System Status', 'gravisain' ); ?></h2>
 						<ul class="gravisain-status-list">
 							<?php foreach ( $status as $label => $value ) : ?>
 								<li>
@@ -253,12 +186,12 @@ class Welcome {
 								</li>
 							<?php endforeach; ?>
 						</ul>
-						<a href="<?php echo esc_url( admin_url( 'admin.php?page=gravisain-system-status' ) ); ?>" style="display: block; margin-top: 14px; font-size: 13px; font-weight: 600; color: #4f46e5; text-decoration: none;">View Full Diagnostics Report ↗</a>
+						<a href="<?php echo esc_url( admin_url( 'themes.php?page=gravisain-system-status' ) ); ?>" style="display: block; margin-top: 14px; font-size: 13px; font-weight: 600; color: #4f46e5; text-decoration: none;"><?php esc_html_e( 'View Full Diagnostics Report ↗', 'gravisain' ); ?></a>
 					</div>
 					<div class="gravisain-card" style="margin-top: 20px;">
-						<h2>Performance Cache</h2>
-						<p style="color: #50575e; margin-bottom: 15px; font-size: 13px;">Purge local Google Fonts and Dynamic CSS file cache.</p>
-						<button type="button" id="gravisain-purge-cache-btn" class="gravisain-btn" style="width: 100%;">Purge Cache</button>
+						<h2><?php esc_html_e( 'Performance Cache', 'gravisain' ); ?></h2>
+						<p style="color: #50575e; margin-bottom: 15px; font-size: 13px;"><?php esc_html_e( 'Purge local Google Fonts and Dynamic CSS file cache.', 'gravisain' ); ?></p>
+						<button type="button" id="gravisain-purge-cache-btn" class="gravisain-btn" style="width: 100%;"><?php esc_html_e( 'Purge Cache', 'gravisain' ); ?></button>
 						<span id="gravisain-purge-status" style="display: block; margin-top: 10px; font-size: 12px; font-weight: 600;"></span>
 					</div>
 				</div>
@@ -271,7 +204,7 @@ class Welcome {
 			if (purgeBtn) {
 				purgeBtn.addEventListener('click', function() {
 					purgeBtn.disabled = true;
-					purgeBtn.textContent = 'Purging...';
+					purgeBtn.textContent = '<?php echo esc_js( __( 'Purging...', 'gravisain' ) ); ?>';
 					statusSpan.textContent = '';
 
 					const formData = new FormData();
@@ -285,108 +218,20 @@ class Welcome {
 					.then(response => response.json())
 					.then(data => {
 						purgeBtn.disabled = false;
-						purgeBtn.textContent = 'Purge Cache';
+						purgeBtn.textContent = '<?php echo esc_js( __( 'Purge Cache', 'gravisain' ) ); ?>';
 						if (data.success) {
 							statusSpan.style.color = '#16a34a';
 							statusSpan.textContent = '✓ ' + data.data.message;
 						} else {
 							statusSpan.style.color = '#dc2626';
-							statusSpan.textContent = '✕ ' + (data.data.message || 'Error');
+							statusSpan.textContent = '✕ ' + (data.data.message || '<?php echo esc_js( __( 'Error', 'gravisain' ) ); ?>');
 						}
 					})
 					.catch(err => {
 						purgeBtn.disabled = false;
-						purgeBtn.textContent = 'Purge Cache';
+						purgeBtn.textContent = '<?php echo esc_js( __( 'Purge Cache', 'gravisain' ) ); ?>';
 						statusSpan.style.color = '#dc2626';
-						statusSpan.textContent = '✕ Network error.';
-					});
-				});
-			}
-
-			// License Activation
-			const activateBtn = document.getElementById('gravisain-activate-btn');
-			const deactivateBtn = document.getElementById('gravisain-deactivate-btn');
-			const licenseMsg = document.getElementById('gravisain-license-msg');
-			const licenseInput = document.getElementById('gravisain-license-key');
-
-			if (activateBtn) {
-				activateBtn.addEventListener('click', function() {
-					const key = licenseInput.value.trim();
-					if (!key) {
-						licenseMsg.style.color = '#dc2626';
-						licenseMsg.textContent = '✕ Please enter a license key.';
-						return;
-					}
-
-					activateBtn.disabled = true;
-					activateBtn.textContent = 'Activating...';
-					licenseMsg.textContent = '';
-
-					const formData = new FormData();
-					formData.append('action', 'gravisain_activate_license');
-					formData.append('license_key', key);
-					formData.append('nonce', '<?php echo esc_js( wp_create_nonce( 'gravisain_license_nonce' ) ); ?>');
-
-					fetch(ajaxurl, {
-						method: 'POST',
-						body: formData
-					})
-					.then(response => response.json())
-					.then(data => {
-						if (data.success) {
-							licenseMsg.style.color = '#16a34a';
-							licenseMsg.textContent = '✓ ' + data.data.message;
-							setTimeout(() => location.reload(), 1500);
-						} else {
-							activateBtn.disabled = false;
-							activateBtn.textContent = 'Activate License';
-							licenseMsg.style.color = '#dc2626';
-							licenseMsg.textContent = '✕ ' + (data.data.message || 'Activation failed.');
-						}
-					})
-					.catch(err => {
-						activateBtn.disabled = false;
-						activateBtn.textContent = 'Activate License';
-						licenseMsg.style.color = '#dc2626';
-						licenseMsg.textContent = '✕ Network error.';
-					});
-				});
-			}
-
-			if (deactivateBtn) {
-				deactivateBtn.addEventListener('click', function() {
-					if (!confirm('Are you sure you want to deactivate this license? Premium features will be disabled.')) return;
-
-					deactivateBtn.disabled = true;
-					deactivateBtn.textContent = 'Deactivating...';
-					licenseMsg.textContent = '';
-
-					const formData = new FormData();
-					formData.append('action', 'gravisain_deactivate_license');
-					formData.append('nonce', '<?php echo esc_js( wp_create_nonce( 'gravisain_license_nonce' ) ); ?>');
-
-					fetch(ajaxurl, {
-						method: 'POST',
-						body: formData
-					})
-					.then(response => response.json())
-					.then(data => {
-						if (data.success) {
-							licenseMsg.style.color = '#16a34a';
-							licenseMsg.textContent = '✓ ' + data.data.message;
-							setTimeout(() => location.reload(), 1500);
-						} else {
-							deactivateBtn.disabled = false;
-							deactivateBtn.textContent = 'Deactivate License';
-							licenseMsg.style.color = '#dc2626';
-							licenseMsg.textContent = '✕ ' + (data.data.message || 'Deactivation failed.');
-						}
-					})
-					.catch(err => {
-						deactivateBtn.disabled = false;
-						deactivateBtn.textContent = 'Deactivate License';
-						licenseMsg.style.color = '#dc2626';
-						licenseMsg.textContent = '✕ Network error.';
+						statusSpan.textContent = '✕ <?php echo esc_js( __( 'Network error.', 'gravisain' ) ); ?>';
 					});
 				});
 			}

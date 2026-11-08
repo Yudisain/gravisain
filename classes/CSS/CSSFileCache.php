@@ -95,7 +95,8 @@ class CSSFileCache {
 		}
 
 		// Enqueue cached physical file with content hash version for instant cache invalidation.
-		$version = @filemtime( $file_path ) ? @filemtime( $file_path ) . '-' . substr( $current_hash, 0, 8 ) : substr( $current_hash, 0, 8 );
+		$mtime   = file_exists( $file_path ) ? filemtime( $file_path ) : false;
+		$version = $mtime ? $mtime . '-' . substr( $current_hash, 0, 8 ) : substr( $current_hash, 0, 8 );
 		wp_enqueue_style(
 			'gravisain-dynamic-css',
 			$file_url,
@@ -112,8 +113,9 @@ class CSSFileCache {
 	 */
 	private static function inject_inline( string $css_content ): void {
 		add_action( 'wp_head', function () use ( $css_content ): void {
+			$safe_css = wp_strip_all_tags( $css_content );
 			echo "<!-- Gravisain Dynamic CSS -->\n";
-			echo "<style id='gravisain-dynamic-css'>\n" . $css_content . "\n</style>\n";
+			echo "<style id='gravisain-dynamic-css'>\n" . $safe_css . "\n</style>\n";
 		}, 100 );
 	}
 
@@ -132,7 +134,7 @@ class CSSFileCache {
 
 		$file_path = trailingslashit( $upload_dir['basedir'] ) . 'gravisain/gravisain-dynamic.css';
 		if ( file_exists( $file_path ) ) {
-			@unlink( $file_path );
+			wp_delete_file( $file_path );
 		}
 	}
 }

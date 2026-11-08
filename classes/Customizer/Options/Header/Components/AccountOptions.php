@@ -38,7 +38,7 @@ class AccountOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_account_style', [
 			'default'           => 'icon_label',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -68,7 +68,7 @@ class AccountOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_account_visibility', [
 			'default'           => 'desktop,tablet,mobile',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'visibility' ],
 			'transport'         => 'postMessage',
 		] );
 

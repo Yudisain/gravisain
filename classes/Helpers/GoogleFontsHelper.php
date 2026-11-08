@@ -12,6 +12,10 @@
 
 namespace Gravisain\Helpers;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * GoogleFontsHelper Class
  *
@@ -193,7 +197,22 @@ class GoogleFontsHelper {
 	 * @return array<string, string>
 	 */
 	public static function get_system_fonts(): array {
-		return self::$system_fonts;
+		return [
+			'inherit'                  => __( 'Inherit', 'gravisain' ),
+			'system-stack'             => __( 'System Stack', 'gravisain' ),
+			'Arial, sans-serif'        => 'Arial',
+			'Helvetica, sans-serif'    => 'Helvetica',
+			'Times New Roman, serif'   => 'Times New Roman',
+			'Courier New, monospace'   => 'Courier New',
+			'Verdana, sans-serif'      => 'Verdana',
+			'Georgia, serif'           => 'Georgia',
+			'Palatino, serif'          => 'Palatino',
+			'Garamond, serif'          => 'Garamond',
+			'Bookman, serif'           => 'Bookman',
+			'Tahoma, sans-serif'       => 'Tahoma',
+			'Trebuchet MS, sans-serif' => 'Trebuchet MS',
+			'Impact, sans-serif'       => 'Impact',
+		];
 	}
 
 	/**

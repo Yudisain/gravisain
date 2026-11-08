@@ -38,7 +38,7 @@ class CartOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_cart_style', [
 			'default'           => 'icon_badge',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -55,7 +55,7 @@ class CartOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_cart_visibility', [
 			'default'           => 'desktop,tablet,mobile',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'visibility' ],
 			'transport'         => 'postMessage',
 		] );
 

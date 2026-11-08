@@ -9,6 +9,10 @@ declare(strict_types=1);
 
 namespace Gravisain\Customizer\Options;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Gravisain\Customizer\Controls\ButtonGroupControl;
 use Gravisain\Customizer\Controls\SliderControl;
 use Gravisain\Customizer\Sections\HeadingSection;
@@ -155,7 +159,7 @@ class GeneralOptions {
 		// 1.3 Icon Size
 		$wp_customize->add_setting( 'gravisain_scroll_top_icon_size', [
 			'default'           => '{"desktop":"18px","tablet":"16px","mobile":"16px"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -177,7 +181,7 @@ class GeneralOptions {
 		// 1.4 Side Offset
 		$wp_customize->add_setting( 'gravisain_scroll_top_side_offset', [
 			'default'           => '{"desktop":"2rem","tablet":"1.5rem","mobile":"1rem"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -199,7 +203,7 @@ class GeneralOptions {
 		// 1.5 Bottom Offset
 		$wp_customize->add_setting( 'gravisain_scroll_top_bottom_offset', [
 			'default'           => '{"desktop":"2rem","tablet":"1.5rem","mobile":"1rem"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 

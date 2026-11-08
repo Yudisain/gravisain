@@ -9,6 +9,10 @@ declare(strict_types=1);
 
 namespace Gravisain\Meta;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Element Meta Box Class
  * 

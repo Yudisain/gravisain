@@ -33,6 +33,8 @@ templates/template-landing-gravisain.php
 archive-gravisain_template.php
 single-gravisain_template.php
 docs/
+MAIL/
+*.eml
 
 # Release & distribution packages
 release/

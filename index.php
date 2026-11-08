@@ -5,6 +5,10 @@
  * @package Gravisain
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( file_exists( __DIR__ . '/templates/index.php' ) ) {
 	require __DIR__ . '/templates/index.php';
 	return;

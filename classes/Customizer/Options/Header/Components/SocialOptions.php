@@ -41,7 +41,7 @@ class SocialOptions implements ComponentOptionInterface {
 		// Section Tabs (Design vs Style).
 		$wp_customize->add_setting( 'gravisain_header_social_tabs', [
 			'default'           => 'design',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_key',
 			'transport'         => 'postMessage',
 		] );
 
@@ -57,7 +57,7 @@ class SocialOptions implements ComponentOptionInterface {
 		// Repeater Control for Social Items (Design Tab).
 		$wp_customize->add_setting( 'gravisain_header_social_items', [
 			'default'           => '',
-			'sanitize_callback' => 'wp_kses_post_deep',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'social_items_json' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -73,7 +73,7 @@ class SocialOptions implements ComponentOptionInterface {
 		// Item Spacing Control (Style Tab).
 		$wp_customize->add_setting( 'gravisain_header_social_spacing', [
 			'default'           => '{"desktop":"12","tablet":"10","mobile":"8"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -90,7 +90,7 @@ class SocialOptions implements ComponentOptionInterface {
 		// Icon Size Control (Style Tab).
 		$wp_customize->add_setting( 'gravisain_header_social_icon_size', [
 			'default'           => '{"desktop":"18","tablet":"16","mobile":"14"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -107,7 +107,7 @@ class SocialOptions implements ComponentOptionInterface {
 		// Brand Colors Control (Style Tab).
 		$wp_customize->add_setting( 'gravisain_header_social_brand_colors', [
 			'default'           => 'no',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 

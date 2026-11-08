@@ -4,6 +4,10 @@
  * Slug: gravisain/page-yoga-schedule
  * Categories: gravisain, pages
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <p><!-- Page Hero Banner --></p>
 

@@ -5,6 +5,10 @@
  * Categories: footer
  * Block Types: core/template-part/footer
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"4rem","bottom":"2rem","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}}},"backgroundColor":"#1f2937","textColor":"white","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull has-white-color has-text-color has-background" style="background-color:#1f2937;padding-top:4rem;padding-right:var(--wp--preset--spacing--40);padding-bottom:2rem;padding-left:var(--wp--preset--spacing--40)">

@@ -5,6 +5,10 @@
  * Categories: header
  * Block Types: core/template-part/header
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <!-- wp:gravisain/row-layout {"align":"full","customClassName":"gravisain-header-transparent","columns":2,"layoutPreset":"25-75","alignItems":"center","padding":{"top":"var:preset|spacing|40","right":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|40"}} -->
 <div class="wp-block-gravisain-row-layout alignfull gravisain-row-layout is-display-flex has-2-columns is-stacked-on-mobile is-inner-width-theme align-items-center gravisain-header-transparent" style="--gravisain-row-gap:30px;--gravisain-row-gap-tablet:30px;--gravisain-row-gap-mobile:30px;--gravisain-gap-compensation:calc(30px * 1 / 2);--gravisain-gap-compensation-tablet:calc(30px * 1 / 2);--gravisain-gap-compensation-mobile:calc(30px * 1 / 2);--gravisain-padding-top:var(--wp--preset--spacing--40);--gravisain-padding-right:var(--wp--preset--spacing--40);--gravisain-padding-bottom:var(--wp--preset--spacing--40);--gravisain-padding-left:var(--wp--preset--spacing--40)"><div class="gravisain-row-layout-inner has-2-columns" style="align-items:center">

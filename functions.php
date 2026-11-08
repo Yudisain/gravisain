@@ -71,7 +71,8 @@ try {
 	if ( ! is_admin() && current_user_can( 'manage_options' ) ) {
 		add_action( 'wp_footer', function () use ( $e ) {
 			printf(
-				'<div style="background:#fee2e2;color:#991b1b;padding:15px;border-top:2px solid #ef4444;font-family:monospace;z-index:999999;position:relative;"><strong>Gravisain Debug:</strong> %s in %s:%d</div>',
+				'<div style="background:#fee2e2;color:#991b1b;padding:15px;border-top:2px solid #ef4444;font-family:monospace;z-index:999999;position:relative;"><strong>%s:</strong> %s in %s:%d</div>',
+				esc_html__( 'Gravisain Debug', 'gravisain' ),
 				esc_html( $e->getMessage() ),
 				esc_html( $e->getFile() ),
 				(int) $e->getLine()

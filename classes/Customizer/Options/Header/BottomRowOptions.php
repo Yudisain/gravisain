@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Options\Header;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Gravisain\Customizer\Controls\SectionTabsControl;
 use Gravisain\Customizer\Controls\SliderControl;
 use Gravisain\Customizer\Controls\VisibilityControl;
@@ -24,7 +28,7 @@ class BottomRowOptions {
 		// 1. Section Tabs (Layout vs Style)
 		$wp_customize->add_setting( 'gravisain_header_bottom_tabs', [
 			'default'           => 'layout',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_key',
 			'transport'         => 'postMessage',
 		] );
 
@@ -38,7 +42,7 @@ class BottomRowOptions {
 		// Row Layout (Dropdown)
 		$wp_customize->add_setting( 'gravisain_header_bottom_layout', [
 			'default'           => 'full-contained',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -58,7 +62,7 @@ class BottomRowOptions {
 		// Bottom Row Height (Responsive)
 		$wp_customize->add_setting( 'gravisain_header_bottom_height', [
 			'default'           => '{"desktop":"40","tablet":"40","mobile":"35"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -91,7 +95,7 @@ class BottomRowOptions {
 		// Device Visibility
 		$wp_customize->add_setting( 'gravisain_header_bottom_visibility', [
 			'default'           => 'desktop,tablet,mobile',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'visibility' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -106,7 +110,7 @@ class BottomRowOptions {
 
 		// Transparent Header Notice
 		$wp_customize->add_setting( 'gravisain_header_bottom_transparent_notice', [
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_key',
 		] );
 
 		$wp_customize->add_control( new NoticeControl( $wp_customize, 'gravisain_header_bottom_transparent_notice', [
@@ -121,7 +125,7 @@ class BottomRowOptions {
 		// Background Type
 		$wp_customize->add_setting( 'gravisain_header_bottom_bg_type', [
 			'default'           => 'solid',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -193,7 +197,7 @@ class BottomRowOptions {
 		// Gradient Angle
 		$wp_customize->add_setting( 'gravisain_header_bottom_bg_gradient_angle', [
 			'default'           => '135deg',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 

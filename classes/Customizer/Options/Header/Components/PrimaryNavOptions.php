@@ -45,7 +45,7 @@ class PrimaryNavOptions implements ComponentOptionInterface {
 		// Section Tabs (General vs Design).
 		$wp_customize->add_setting( 'gravisain_header_primary_nav_tabs', [
 			'default'           => 'layout',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_key',
 			'transport'         => 'postMessage',
 		] );
 
@@ -61,7 +61,7 @@ class PrimaryNavOptions implements ComponentOptionInterface {
 		// Select Menu Control (General Tab).
 		$wp_customize->add_setting( 'gravisain_header_primary_nav_menu', [
 			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'select' ],
 			'transport'         => 'refresh',
 		] );
 
@@ -84,7 +84,7 @@ class PrimaryNavOptions implements ComponentOptionInterface {
 		// Items Spacing Control (General Tab).
 		$wp_customize->add_setting( 'gravisain_header_primary_nav_spacing', [
 			'default'           => '{"desktop":"20","tablet":"15","mobile":"10"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'responsive_slider' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -102,7 +102,7 @@ class PrimaryNavOptions implements ComponentOptionInterface {
 
 		$wp_customize->add_setting( 'gravisain_header_primary_visibility', [
 			'default'           => 'desktop,tablet,mobile',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'visibility' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -153,7 +153,7 @@ class PrimaryNavOptions implements ComponentOptionInterface {
 		// 1. Navigation Colors.
 		$wp_customize->add_setting( 'gravisain_header_primary_nav_colors', [
 			'default'           => '{"initial":"","hover":"","active":""}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color_group_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -173,7 +173,7 @@ class PrimaryNavOptions implements ComponentOptionInterface {
 		// 2. Navigation Background.
 		$wp_customize->add_setting( 'gravisain_header_primary_nav_background', [
 			'default'           => '{"initial":"","hover":"","active":""}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'color_group_json' ],
 			'transport'         => 'postMessage',
 		] );
 
@@ -193,7 +193,7 @@ class PrimaryNavOptions implements ComponentOptionInterface {
 		// 3. Navigation Font.
 		$wp_customize->add_setting( 'gravisain_header_primary_nav_font', [
 			'default'           => '{"family":"inherit","style":"normal","size":"16"}',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => [ \Gravisain\Customizer\Sanitize::class, 'typography_json' ],
 			'transport'         => 'postMessage',
 		] );
 

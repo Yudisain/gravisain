@@ -4,6 +4,10 @@
  *
  * @package Gravisain\Components
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <div class="gfb-component gfb-widget-area gfb-widget-2">
 	<?php

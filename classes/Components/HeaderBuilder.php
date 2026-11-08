@@ -7,6 +7,10 @@
 
 namespace Gravisain\Components;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class HeaderBuilder {
 
 	/**

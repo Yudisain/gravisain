@@ -5,6 +5,10 @@
  * Categories: header
  * Block Types: core/template-part/header
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"1.5rem","bottom":"1.5rem","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}}},"backgroundColor":"logistics-navy","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
 <div class="wp-block-group alignfull has-logistics-navy-background-color has-background" style="padding-top:1.5rem;padding-right:var(--wp--preset--spacing--40);padding-bottom:1.5rem;padding-left:var(--wp--preset--spacing--40)">

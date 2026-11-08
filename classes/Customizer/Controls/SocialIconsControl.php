@@ -7,6 +7,10 @@
 
 namespace Gravisain\Customizer\Controls;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class SocialIconsControl extends \WP_Customize_Control {
 	/**
 	 * Control type.
@@ -61,16 +65,16 @@ class SocialIconsControl extends \WP_Customize_Control {
 			<div class="gravisain-social-accordion-list"></div>
 			<div class="gravisain-social-add-wrap" style="margin-top: 12px; display: flex; gap: 8px;">
 				<button type="button" class="button button-secondary gravisain-social-add-btn" style="flex: 1; justify-content: center; display: flex; align-items: center; gap: 6px;">
-					<span class="dashicons dashicons-plus-alt2" style="font-size: 16px; width: 16px; height: 16px; line-height: 16px;"></span> Add Social Network
+					<span class="dashicons dashicons-plus-alt2" style="font-size: 16px; width: 16px; height: 16px; line-height: 16px;"></span> <?php esc_html_e( 'Add Social Network', 'gravisain' ); ?>
 				</button>
-				<button type="button" class="button gravisain-social-reset-btn" title="Reset to default icons" style="display: flex; align-items: center; justify-content: center; gap: 6px;">
-					<span class="dashicons dashicons-image-rotate" style="font-size: 16px; width: 16px; height: 16px; line-height: 16px;"></span> Defaults
+				<button type="button" class="button gravisain-social-reset-btn" title="<?php esc_attr_e( 'Reset to default icons', 'gravisain' ); ?>" style="display: flex; align-items: center; justify-content: center; gap: 6px;">
+					<span class="dashicons dashicons-image-rotate" style="font-size: 16px; width: 16px; height: 16px; line-height: 16px;"></span> <?php esc_html_e( 'Defaults', 'gravisain' ); ?>
 				</button>
 			</div>
 
 			<div class="gravisain-social-network-picker" style="display: none; margin-top: 12px; border: 1px solid #c3c4c7; background: #fff; border-radius: 4px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-height: 350px; overflow-y: auto;">
 				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #eee;">
-					<strong style="font-size: 13px; color: #1d2327;">Select Social Network</strong>
+					<strong style="font-size: 13px; color: #1d2327;"><?php esc_html_e( 'Select Social Network', 'gravisain' ); ?></strong>
 					<button type="button" class="button-link gravisain-close-picker-btn" style="color: #646970; text-decoration: none;">
 						<span class="dashicons dashicons-no-alt"></span>
 					</button>

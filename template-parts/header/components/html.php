@@ -5,6 +5,10 @@
  * @package Gravisain\Components
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $content = get_theme_mod( 'gravisain_header_html_content', '' );
 
 if ( empty( $content ) && is_customize_preview() ) {
@@ -16,5 +20,5 @@ if ( empty( $content ) ) {
 }
 ?>
 <div class="ghb-component ghb-custom-html">
-	<?php echo wp_kses_post( do_shortcode( $content ) ); ?>
+	<?php echo wp_kses_post( $content ); ?>
 </div>

@@ -10,6 +10,10 @@
 
 namespace Gravisain\Components;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Breadcrumbs {
 
 	/**
@@ -18,7 +22,6 @@ class Breadcrumbs {
 	 * @return void
 	 */
 	public static function init(): void {
-		add_action( 'wp_head', [ __CLASS__, 'render_json_ld' ], 20 );
 		add_action( 'gravisain_before_content', [ __CLASS__, 'render_above_content' ], 20 );
 	}
 
@@ -124,7 +127,7 @@ class Breadcrumbs {
 			<ol class="breadcrumb-list" itemscope itemtype="https://schema.org/BreadcrumbList">
 				<?php foreach ( $items as $index => $item ) : ?>
 					<?php $pos = $index + 1; ?>
-					<li class="breadcrumb-item <?php echo empty( $item['url'] ) ? 'is-current' : ''; ?>" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+					<li class="<?php echo esc_attr( empty( $item['url'] ) ? 'breadcrumb-item is-current' : 'breadcrumb-item' ); ?>" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
 						<?php if ( ! empty( $item['url'] ) ) : ?>
 							<a itemprop="item" href="<?php echo esc_url( $item['url'] ); ?>">
 								<span itemprop="name"><?php echo esc_html( $item['label'] ); ?></span>
@@ -135,54 +138,12 @@ class Breadcrumbs {
 						<meta itemprop="position" content="<?php echo esc_attr( (string) $pos ); ?>" />
 					</li>
 					<?php if ( $pos < count( $items ) ) : ?>
-						<li class="breadcrumb-sep-wrapper" aria-hidden="true"><?php echo $separator; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></li>
+						<li class="breadcrumb-sep-wrapper" aria-hidden="true"><?php echo wp_kses( $separator, \Gravisain\Helpers\SVG::allowed_svg_html() ); ?></li>
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</ol>
 		</nav>
 		<?php
-	}
-
-	/**
-	 * Render structured JSON-LD BreadcrumbList Schema in <head>.
-	 *
-	 * @return void
-	 */
-	public static function render_json_ld(): void {
-		if ( is_front_page() || is_404() ) {
-			return;
-		}
-
-		if ( ! get_theme_mod( 'gravisain_breadcrumb_enable', true ) || ! get_theme_mod( 'gravisain_breadcrumb_schema_jsonld', true ) ) {
-			return;
-		}
-
-		if ( self::is_third_party_schema_active() ) {
-			return;
-		}
-
-		$items = self::get_items();
-		if ( empty( $items ) || count( $items ) < 2 ) {
-			return;
-		}
-
-		$schema_items = [];
-		foreach ( $items as $index => $item ) {
-			$schema_items[] = [
-				'@type'    => 'ListItem',
-				'position' => $index + 1,
-				'name'     => $item['label'],
-				'item'     => ! empty( $item['url'] ) ? esc_url_raw( $item['url'] ) : esc_url_raw( home_url( add_query_arg( [], $GLOBALS['wp']->request ?? '' ) ) ),
-			];
-		}
-
-		$schema = [
-			'@context'        => 'https://schema.org',
-			'@type'           => 'BreadcrumbList',
-			'itemListElement' => $schema_items,
-		];
-
-		echo "\n" . '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
 	}
 
 	/**

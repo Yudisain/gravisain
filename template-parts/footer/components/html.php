@@ -5,6 +5,10 @@
  * @package Gravisain\Components
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $html_content = get_theme_mod( 'gravisain_footer_html_content', '' );
 $visibility   = get_theme_mod( 'gravisain_footer_html_visibility', 'desktop,tablet,mobile' );
 
@@ -29,9 +33,9 @@ if ( ! empty( $visibility ) ) {
 <div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
 	<?php
 	if ( ! empty( $html_content ) ) {
-		echo do_shortcode( $html_content );
+		echo wp_kses_post( $html_content );
 	} elseif ( is_customize_preview() ) {
-		echo '<span class="gfb-placeholder-text">' . esc_html__( 'Add Custom HTML / Shortcode here...', 'gravisain' ) . '</span>';
+		echo '<span class="gfb-placeholder-text">' . esc_html__( 'Add Custom HTML here...', 'gravisain' ) . '</span>';
 	}
 	?>
 </div>
