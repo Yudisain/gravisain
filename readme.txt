@@ -4,7 +4,7 @@ Tags: blog, e-commerce, custom-background, custom-colors, custom-logo, custom-me
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 8.0
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,11 @@ No. Gravisain defaults to the system font stack with zero external requests. If 
 Yes. Gravisain includes built-in WooCommerce styling and Customizer layout controls.
 
 == Changelog ==
+
+= 1.0.2 =
+* Accessibility: Enhanced keyboard navigation across desktop dropdown menus, `wp_page_menu` fallback, mobile off-canvas drawer, theme switcher, and search modal.
+* Internationalization: Wrapped all untranslated strings in WordPress i18n functions (`__`, `esc_html__`, `wp.i18n.__`).
+* Security & Standards: Hardened late escaping across all template parts using `wp_kses()`, `wp_kses_post()`, and `esc_attr()`.
 
 = 1.0.1 =
 * Hardened direct file access guards (`ABSPATH`), late output escaping, and type-specific Customizer sanitization callbacks across all settings.
